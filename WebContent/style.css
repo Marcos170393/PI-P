@@ -1,0 +1,55 @@
+@charset "UTF-8";
+
+body{
+	width:90%;
+	margin: auto;
+	font-family: segoe ui, Arial, sans-serif;
+}
+
+
+.login{
+	color:white;
+	width:20%;
+	margin: 100px auto;
+	padding:50px;
+	text-align: center;
+	background-color: rgb(64, 0, 64);
+	border-radius: 10px;
+}
+
+.title-login {
+	font-weight: 400;
+	font-family: segoe ui, Arial, sans-serif;
+	font-size: 4.1em;
+	margin: 100px auto;
+	text-align: center;
+	
+}
+
+.create-form{
+	width: 40%;
+	padding: 20px 100px;
+	margin: 50px auto;
+	border: .5px solid gray;
+	border-radius: 10px;
+}
+
+.ui-inputfield{
+	width: 50%;
+}
+
+.form-title{
+	margin: auto;
+	text-align: center;
+	font-size: 2rem;
+	font-weight: bolder;
+}
+
+.input-group{
+	margin-bottom: 10px;
+}
+
+.form-button{
+	margin:auto;
+	text-align: center;
+}

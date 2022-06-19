@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet" href="style.css"/>
+<style>
+
+</style>
+</h:head>
+<h:body >
+	
+	<p:messages id="messages" showDetail="true" closable="true">
+        	<p:autoUpdate />
+   	</p:messages>
+		
+	<div class="login-title-div">
+		<h1 class="title-login">Login</h1>
+		
+	</div>
+	
+	<h:form id="idLogin" >
+	
+		<div class="login">
+			<div>
+				<p:outputLabel value="Nombre de usuario" />
+
+			</div>
+			<div style="margin-top:10px">
+				<p:inputText id="nombreUsuario"
+					value="#{gestionUsuario.usuarioSeleccionado.nombreUsuario}" />
+				<p:message for="nombreUsuario" style="color:red" />
+			</div>
+
+			<div style="margin-top:20px">
+				<p:outputLabel value="Contrasenia" />
+
+			</div>
+			<div style="margin-top:10px">
+				<p:inputText id="contrasenia" type="password"
+					value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" />
+				<p:message for="contrasenia" style="color:red" />
+			</div>
+			<p:commandButton style="margin-top:50px;" value="Login"
+				action="#{gestionUsuario.validarUsuario}" />
+				</div>
+	</h:form>
+</h:body>
+</html>

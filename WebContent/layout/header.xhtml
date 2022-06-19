@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ui:composition
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui" >
+ <!-- <p:panelGrid columns="1" style="text-align: left;" cellpadding="2">  -->
+    	
+    	
+   	<div align="right"  style="background: linear-gradient(270deg, rgba(0, 89, 179, 1) 50%, transparent 100%);padding: 12px">
+		<span 
+			style="color: white; font-size: 180%; font-family: Arial; margin: 20px">
+			Sistema de Gestion de Calidad de Aire</span>
+	</div>
+   	
+    	
+    <h:form>  
+     <p:menubar>
+ 		
+        <p:submenu label="Gestion de Usuario" icon="ui-icon-document">
+            <p:menuitem value="Alta de usuario" outcome="/altaUsuario.xhtml" rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}" />
+            <p:menuitem value="Listado de usuarios" outcome="/listado.xhtml"  />
+        </p:submenu>
+ 
+ 
+ 
+        <f:facet name="options">
+                 <p:linkButton outcome="index" value="Logout" style="margin-right:20px;">
+        			
+  				  </p:linkButton>
+        </f:facet>
+    </p:menubar>
+</h:form>
+ 
+    
+   <!--   </p:panelGrid> -->      	
+   	
+    		
+            
+</ui:composition>
