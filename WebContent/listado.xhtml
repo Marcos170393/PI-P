@@ -68,11 +68,11 @@ h1 {
 			</p:column>
 			
 			<p:column headerText="Actualizar/Eliminar">
-				<p:commandButton value="Eliminar" selectionMode="single" update="tablaUsuarios" action="#{gestionUsuario.eliminarUsuario(user.idUsuario)}">
+				<p:commandButton rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}" value="Eliminar" selectionMode="single" update="tablaUsuarios" action="#{gestionUsuario.eliminarUsuario(user.idUsuario)}">
 					<f:param name="idUsuario" value="#{user.idUsuario}"/>
 				</p:commandButton>
 				<p:spacer width="10"/>
-				<p:commandButton value="Actualizar" selectionMode="single"  action="#{gestionUsuario.actualizarVistaUsuario(user.idUsuario)}">
+				<p:commandButton rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}" value="Actualizar" selectionMode="single"  action="#{gestionUsuario.actualizarVistaUsuario(user.idUsuario)}">
 					<f:param name="idUsuario" value="#{user.idUsuario}"/>
 				</p:commandButton>
 			</p:column>
