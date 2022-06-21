@@ -11,8 +11,6 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import com.capa1presentacion.UsuarioEntity;
-
 import org.wildfly.common.annotation.Nullable;
 /**
  * Session Bean implementation class UsuarioEntitysBean

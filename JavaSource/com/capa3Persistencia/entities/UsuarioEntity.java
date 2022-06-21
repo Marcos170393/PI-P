@@ -1,6 +1,8 @@
-package com.capa1presentacion;
+package com.capa3Persistencia.entities;
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.capa1presentacion.Rol;
 /**
 * The persistent class for the USUARIOS database table.
 * 

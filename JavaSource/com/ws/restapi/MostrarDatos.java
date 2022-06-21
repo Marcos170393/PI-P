@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.capa1presentacion.Usuario;
-import com.capa1presentacion.UsuarioEntity;
 import com.capa2LogicaNegocio.GestionUsuarioService;
+import com.capa3Persistencia.entities.UsuarioEntity;
 
 /**
  * Servlet implementation class CargarDatos

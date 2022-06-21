@@ -10,7 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.PersistenceException;
 
 import com.capa1presentacion.Usuario;
-import com.capa1presentacion.UsuarioEntity;
+import com.capa3Persistencia.entities.UsuarioEntity;
 import com.capa3Persistencia.entities.UsuariosBean;
 
 
