@@ -53,6 +53,7 @@ public class GestionUsuario implements Serializable{
 		
 	}
 	
+	// MODIFICACION DE USUARIO \\
 	public String actualizarUsuario() throws Exception {
 		
 		try {
@@ -87,6 +88,7 @@ public class GestionUsuario implements Serializable{
 		
 		return "";
 }
+	// GUARDAR NUEVO USUARIO \\
 	public String salvarCambios() throws Exception {
 			
 			Usuario usuarioNuevo;
@@ -122,6 +124,7 @@ public class GestionUsuario implements Serializable{
 			return "";
 	}
 	
+	// LOGIN DE USUARIO \\
 	public String validarUsuario() throws Exception {
 		
 		try {
@@ -159,6 +162,7 @@ public class GestionUsuario implements Serializable{
 		}
 	}
 				
+	// MOSTRAR LISTADO DE USUARIOS \\
 	public List<Usuario> mostrarUsuarios() throws Exception {
 		
 
@@ -181,15 +185,16 @@ public class GestionUsuario implements Serializable{
 		}
 	}
 	
+	// METODO PARA MOSTRAR FORMULARIO DE ACTUALIZACION
 	public String actualizarVistaUsuario(String id) throws Exception{
 		usuarioSeleccionado = persistenciaBean.buscarUsuarioEntity(Long.parseLong(id));
 		return "actualizarUsuario";
 	}
 	
+	// BAJA DE USUAIOS
 	public String eliminarUsuario(String id) throws Exception{
 
 	try {
-//		String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idUser");
 		persistenciaBean.elminarUsuarioEntity(Long.parseLong(id));
 		return "home";
 	} 
@@ -209,7 +214,12 @@ public class GestionUsuario implements Serializable{
 	}
 	
 	return "";
-}
+	}
+	
+	public void modificarPerfil() {
+		usuarioSeleccionado = CurrentUser.getUsuario();
+		System.out.println("modificar");
+	}
 
 	public String reset() {
 		usuarioSeleccionado=new Usuario();

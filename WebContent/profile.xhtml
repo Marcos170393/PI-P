@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/layout/layout.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head> 
+
+<ui:define name="content">
+	
+	<f:metadata>
+	 <f:event type="preRenderView" listener="#{gestionUsuario.mostrarUsuarios()}"/>
+	</f:metadata>
+	
+	
+	<p:breadCrumb>
+		<p:menuitem value="Página principal"
+			url="home.xhtml" />
+		<p:menuitem value="Perfil"
+			url="#" />
+	</p:breadCrumb>
+	<h:form id="crearUsuario">
+		<div class="create-form">
+			<div class="form-title">
+				<h2>Crear nuevo usuario</h2>				
+			</div>
+			<div>
+				<p:outputLabel value="Nombre" />
+			</div>
+			<div class="input-group">
+				<p:inputText class="input-form" id="nombre" value="#{gestionUsuario.usuarioSeleccionado.nombre}" />
+				<h:message for="nombre" style="width:100%" />
+			</div>
+
+			<div>
+				<p:outputLabel value="Apellido" />
+			</div>
+			<div class="input-group">
+				<p:inputText class="input-form" id="apellido" value="#{gestionUsuario.usuarioSeleccionado.apellido}" />
+				<h:message for="apellido" style="color:red" />
+			</div>
+
+			<div class="input-group">
+				<p:outputLabel value="Nombre de usuario" />
+				<div>
+					<p:inputText class="input-form" id="nombreUsuario"	value="#{gestionUsuario.usuarioSeleccionado.nombreUsuario}" />
+					<h:message for="nombreUsuario" style="color:red" />
+				</div>
+			</div>
+
+			<div>
+				<p:outputLabel value="Mail" />
+			</div>
+			<div class="input-group">
+				<p:inputText class="input-form" id="mail" value="#{gestionUsuario.usuarioSeleccionado.mail}" />
+				<h:message for="mail" style="color:red" />
+			</div>
+			<div>
+				<p:outputLabel value="Contrasenia" />
+
+			</div>
+			<div class="input-group">
+				<p:inputText id="contrasenia"
+					value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" />
+				<h:message for="contrasenia" style="color:red" />
+			</div>
+			<div>
+				<p:outputLabel value="Rol" />
+
+			</div>
+			<div class="input-group">
+				<p:selectOneMenu id="rol"
+					value="#{gestionUsuario.usuarioSeleccionado.rol}" editable="false">
+					<f:selectItem itemValue="" itemLabel="" />
+					<f:selectItem itemValue="#{gestionUsuario.admin}" itemLabel="Administrador" />
+					<f:selectItem itemValue="#{gestionUsuario.afic}" itemLabel="Aficionado" />
+					<f:selectItem itemValue="#{gestionUsuario.inv}" itemLabel="Investigador" />
+				</p:selectOneMenu>
+			</div>
+			<div>
+				<p:outputLabel value="Habilitado" />
+
+			</div>
+			<div class="input-group">
+				<p:selectOneMenu id="habilitado"
+					value="#{gestionUsuario.usuarioSeleccionado.habilitado}" editable="false">
+					<f:selectItem itemValue="" itemLabel="" />
+					<f:selectItem itemValue="True" itemLabel="True" />
+					<f:selectItem itemValue="False" itemLabel="False" />
+				</p:selectOneMenu>
+			</div>
+		<div class="form-button">
+			<p:commandButton value="Guardar Usuario" action="#{gestionUsuario.salvarCambios}" />
+		</div>
+		</div>
+	</h:form>
+	
+	
+</ui:define>	 
+</ui:composition>

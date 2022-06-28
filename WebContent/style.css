@@ -53,3 +53,8 @@ body{
 	margin:auto;
 	text-align: center;
 }
+
+.logout {
+    background-image: url("../assets/001-logout.png");
+    background-size: 2rem;
+}
