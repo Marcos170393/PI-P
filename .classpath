@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="JavaSource"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_333"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.jboss.ide.eclipse.as.core.server.runtime.runtimeTarget/WildFly 20.0 Runtime">
 		<attributes>
 			<attribute name="owner.project.facets" value="jst.jsf;jpt.jpa;jst.web"/>
@@ -9,9 +9,9 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="D:/AplicacionesWeb/hibernate-core-5.3.17.Final.jar"/>
-	<classpathentry kind="lib" path="D:/AplicacionesWeb/jboss-ejb-client-4.0.33.Final.jar"/>
-	<classpathentry kind="lib" path="D:/AplicacionesWeb/jboss-modules.jar"/>
-	<classpathentry kind="lib" path="D:/AplicacionesWeb/ojdbc7.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/hibernate-core-5.3.17.Final.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jboss-ejb-client-4.0.33.Final.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jboss-modules.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ojdbc7.jar"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>

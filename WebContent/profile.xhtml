@@ -24,7 +24,7 @@
 	<h:form id="crearUsuario">
 		<div class="create-form">
 			<div class="form-title">
-				<h2>Crear nuevo usuario</h2>				
+				<h2>Modificar perfil</h2>				
 			</div>
 			<div>
 				<p:outputLabel value="Nombre" />
@@ -45,7 +45,7 @@
 			<div class="input-group">
 				<p:outputLabel value="Nombre de usuario" />
 				<div>
-					<p:inputText class="input-form" id="nombreUsuario"	value="#{gestionUsuario.usuarioSeleccionado.nombreUsuario}" />
+					<p:inputText class="input-form" id="nombreUsuario" disabled="true"	value="#{gestionUsuario.usuarioSeleccionado.nombreUsuario}" />
 					<h:message for="nombreUsuario" style="color:red" />
 				</div>
 			</div>
@@ -66,33 +66,33 @@
 					value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" />
 				<h:message for="contrasenia" style="color:red" />
 			</div>
-			<div>
-				<p:outputLabel value="Rol" />
+			<div >
+				<p:outputLabel value="Rol" rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}"/>
 
 			</div>
 			<div class="input-group">
 				<p:selectOneMenu id="rol"
-					value="#{gestionUsuario.usuarioSeleccionado.rol}" editable="false">
+					value="#{gestionUsuario.usuarioSeleccionado.rol}" editable="false" rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}">
 					<f:selectItem itemValue="" itemLabel="" />
 					<f:selectItem itemValue="#{gestionUsuario.admin}" itemLabel="Administrador" />
 					<f:selectItem itemValue="#{gestionUsuario.afic}" itemLabel="Aficionado" />
 					<f:selectItem itemValue="#{gestionUsuario.inv}" itemLabel="Investigador" />
 				</p:selectOneMenu>
 			</div>
-			<div>
-				<p:outputLabel value="Habilitado" />
+			<div >
+				<p:outputLabel value="Habilitado" rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}"/>
 
 			</div>
 			<div class="input-group">
 				<p:selectOneMenu id="habilitado"
-					value="#{gestionUsuario.usuarioSeleccionado.habilitado}" editable="false">
+					value="#{gestionUsuario.usuarioSeleccionado.habilitado}" editable="false" rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}">
 					<f:selectItem itemValue="" itemLabel="" />
 					<f:selectItem itemValue="True" itemLabel="True" />
 					<f:selectItem itemValue="False" itemLabel="False" />
 				</p:selectOneMenu>
 			</div>
 		<div class="form-button">
-			<p:commandButton value="Guardar Usuario" action="#{gestionUsuario.salvarCambios}" />
+			<p:commandButton value="Guardar Usuario" action="#{gestionUsuario.actualizarUsuario}" />
 		</div>
 		</div>
 	</h:form>
