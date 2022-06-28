@@ -5,7 +5,7 @@
 			<access>FIELD</access>
 		</persistence-unit-defaults>
 	</persistence-unit-metadata>
-	<entity class="com.capa1presentacion.UsuarioEntity" access="FIELD">
+	<entity class="com.capa3Persistencia.entities.UsuarioEntity" access="FIELD">
 		<table name="Usuarios">
 		</table>
 	</entity>

@@ -216,9 +216,9 @@ public class GestionUsuario implements Serializable{
 	return "";
 	}
 	
-	public void modificarPerfil() {
+	public String modPerfil() {
 		usuarioSeleccionado = CurrentUser.getUsuario();
-		System.out.println("modificar");
+		return "profile";
 	}
 
 	public String reset() {
