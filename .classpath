@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jboss-ejb-client-4.0.33.Final.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jboss-modules.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ojdbc7.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/afterwork-1.0.10.jar"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>

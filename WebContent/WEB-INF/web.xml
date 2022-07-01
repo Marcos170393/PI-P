@@ -19,7 +19,7 @@
  </context-param>
  <context-param>
   <param-name>primefaces.THEME</param-name>
-  <param-value>excite-bike</param-value>
+  <param-value>afterdark</param-value>
  </context-param>
   	<!-- Auto scan REST service -->
 	<context-param>

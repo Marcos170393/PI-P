@@ -42,17 +42,33 @@ public class CargarDatos extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		UsuariosBean bean = new UsuariosBean();
 		try {
-			Usuario e = new Usuario("Martanata","Robertinho","123456","robert@tarasca",true,"marta",Rol.valueOf("ADMINISTRADOR"));
+			Usuario e = new Usuario("admin","admin","admin","admin@gmail.com",true,"admin",Rol.ADMINISTRADOR);
 			Usuario usuarioCreado = gestionUsuarioService.agregarUsuario(e);
 			out.println("Se creo el empleado:"+ usuarioCreado);
 			
-			Usuario e2 = new Usuario("Pedroteto","Sancheze","123456","pedro@gmail.com",true,"pedro",Rol.AFICIONADO);
+			Usuario e2 = new Usuario("Pedro","Martinez","123456","pedro@gmail.com",true,"Pedro",Rol.AFICIONADO);
 			Usuario usuarioCreado2 = gestionUsuarioService.agregarUsuario(e2);
 			out.println("Se creo el empleado:"+ usuarioCreado2);
 			
-			Usuario e3 = new Usuario("Gonzalos","Perezeito","123456","gonza@gmail.com",true,"gonza",Rol.INVESTIGADOR);
+			Usuario e3 = new Usuario("Gonzalo","Perez","123456","gonza@gmail.com",true,"Gonza",Rol.INVESTIGADOR);
 			Usuario usuarioCreado3 = gestionUsuarioService.agregarUsuario(e3);
 			out.println("Se creo el empleado:"+ usuarioCreado3);
+		
+			Usuario e4 = new Usuario("Martin","Morales","123456","martin@gmail.com",true,"Martin",Rol.INVESTIGADOR);
+			Usuario usuarioCreado4 = gestionUsuarioService.agregarUsuario(e4);
+			out.println("Se creo el empleado:"+ usuarioCreado4);
+			
+			Usuario e5 = new Usuario("root","root","root","root@gmail.com",true,"root",Rol.ADMINISTRADOR);
+			Usuario usuarioCreado5 = gestionUsuarioService.agregarUsuario(e5);
+			out.println("Se creo el empleado:"+ usuarioCreado5);
+			
+			Usuario e6 = new Usuario("Adrian","Suar","123456","adrian@gmail.com",true,"Adrian",Rol.INVESTIGADOR);
+			Usuario usuarioCreado6 = gestionUsuarioService.agregarUsuario(e6);
+			out.println("Se creo el empleado:"+ usuarioCreado6);
+			
+			Usuario e7 = new Usuario("Florencia","Pose","123456","mPose@gmail.com",true,"Flor",Rol.ADMINISTRADOR);
+			Usuario usuarioCreado7 = gestionUsuarioService.agregarUsuario(e7);
+			out.println("Se creo el empleado:"+ usuarioCreado7);
 
 
 			

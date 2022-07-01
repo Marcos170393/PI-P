@@ -43,13 +43,17 @@
 
 			</div>
 			<div style="margin-top:10px">
-				<p:inputText id="contrasenia" type="password"
-					value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" />
+				<!-- <p:inputText id="contrasenia" type="password"
+					value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" /> -->
+					<p:password  id="contrasenia" value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" feedback="true|false" />
+					
 				<p:message for="contrasenia" style="color:red" />
 			</div>
+		
 			<p:commandButton style="margin-top:50px;" value="Login"
 				action="#{gestionUsuario.validarUsuario}" />
 				</div>
 	</h:form>
+	
 </h:body>
 </html>
