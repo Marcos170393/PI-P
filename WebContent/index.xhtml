@@ -50,8 +50,16 @@
 				<p:message for="contrasenia" style="color:red" />
 			</div>
 		
-			<p:commandButton style="margin-top:50px;" value="Login"
+			<p:commandButton style="margin:40px 0px;" value="Login"
 				action="#{gestionUsuario.validarUsuario}" />
+			<hr/>	
+				<div style="margin-top: 20px">
+					<p:dialog showEffect="fade" hideEffect="fade" header="Create    Account" widgetVar="dlg" resizable="false">
+					<div style="width: 450px;height: 400px">
+					</div>
+					</p:dialog>
+					<p:commandButton value="Create Account" type="button" onclick="PF('dlg').show()" />
+				</div>
 				</div>
 	</h:form>
 	
