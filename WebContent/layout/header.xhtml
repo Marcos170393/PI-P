@@ -21,7 +21,7 @@
     <h:form>  
      <p:menubar>
  		
-        <p:submenu label="Gestion de Usuario" icon="ui-icon-document">
+        <p:submenu label="Gestion de Usuario">
             <p:menuitem value="Alta de usuario" outcome="/altaUsuario.xhtml" rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}" />
             <p:menuitem value="Listado de usuarios" outcome="/listado.xhtml"  />
         </p:submenu>

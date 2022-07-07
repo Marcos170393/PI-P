@@ -53,15 +53,76 @@
 			<p:commandButton style="margin:40px 0px;" value="Login"
 				action="#{gestionUsuario.validarUsuario}" />
 			<hr/>	
-				<div style="margin-top: 20px">
-					<p:dialog showEffect="fade" hideEffect="fade" header="Create    Account" widgetVar="dlg" resizable="false">
-					<div style="width: 450px;height: 400px">
-					</div>
-					</p:dialog>
-					<p:commandButton value="Create Account" type="button" onclick="PF('dlg').show()" />
-				</div>
-				</div>
+			<div>
+				<p:commandButton value="Registrarse" type="button" onclick="PF('dlg').show()" />
+			</div>
+		</div>
 	</h:form>
+		<p:dialog showEffect="fade" hideEffect="fade" header="Create    Account" height="600" resposive="true" widgetVar="dlg" resizable="true">
+		<div style="width: 500px;height: 450px;padding: 10px;text-align:center;">
+			<h:form id="crearUsuario" >
+					<div class="form-title">
+						<h2>Registrarse</h2>				
+					</div>
+					<div>
+						<p:outputLabel value="Nombre" />
+					</div>
+					<div class="input-group">
+						<p:inputText class="input-form" id="nombre" value="#{gestionUsuario.usuarioSeleccionado.nombre}" />
+						<h:message for="nombre" style="width:100%" />
+					</div>
+		
+					<div>
+						<p:outputLabel value="Apellido" />
+					</div>
+					<div class="input-group">
+						<p:inputText class="input-form" id="apellido" value="#{gestionUsuario.usuarioSeleccionado.apellido}" />
+						<h:message for="apellido" style="color:red" />
+					</div>
+		
+					<div class="input-group">
+						<p:outputLabel value="Nombre de usuario" />
+						<div>
+							<p:inputText class="input-form" id="nombreUsuario"	value="#{gestionUsuario.usuarioSeleccionado.nombreUsuario}" />
+							<h:message for="nombreUsuario" style="color:red" />
+						</div>
+					</div>
+		
+					<div>
+						<p:outputLabel value="Mail" />
+					</div>
+					<div class="input-group">
+						<p:inputText class="input-form" id="mail" value="#{gestionUsuario.usuarioSeleccionado.mail}" />
+						<h:message for="mail" style="color:red" />
+					</div>
+					<div>
+						<p:outputLabel value="Contrasenia" />
+		
+					</div>
+					<div class="input-group">
+						<p:inputText id="contrasenia"
+							value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" />
+						<h:message for="contrasenia" style="color:red" />
+					</div>
+					<div>
+						<p:outputLabel value="Rol" />
+		
+					</div>
+					<div class="input-group">
+						<p:selectOneMenu id="rol"
+							value="#{gestionUsuario.usuarioSeleccionado.rol}">
+							<f:selectItem itemValue="" itemLabel="" />
+							<f:selectItem itemValue="#{gestionUsuario.admin}" itemLabel="Administrador" />
+							<f:selectItem itemValue="#{gestionUsuario.afic}" itemLabel="Aficionado" />
+							<f:selectItem itemValue="#{gestionUsuario.inv}" itemLabel="Investigador" />
+						</p:selectOneMenu>
+					</div>
+				<div class="form-button" style="margin:50px">
+					<p:commandButton value="Confirmar"  action="#{gestionUsuario.registro }" />
+				</div>
+			</h:form>
+		</div>
+	</p:dialog>
 	
 </h:body>
 </html>

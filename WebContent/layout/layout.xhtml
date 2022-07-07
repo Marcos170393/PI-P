@@ -12,10 +12,11 @@
 </h:head>
     <ui:insert name="head">
         <ui:include src="head.xhtml" />
+        
     </ui:insert>
     
     <h:body class="container">
-          
+
         <p:layout id="page" fullPage="true">
         	
             <p:layoutUnit id="pageNorth" position="north" rendered="true">
@@ -23,8 +24,8 @@
 	        </p:layoutUnit>
            
            
-            <p:layoutUnit id="pageCenter" position="center" >
-            	
+            <p:layoutUnit id="pageCenter" position="center" style="min-height:1000px;">
+            	 
                 
                     <ui:insert name="content" />
               
