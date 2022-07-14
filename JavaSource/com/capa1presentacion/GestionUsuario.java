@@ -150,7 +150,6 @@ public class GestionUsuario implements Serializable{
 				e.printStackTrace();
 			}
 			finally {
-				
 			}
 			
 			return "";
@@ -158,7 +157,6 @@ public class GestionUsuario implements Serializable{
 	
 	// LOGIN DE USUARIO \\
 	public String validarUsuario() throws Exception {
-		
 		try {
 			 Usuario usuario = (Usuario) persistenciaBean.buscarUsuarioEntityName(usuarioSeleccionado.getNombreUsuario());
 					//SI ESTA HABILITADO Y COINCIDE NOMBRE Y CONTRASEÑA
@@ -178,7 +176,13 @@ public class GestionUsuario implements Serializable{
 						"No se encontro el usuario", "" );
 						FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 						return "";
-					}else {
+					}else if(!usuario.isHabilitado()) {
+						FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+								"Usuario inhabilitado", "" );
+								FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+								return "";
+					}
+					else {
 						FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 						"Contraseña incorrecta", "" );
 						FacesContext.getCurrentInstance().addMessage(null, facesMsg);
