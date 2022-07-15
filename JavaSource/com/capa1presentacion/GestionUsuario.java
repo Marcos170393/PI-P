@@ -53,6 +53,7 @@ public class GestionUsuario implements Serializable{
 		
 	}
 	
+	// MODIFICACION DE USUARIO \\
 	public String actualizarUsuario() throws Exception {
 		
 		try {
@@ -67,7 +68,7 @@ public class GestionUsuario implements Serializable{
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, 
 			  "Se ha actualizado el usuario con id:"+nuevoId.toString(), "");
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			return "home";
+			return "listado";
 			
 		} 
 		catch (PersistenciaException e) {
@@ -87,6 +88,39 @@ public class GestionUsuario implements Serializable{
 		
 		return "";
 }
+	public void registro() throws Exception {
+		Usuario usuarioNuevo;
+		try {
+			usuarioNuevo = (Usuario) persistenciaBean.agregarUsuario(usuarioSeleccionado);
+			//actualizamos id
+			Long nuevoId=usuarioNuevo.getIdUsuario();
+			//vaciamos usuarioSeleccionado como para ingresar uno nuevo
+			usuarioSeleccionado=new Usuario();
+			
+			//mensaje de actualizacion correcta
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, 
+			  "Registro exitoso! Debe aguardar la habilitacion por parte de los administradores.", "");
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			
+			
+		} 
+		catch (PersistenciaException e) {
+			
+			Throwable rootException=ExceptionsTools.getCause(e);
+			String msg1=e.getMessage();
+			String msg2=ExceptionsTools.formatedMsg(rootException);
+			//mensaje de actualizacion correcta
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,msg1, msg2);
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			
+			e.printStackTrace();
+		}
+		finally {
+			
+		}
+		
+	}
+	// GUARDAR NUEVO USUARIO \\
 	public String salvarCambios() throws Exception {
 			
 			Usuario usuarioNuevo;
@@ -116,14 +150,13 @@ public class GestionUsuario implements Serializable{
 				e.printStackTrace();
 			}
 			finally {
-				
 			}
 			
 			return "";
 	}
 	
+	// LOGIN DE USUARIO \\
 	public String validarUsuario() throws Exception {
-		
 		try {
 			 Usuario usuario = (Usuario) persistenciaBean.buscarUsuarioEntityName(usuarioSeleccionado.getNombreUsuario());
 					//SI ESTA HABILITADO Y COINCIDE NOMBRE Y CONTRASEÑA
@@ -143,7 +176,13 @@ public class GestionUsuario implements Serializable{
 						"No se encontro el usuario", "" );
 						FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 						return "";
-					}else {
+					}else if(!usuario.isHabilitado()) {
+						FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+								"Usuario inhabilitado", "" );
+								FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+								return "";
+					}
+					else {
 						FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 						"Contraseña incorrecta", "" );
 						FacesContext.getCurrentInstance().addMessage(null, facesMsg);
@@ -159,6 +198,7 @@ public class GestionUsuario implements Serializable{
 		}
 	}
 				
+	// MOSTRAR LISTADO DE USUARIOS \\
 	public List<Usuario> mostrarUsuarios() throws Exception {
 		
 
@@ -181,17 +221,19 @@ public class GestionUsuario implements Serializable{
 		}
 	}
 	
+	// METODO PARA MOSTRAR FORMULARIO DE ACTUALIZACION
 	public String actualizarVistaUsuario(String id) throws Exception{
 		usuarioSeleccionado = persistenciaBean.buscarUsuarioEntity(Long.parseLong(id));
 		return "actualizarUsuario";
 	}
 	
-	public String eliminarUsuario(String id) throws Exception{
+	// BAJA DE USUAIOS
+	public void eliminarUsuario(String id) throws Exception{
 
 	try {
-//		String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idUser");
 		persistenciaBean.elminarUsuarioEntity(Long.parseLong(id));
-		return "home";
+		FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Usuario eliminado con �xito","");
+		FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 	} 
 	catch (PersistenciaException e) {
 		
@@ -208,8 +250,12 @@ public class GestionUsuario implements Serializable{
 		
 	}
 	
-	return "";
-}
+	}
+	
+	public String modPerfil() {
+		usuarioSeleccionado = CurrentUser.getUsuario();
+		return "profile";
+	}
 
 	public String reset() {
 		usuarioSeleccionado=new Usuario();

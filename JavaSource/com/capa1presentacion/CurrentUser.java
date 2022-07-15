@@ -18,7 +18,7 @@ public class CurrentUser implements Serializable {
 	
 	private boolean habilitado = usuario.isHabilitado();
 	
-	public CurrentUser() {
+	private CurrentUser() {
 		//TODO Auto-generated constructor stub
 	}
 

@@ -5,9 +5,13 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui" >
  <!-- <p:panelGrid columns="1" style="text-align: left;" cellpadding="2">  -->
-    	
-    	
-   	<div align="right"  style="background: linear-gradient(270deg, rgba(0, 89, 179, 1) 50%, transparent 100%);padding: 12px">
+<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />    	
+<h:head>
+	<link rel="stylesheet" href="../style.css"/>	
+</h:head>
+	
+   	<div align="left"  class="nav1" >
+   	<h:graphicImage value = "/assets/logo.png" style="width:80px;margin-left:10px;margin-top:10px;"/> 
 		<span 
 			style="color: white; font-size: 180%; font-family: Arial; margin: 20px">
 			Sistema de Gestion de Calidad de Aire</span>
@@ -17,7 +21,7 @@
     <h:form>  
      <p:menubar>
  		
-        <p:submenu label="Gestion de Usuario" icon="ui-icon-document">
+        <p:submenu label="Gestion de Usuario">
             <p:menuitem value="Alta de usuario" outcome="/altaUsuario.xhtml" rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}" />
             <p:menuitem value="Listado de usuarios" outcome="/listado.xhtml"  />
         </p:submenu>
@@ -25,10 +29,15 @@
  
  
         <f:facet name="options">
-                 <p:linkButton outcome="index" value="Logout" style="margin-right:20px;">
-        			
+                 <p:linkButton outcome="index" value="Logout"  style="margin-right:20px;">
   				  </p:linkButton>
+                 <p:linkButton outcome="profile" value="Profile" style="margin-right:20px;">
+  				  </p:linkButton>
+              
+  						 
         </f:facet>
+	 
+	   
     </p:menubar>
 </h:form>
  

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <ui:composition template="/layout/layout.xhtml"
+
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -13,7 +14,7 @@
 	<ui:define name="content">
 	
 		<div style="width:50%;margin:auto;text-align: center;">
-			<h1 style="font-size: 2.5rem">Bienvenido</h1>
+			<h1 style="font-size: 2.5rem">Bienvenido/a #{currentUser.getUsuario().nombreUsuario}</h1>
 		</div>
         
     </ui:define>
