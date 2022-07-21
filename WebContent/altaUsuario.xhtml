@@ -85,7 +85,7 @@ h1 {
 
 			</div>
 			<div class="input-group">
-				<p:inputText id="contrasenia"  validatorMessage="La constraseña debe ser mayor 3 y menor a 50 caracteres"
+				<p:password id="contrasenia"  validatorMessage="La constraseña debe ser mayor 3 y menor a 50 caracteres"
 					value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" />
 			</div>
 			<div>
@@ -107,7 +107,6 @@ h1 {
 			<div class="input-group">
 				<p:selectOneMenu id="habilitado"
 					value="#{gestionUsuario.usuarioSeleccionado.habilitado}">
-					<f:selectItem itemValue="" itemLabel="" />
 					<f:selectItem itemValue="True" itemLabel="True" />
 					<f:selectItem itemValue="False" itemLabel="False" />
 				</p:selectOneMenu>

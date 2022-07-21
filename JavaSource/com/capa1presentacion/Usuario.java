@@ -13,15 +13,15 @@ public class Usuario {
 	private Long idUsuario;
 	
 	@NotNull
-	@Length(min=3,	max=20)
+	@Length(min=4,	max=20)
 	private String nombre;
 	
 	@NotNull	
-	@Length(min=3,	max=20)
+	@Length(min=4,	max=20)
 	private String apellido;
 	
 	@NotNull
-	@Length(min=3,	max=50)
+	@Length(min=4,	max=50)
 	private String contrasenia;
 	
 	@NotNull
@@ -32,7 +32,7 @@ public class Usuario {
 	private boolean habilitado;
 	
 	@NotNull
-	@Length(min=3,	max=20)
+	@Length(min=4,	max=20)
 	private String nombreUsuario;
 	
 	@NotNull

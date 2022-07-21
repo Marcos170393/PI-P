@@ -66,7 +66,7 @@ public class GestionUsuario implements Serializable{
 			
 			//mensaje de actualizacion correcta
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, 
-			  "Se ha actualizado el usuario con id:"+nuevoId.toString(), "");
+			  "Se ha actualizado el usuario con éxito.", "");
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 			return "listado";
 			
@@ -79,8 +79,6 @@ public class GestionUsuario implements Serializable{
 			//mensaje de actualizacion correcta
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,msg1, msg2);
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			
-			e.printStackTrace();
 		}
 		finally {
 			
@@ -106,16 +104,10 @@ public class GestionUsuario implements Serializable{
 		} 
 		catch (PersistenciaException e) {
 			
-			Throwable rootException=ExceptionsTools.getCause(e);
 			String msg1=e.getMessage();
-			String msg2=ExceptionsTools.formatedMsg(rootException);
 			//mensaje de actualizacion correcta
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,msg1, msg2);
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,msg1,null);
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			
-			e.printStackTrace();
-		}
-		finally {
 			
 		}
 		
@@ -133,7 +125,7 @@ public class GestionUsuario implements Serializable{
 				
 				//mensaje de actualizacion correcta
 				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, 
-				  "Se ha agregado un nuevo usuario con id:"+nuevoId.toString(), "");
+				  "Nuevo usuario creado con éxito.", "");
 				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 				return "home";
 				
@@ -156,10 +148,7 @@ public class GestionUsuario implements Serializable{
 				if (usuario.getContrasenia().equals(usuarioSeleccionado.getContrasenia()) && usuario.getNombreUsuario().equals(usuarioSeleccionado.getNombreUsuario()) && usuario.isHabilitado()) {
 						 usuarioSeleccionado=new Usuario();	
 						 CurrentUser.setUsuario(usuario);
-						 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, 
-							"","");
-							FacesContext.getCurrentInstance().addMessage(null, facesMsg);	
-							System.out.println(CurrentUser.getUsuario().getRol().toString().equals("ADMINISTRADOR"));
+						
 						return "home";
 							
 				}else {
@@ -208,7 +197,6 @@ public class GestionUsuario implements Serializable{
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,null, msg2);
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 			
-			e.printStackTrace();
 			return  new ArrayList<Usuario>(); 
 		}
 	}
@@ -235,8 +223,6 @@ public class GestionUsuario implements Serializable{
 		//mensaje de actualizacion correcta
 		FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,msg1, msg2);
 		FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-		
-		e.printStackTrace();
 	}
 	finally {
 		
