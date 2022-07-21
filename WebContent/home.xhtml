@@ -12,7 +12,9 @@
 	</ui:define>
 	
 	<ui:define name="content">
-	
+	<p:messages id="messages"  closable="true" severity="info,error">
+        	<p:autoUpdate />
+   	</p:messages>
 		<div style="width:50%;margin:auto;text-align: center;">
 			<h1 style="font-size: 2.5rem">Bienvenido/a #{currentUser.getUsuario().nombreUsuario}</h1>
 		</div>

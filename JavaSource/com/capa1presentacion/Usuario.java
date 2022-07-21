@@ -1,7 +1,11 @@
 package com.capa1presentacion;
 
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
 
 public class Usuario {
 
@@ -9,21 +13,26 @@ public class Usuario {
 	private Long idUsuario;
 	
 	@NotNull
+	@Length(min=3,	max=20)
 	private String nombre;
 	
-	@NotNull
+	@NotNull	
+	@Length(min=3,	max=20)
 	private String apellido;
 	
 	@NotNull
+	@Length(min=3,	max=50)
 	private String contrasenia;
 	
 	@NotNull
+	@Email(regexp = ".+@.+\\..+")
 	private String mail;
 	
 	@NotNull
 	private boolean habilitado;
 	
 	@NotNull
+	@Length(min=3,	max=20)
 	private String nombreUsuario;
 	
 	@NotNull

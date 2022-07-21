@@ -11,6 +11,8 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import com.capa3Persistencia.exception.PersistenciaException;
+
 import org.wildfly.common.annotation.Nullable;
 /**
  * Session Bean implementation class UsuarioEntitysBean
@@ -30,7 +32,7 @@ public class UsuariosBean  {
 			em.flush();
 			return user;
 		} catch (Exception e) {
-			throw new Exception("No se pudo crear el UsuarioEntity" + e.getMessage());
+			throw new PersistenciaException("Error al crear el usuario. Es posible que ya se encuentre en nuestra base de datos");
 		}
 	}
 	/********************************************************************MODIFICAR USER****/
@@ -42,7 +44,7 @@ public class UsuariosBean  {
 			em.flush();
 		} catch (Exception e) {
 			// TODO: handle exception
-			throw new Exception("No se pudo actualizar el UsuarioEntity");
+			throw new PersistenciaException("No se pudo actualizar el Usuario");
 		}
 	}
 	/********************************************************************ELIMINAR USER****/
@@ -52,7 +54,7 @@ public class UsuariosBean  {
 			em.remove(user);
 			em.flush();
 		} catch (Exception e) {
-			throw new Exception("No se pudo eliminar el UsuarioEntity");
+			throw new PersistenciaException("No se pudo eliminar el Usuario");
 		}
 	}
 	/********************************************************************BUSCAR USER****/
@@ -60,7 +62,7 @@ public class UsuariosBean  {
 		try {
 			return em.find(UsuarioEntity.class, idUser);
 		} catch (Exception e) {
-			throw new Exception("Error al realizar la busqueda");
+			throw new PersistenciaException("Error al realizar la busqueda");
 		}
 	}
 	/********************************************************************BUSCAR USER POR NOMBRE****/

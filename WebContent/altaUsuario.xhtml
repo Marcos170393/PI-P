@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
@@ -6,7 +7,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns="http://www.w3.org/1999/xhtml">
 <h:head>
 <style>
 h1 {
@@ -42,51 +44,49 @@ h1 {
 		
 	
 	<div class="form-container">
-	
-		<div class="create-form">
+	<p:messages id="messages"  closable="true" severity="info,error">
+        	<p:autoUpdate />
+   	</p:messages>
 			<h:form id="crearUsuario">
+		<div class="create-form">
 			<div class="form-title">
 				<h2>Crear nuevo usuario</h2>				
 			</div>
 			<div>
-				<p:outputLabel value="Nombre" />
+				<p:outputLabel for="nombre" value="Nombre" />
 			</div>
 			<div class="input-group">
-				<p:inputText class="input-form" id="nombre" value="#{gestionUsuario.usuarioSeleccionado.nombre}" />
-				<h:message for="nombre" style="width:100%" />
+				<p:inputText name="Nombre" label="nombre" class="input-form" id="nombre"  validatorMessage="El nombre debe ser mayor a 3 y menor a 20 caracteres" value="#{gestionUsuario.usuarioSeleccionado.nombre}" />
 			</div>
 
 			<div>
 				<p:outputLabel value="Apellido" />
 			</div>
 			<div class="input-group">
-				<p:inputText class="input-form" id="apellido" value="#{gestionUsuario.usuarioSeleccionado.apellido}" />
-				<h:message for="apellido" style="color:red" />
+				<p:inputText class="input-form" id="apellido" validatorMessage="El apellido debe ser mayor a 3 y menor a 20 caracteres" value="#{gestionUsuario.usuarioSeleccionado.apellido}" />
 			</div>
 
 			<div class="input-group">
 				<p:outputLabel value="Nombre de usuario" />
 				<div>
-					<p:inputText class="input-form" id="nombreUsuario"	value="#{gestionUsuario.usuarioSeleccionado.nombreUsuario}" />
-					<h:message for="nombreUsuario" style="color:red" />
+					<p:inputText class="input-form" id="nombreUsuario" validatorMessage="El nombre de usuario debe ser mayor a 3 y menor a 20 caracteres"	value="#{gestionUsuario.usuarioSeleccionado.nombreUsuario}" />
 				</div>
 			</div>
 
-			<div>
-				<p:outputLabel value="Mail" />
-			</div>
 			<div class="input-group">
-				<p:inputText class="input-form" id="mail" value="#{gestionUsuario.usuarioSeleccionado.mail}" />
-				<h:message for="mail" style="color:red" />
+				<p:outputLabel value="Mail" />
+				<div>
+					<p:inputText class="input-form" id="mail" validatorMessage="Debes ingresar un email válido" value="#{gestionUsuario.usuarioSeleccionado.mail}" />
+				</div>
 			</div>
+
 			<div>
 				<p:outputLabel value="Contrasenia" />
 
 			</div>
 			<div class="input-group">
-				<p:inputText id="contrasenia"
+				<p:inputText id="contrasenia"  validatorMessage="La constraseña debe ser mayor 3 y menor a 50 caracteres"
 					value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" />
-				<h:message for="contrasenia" style="color:red" />
 			</div>
 			<div>
 				<p:outputLabel value="Rol" />
@@ -95,7 +95,6 @@ h1 {
 			<div class="input-group">
 				<p:selectOneMenu id="rol"
 					value="#{gestionUsuario.usuarioSeleccionado.rol}">
-					<f:selectItem itemValue="" itemLabel="" />
 					<f:selectItem itemValue="#{gestionUsuario.admin}" itemLabel="Administrador" />
 					<f:selectItem itemValue="#{gestionUsuario.afic}" itemLabel="Aficionado" />
 					<f:selectItem itemValue="#{gestionUsuario.inv}" itemLabel="Investigador" />
@@ -116,9 +115,9 @@ h1 {
 		<div class="form-button">
 			<p:commandButton value="Guardar Usuario" action="#{gestionUsuario.salvarCambios}" />
 		</div>
-	</h:form>
-		</div>
+	</div>
 
+		</h:form>
 	</div>
 </ui:define>
 

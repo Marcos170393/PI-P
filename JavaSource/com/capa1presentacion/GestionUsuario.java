@@ -77,7 +77,7 @@ public class GestionUsuario implements Serializable{
 			String msg1=e.getMessage();
 			String msg2=ExceptionsTools.formatedMsg(rootException);
 			//mensaje de actualizacion correcta
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,msg1, msg2);
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,msg1, msg2);
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 			
 			e.printStackTrace();
@@ -110,7 +110,7 @@ public class GestionUsuario implements Serializable{
 			String msg1=e.getMessage();
 			String msg2=ExceptionsTools.formatedMsg(rootException);
 			//mensaje de actualizacion correcta
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,msg1, msg2);
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,msg1, msg2);
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 			
 			e.printStackTrace();
@@ -140,19 +140,12 @@ public class GestionUsuario implements Serializable{
 			} 
 			catch (PersistenciaException e) {
 				
-				Throwable rootException=ExceptionsTools.getCause(e);
 				String msg1=e.getMessage();
-				String msg2=ExceptionsTools.formatedMsg(rootException);
 				//mensaje de actualizacion correcta
-				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,msg1, msg2);
+				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,msg1,null);
 				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-				
-				e.printStackTrace();
+				return "";
 			}
-			finally {
-			}
-			
-			return "";
 	}
 	
 	// LOGIN DE USUARIO \\
@@ -172,18 +165,18 @@ public class GestionUsuario implements Serializable{
 				}else {
 					
 					if (usuario.getNombreUsuario().equals("")) {
-						FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+						FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, 
 						"No se encontro el usuario", "" );
 						FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 						return "";
 					}else if(!usuario.isHabilitado()) {
-						FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+						FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, 
 								"Usuario inhabilitado", "" );
 								FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 								return "";
 					}
 					else {
-						FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+						FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, 
 						"Contraseña incorrecta", "" );
 						FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 						return "";
@@ -191,7 +184,7 @@ public class GestionUsuario implements Serializable{
 	
 				}
 		}catch(Exception e) {
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, 
 					"Nombre de usuario o contraseña incorrectos", "" );
 					FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 					return "";
@@ -210,10 +203,9 @@ public class GestionUsuario implements Serializable{
 		catch (PersistenciaException e) {
 			
 			Throwable rootException=ExceptionsTools.getCause(e);
-			String msg1=e.getMessage();
 			String msg2=ExceptionsTools.formatedMsg(rootException);
 			//mensaje de actualizacion correcta
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,msg1, msg2);
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,null, msg2);
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 			
 			e.printStackTrace();
@@ -232,7 +224,7 @@ public class GestionUsuario implements Serializable{
 
 	try {
 		persistenciaBean.elminarUsuarioEntity(Long.parseLong(id));
-		FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Usuario eliminado con �xito","");
+		FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Usuario eliminado con �xito","");
 		FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 	} 
 	catch (PersistenciaException e) {
@@ -241,7 +233,7 @@ public class GestionUsuario implements Serializable{
 		String msg1=e.getMessage();
 		String msg2=ExceptionsTools.formatedMsg(rootException);
 		//mensaje de actualizacion correcta
-		FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,msg1, msg2);
+		FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,msg1, msg2);
 		FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 		
 		e.printStackTrace();

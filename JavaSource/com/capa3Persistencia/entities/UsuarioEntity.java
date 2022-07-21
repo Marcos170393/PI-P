@@ -19,13 +19,21 @@ public class UsuarioEntity implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="IDUSUARIO")
 	private long idUsuario;
+	
 	private String apellido;
+	
 	private String contrasenia;
+	
+	@Column(unique = true)
 	private String mail;
+	
 	private String nombre;
+	
 	private boolean habilitado;
+	
 	@Column(unique=true, name="NOMBRE_USUARIO")
 	private String nombreUsuario;
+	
 	@Enumerated(EnumType.STRING)
 	private Rol rol;
 	
