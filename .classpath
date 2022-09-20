@@ -1,12 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="JavaSource"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_291"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
-	<classpathentry kind="lib" path="D:/Aplicaciones Web/hibernate-core-5.3.17.Final.jar"/>
-	<classpathentry kind="lib" path="D:/Aplicaciones Web/jboss-ejb-client-4.0.33.Final.jar"/>
-	<classpathentry kind="lib" path="D:/Aplicaciones Web/jboss-modules.jar"/>
-	<classpathentry kind="lib" path="D:/Aplicaciones Web/ojdbc7.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jboss-ejb-client-4.0.33.Final.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ojdbc7.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/hibernate-core-5.3.17.Final.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jboss-modules.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Usuario/.m2/repository/org/jboss/spec/javax/servlet/jboss-servlet-api_4.0_spec/2.0.0.Final/jboss-servlet-api_4.0_spec-2.0.0.Final.jar" sourcepath="C:/Users/Usuario/.m2/repository/org/jboss/spec/javax/servlet/jboss-servlet-api_4.0_spec/2.0.0.Final/jboss-servlet-api_4.0_spec-2.0.0.Final-sources.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="org.eclipse.jst.component.archivename" value="jboss-servlet-api_4.0_spec-2.0.0.Final.jar"/>
+			<attribute name="maven.groupId" value="org.jboss.spec.javax.servlet"/>
+			<attribute name="maven.artifactId" value="jboss-servlet-api_4.0_spec"/>
+			<attribute name="maven.version" value="2.0.0.Final"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/wildfly-20.0.1.Final/wildfly-20.0.1.Final/modules/system/layers/base/javax/ws/rs/api/main/jboss-jaxrs-api_2.1_spec-2.0.1.Final.jar"/>
+	<classpathentry kind="lib" path="C:/wildfly-20.0.1.Final/wildfly-20.0.1.Final/modules/system/layers/base/javax/inject/api/main/jakarta.inject-api-1.0.jar"/>
+	<classpathentry kind="lib" path="C:/wildfly-20.0.1.Final/wildfly-20.0.1.Final/modules/system/layers/base/javax/enterprise/api/main/jakarta.enterprise.cdi-api-2.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/wildfly-20.0.1.Final/wildfly-20.0.1.Final/modules/system/layers/base/javax/faces/api/main/jboss-jsf-api_2.3_spec-3.0.0.SP04.jar"/>
+	<classpathentry kind="lib" path="C:/wildfly-20.0.1.Final/wildfly-20.0.1.Final/modules/system/layers/base/javax/validation/api/main/jakarta.validation-api-2.0.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jaxws-rt-4.0.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jakarta.persistence-api-2.2.3.jar"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>

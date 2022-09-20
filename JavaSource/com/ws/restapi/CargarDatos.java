@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.capa1presentacion.Rol;
-import com.capa1presentacion.Usuario;
-import com.capa3Persistencia.entities.UsuariosBean;
+import com.capa1presentacion.UsuarioLocal;
+import com.capa3Persistencia.entities.UsuariosBeanService;
 
 /**
  * Servlet implementation class CargarDatos
@@ -40,34 +40,34 @@ public class CargarDatos extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath()+"\n");
 		PrintWriter out = response.getWriter();
-		UsuariosBean bean = new UsuariosBean();
+		UsuariosBeanService bean = new UsuariosBeanService();
 		try {
-			Usuario e = new Usuario("admin","admin","admin","admin@gmail.com",true,"admin",Rol.ADMINISTRADOR);
-			Usuario usuarioCreado = gestionUsuarioService.agregarUsuario(e);
+			UsuarioLocal e = new UsuarioLocal("admin","admin","admin","admin@gmail.com",true,"admin",Rol.ADMINISTRADOR);
+			UsuarioLocal usuarioCreado = gestionUsuarioService.agregarUsuario(e);
 			out.println("Se creo el empleado:"+ usuarioCreado);
 			
-			Usuario e2 = new Usuario("Pedro","Martinez","123456","pedro@gmail.com",true,"Pedro",Rol.AFICIONADO);
-			Usuario usuarioCreado2 = gestionUsuarioService.agregarUsuario(e2);
+			UsuarioLocal e2 = new UsuarioLocal("Pedro","Martinez","123456","pedro@gmail.com",true,"Pedro",Rol.AFICIONADO);
+			UsuarioLocal usuarioCreado2 = gestionUsuarioService.agregarUsuario(e2);
 			out.println("Se creo el empleado:"+ usuarioCreado2);
 			
-			Usuario e3 = new Usuario("Gonzalo","Perez","123456","gonza@gmail.com",true,"Gonza",Rol.INVESTIGADOR);
-			Usuario usuarioCreado3 = gestionUsuarioService.agregarUsuario(e3);
+			UsuarioLocal e3 = new UsuarioLocal("Gonzalo","Perez","123456","gonza@gmail.com",true,"Gonza",Rol.INVESTIGADOR);
+			UsuarioLocal usuarioCreado3 = gestionUsuarioService.agregarUsuario(e3);
 			out.println("Se creo el empleado:"+ usuarioCreado3);
 		
-			Usuario e4 = new Usuario("Martin","Morales","123456","martin@gmail.com",true,"Martin",Rol.INVESTIGADOR);
-			Usuario usuarioCreado4 = gestionUsuarioService.agregarUsuario(e4);
+			UsuarioLocal e4 = new UsuarioLocal("Martin","Morales","123456","martin@gmail.com",true,"Martin",Rol.INVESTIGADOR);
+			UsuarioLocal usuarioCreado4 = gestionUsuarioService.agregarUsuario(e4);
 			out.println("Se creo el empleado:"+ usuarioCreado4);
 			
-			Usuario e5 = new Usuario("root","root","root","root@gmail.com",true,"root",Rol.ADMINISTRADOR);
-			Usuario usuarioCreado5 = gestionUsuarioService.agregarUsuario(e5);
+			UsuarioLocal e5 = new UsuarioLocal("root","root","root","root@gmail.com",true,"root",Rol.ADMINISTRADOR);
+			UsuarioLocal usuarioCreado5 = gestionUsuarioService.agregarUsuario(e5);
 			out.println("Se creo el empleado:"+ usuarioCreado5);
 			
-			Usuario e6 = new Usuario("Adrian","Suar","123456","adrian@gmail.com",true,"Adrian",Rol.INVESTIGADOR);
-			Usuario usuarioCreado6 = gestionUsuarioService.agregarUsuario(e6);
+			UsuarioLocal e6 = new UsuarioLocal("Adrian","Suar","123456","adrian@gmail.com",true,"Adrian",Rol.INVESTIGADOR);
+			UsuarioLocal usuarioCreado6 = gestionUsuarioService.agregarUsuario(e6);
 			out.println("Se creo el empleado:"+ usuarioCreado6);
 			
-			Usuario e7 = new Usuario("Florencia","Pose","123456","mPose@gmail.com",true,"Flor",Rol.ADMINISTRADOR);
-			Usuario usuarioCreado7 = gestionUsuarioService.agregarUsuario(e7);
+			UsuarioLocal e7 = new UsuarioLocal("Florencia","Pose","123456","mPose@gmail.com",true,"Flor",Rol.ADMINISTRADOR);
+			UsuarioLocal usuarioCreado7 = gestionUsuarioService.agregarUsuario(e7);
 			out.println("Se creo el empleado:"+ usuarioCreado7);
 
 

@@ -12,7 +12,7 @@ public class CurrentUser implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static Usuario usuario = new Usuario();
+	private static UsuarioLocal usuario = new UsuarioLocal();
 	
 	private Long idUsuario = usuario.getIdUsuario();
 	
@@ -22,7 +22,7 @@ public class CurrentUser implements Serializable {
 		//TODO Auto-generated constructor stub
 	}
 
-	public static Usuario getUsuario() {
+	public static UsuarioLocal getUsuario() {
 		return usuario;
 	}
 
@@ -30,7 +30,7 @@ public class CurrentUser implements Serializable {
 		return idUsuario;
 	}
 
-	public static void setUsuario(Usuario usuario) {
+	public static void setUsuario(UsuarioLocal usuario) {
 		CurrentUser.usuario = usuario;
 	}
 

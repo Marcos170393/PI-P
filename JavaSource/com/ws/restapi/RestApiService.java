@@ -9,7 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import com.capa1presentacion.Usuario;
+import com.capa1presentacion.UsuarioLocal;
 import com.capa2LogicaNegocio.GestionUsuarioService;
 
 @Path("usuarios")
@@ -23,16 +23,16 @@ public class RestApiService {
 	@GET
 	@Path("buscarUsuario/{nombre_usuario}")
 	@Produces("application/json")
-	public Usuario obtenerEmpleado(@PathParam("nombre_usuario") String nombreUsuario){
+	public UsuarioLocal obtenerEmpleado(@PathParam("nombre_usuario") String nombreUsuario){
 		try {
-			 Usuario usuario = gestionUsuarioService.buscarUsuarioEntityName(nombreUsuario);
+			 UsuarioLocal usuario = gestionUsuarioService.buscarUsuarioEntityName(nombreUsuario);
 			 if (usuario==null) {
-				 return new Usuario();
+				 return new UsuarioLocal();
 			 }
 			 return usuario;
 		}catch(Exception e) {
 			e.printStackTrace();
-			return new Usuario(); 
+			return new UsuarioLocal(); 
 		}
 	
 		
@@ -41,16 +41,16 @@ public class RestApiService {
 	@GET
 	@Path("obtenerUsuario/{id}")
 	@Produces("application/json")
-	public Usuario obtenerUsuario(@PathParam("id") Long id){
+	public UsuarioLocal obtenerUsuario(@PathParam("id") Long id){
 		try {
-			 Usuario usuario = gestionUsuarioService.buscarUsuarioEntity(id);
+			 UsuarioLocal usuario = gestionUsuarioService.buscarUsuarioEntity(id);
 			 if (usuario==null) {
-				 return new Usuario();
+				 return new UsuarioLocal();
 			 }
 			 return usuario;
 		}catch(Exception e) {
 			e.printStackTrace();
-			return new Usuario(); 
+			return new UsuarioLocal(); 
 		}
 	
 		
@@ -59,17 +59,17 @@ public class RestApiService {
 	@GET
 	@Path("listarUsuarios")
 	@Produces("application/json")
-	public List<Usuario> listarUsuarios(){
+	public List<UsuarioLocal> listarUsuarios(){
 		
 
 		try {
-			 List<Usuario> listaUsuarios = gestionUsuarioService.seleccionarUsuarios();
+			 List<UsuarioLocal> listaUsuarios = gestionUsuarioService.seleccionarUsuarios();
 			 return listaUsuarios;
 			
 			
 		}catch(Exception e) {
 			e.printStackTrace();
-			return  new ArrayList<Usuario>(); 
+			return  new ArrayList<UsuarioLocal>(); 
 		}
 		
 	}

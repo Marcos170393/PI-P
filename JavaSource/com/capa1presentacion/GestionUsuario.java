@@ -33,7 +33,7 @@ public class GestionUsuario implements Serializable{
 	@Inject
 	GestionUsuarioService persistenciaBean;
 	
-	private Usuario usuarioSeleccionado;
+	private UsuarioLocal usuarioSeleccionado;
 	
 	@Enumerated
 	private Rol admin = Rol.ADMINISTRADOR;
@@ -49,7 +49,7 @@ public class GestionUsuario implements Serializable{
 	}
 	@PostConstruct
 	public void init() {
-		usuarioSeleccionado=new Usuario();
+		usuarioSeleccionado=new UsuarioLocal();
 		
 	}
 	
@@ -62,7 +62,7 @@ public class GestionUsuario implements Serializable{
 			//actualizamos id
 			Long nuevoId=usuarioSeleccionado.getIdUsuario();
 			//vaciamos usuarioSeleccionado como para ingresar uno nuevo
-			usuarioSeleccionado=new Usuario();
+			usuarioSeleccionado=new UsuarioLocal();
 			
 			//mensaje de actualizacion correcta
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, 
@@ -89,13 +89,13 @@ public class GestionUsuario implements Serializable{
 		return "";
 }
 	public void registro() throws Exception {
-		Usuario usuarioNuevo;
+		UsuarioLocal usuarioNuevo;
 		try {
-			usuarioNuevo = (Usuario) persistenciaBean.agregarUsuario(usuarioSeleccionado);
+			usuarioNuevo = (UsuarioLocal) persistenciaBean.agregarUsuario(usuarioSeleccionado);
 			//actualizamos id
 			Long nuevoId=usuarioNuevo.getIdUsuario();
 			//vaciamos usuarioSeleccionado como para ingresar uno nuevo
-			usuarioSeleccionado=new Usuario();
+			usuarioSeleccionado=new UsuarioLocal();
 			
 			//mensaje de actualizacion correcta
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, 
@@ -123,13 +123,13 @@ public class GestionUsuario implements Serializable{
 	// GUARDAR NUEVO USUARIO \\
 	public String salvarCambios() throws Exception {
 			
-			Usuario usuarioNuevo;
+			UsuarioLocal usuarioNuevo;
 			try {
-				usuarioNuevo = (Usuario) persistenciaBean.agregarUsuario(usuarioSeleccionado);
+				usuarioNuevo = (UsuarioLocal) persistenciaBean.agregarUsuario(usuarioSeleccionado);
 				//actualizamos id
 				Long nuevoId=usuarioNuevo.getIdUsuario();
 				//vaciamos usuarioSeleccionado como para ingresar uno nuevo
-				usuarioSeleccionado=new Usuario();
+				usuarioSeleccionado=new UsuarioLocal();
 				
 				//mensaje de actualizacion correcta
 				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, 
@@ -158,10 +158,10 @@ public class GestionUsuario implements Serializable{
 	// LOGIN DE USUARIO \\
 	public String validarUsuario() throws Exception {
 		try {
-			 Usuario usuario = (Usuario) persistenciaBean.buscarUsuarioEntityName(usuarioSeleccionado.getNombreUsuario());
+			 UsuarioLocal usuario = (UsuarioLocal) persistenciaBean.buscarUsuarioEntityName(usuarioSeleccionado.getNombreUsuario());
 					//SI ESTA HABILITADO Y COINCIDE NOMBRE Y CONTRASEÑA
 				if (usuario.getContrasenia().equals(usuarioSeleccionado.getContrasenia()) && usuario.getNombreUsuario().equals(usuarioSeleccionado.getNombreUsuario()) && usuario.isHabilitado()) {
-						 usuarioSeleccionado=new Usuario();	
+						 usuarioSeleccionado=new UsuarioLocal();	
 						 CurrentUser.setUsuario(usuario);
 						 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, 
 							"","");
@@ -199,10 +199,10 @@ public class GestionUsuario implements Serializable{
 	}
 				
 	// MOSTRAR LISTADO DE USUARIOS \\
-	public List<Usuario> mostrarUsuarios() throws Exception {
+	public List<UsuarioLocal> mostrarUsuarios() throws Exception {
 		
 
-		List<Usuario> listaUsuarios;
+		List<UsuarioLocal> listaUsuarios;
 		try {
 			listaUsuarios =  persistenciaBean.seleccionarUsuarios();
 			return listaUsuarios;
@@ -217,7 +217,7 @@ public class GestionUsuario implements Serializable{
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 			
 			e.printStackTrace();
-			return  new ArrayList<Usuario>(); 
+			return  new ArrayList<UsuarioLocal>(); 
 		}
 	}
 	
@@ -258,7 +258,7 @@ public class GestionUsuario implements Serializable{
 	}
 
 	public String reset() {
-		usuarioSeleccionado=new Usuario();
+		usuarioSeleccionado=new UsuarioLocal();
 		return "";
 	}
 	
@@ -268,10 +268,10 @@ public class GestionUsuario implements Serializable{
 	public void setPersistenciaBean(GestionUsuarioService persistenciaBean) {
 		this.persistenciaBean = persistenciaBean;
 	}
-	public Usuario getusuarioSeleccionado() {
+	public UsuarioLocal getusuarioSeleccionado() {
 		return usuarioSeleccionado;
 	}
-	public void setusuarioSeleccionado(Usuario usuarioSeleccionado) {
+	public void setusuarioSeleccionado(UsuarioLocal usuarioSeleccionado) {
 		this.usuarioSeleccionado = usuarioSeleccionado;
 	}
 	public Rol getAdmin() {

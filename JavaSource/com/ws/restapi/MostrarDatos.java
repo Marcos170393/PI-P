@@ -11,9 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.capa1presentacion.Usuario;
+import com.capa1presentacion.UsuarioLocal;
 import com.capa2LogicaNegocio.GestionUsuarioService;
-import com.capa3Persistencia.entities.UsuarioEntity;
 
 /**
  * Servlet implementation class CargarDatos
@@ -22,7 +21,7 @@ import com.capa3Persistencia.entities.UsuarioEntity;
 public class MostrarDatos extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	@EJB
+	
 	GestionUsuarioService gestionUsuarioService;
 	
     /**
@@ -42,8 +41,8 @@ public class MostrarDatos extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		try {
-			 List<Usuario> listaUsuarios = gestionUsuarioService.seleccionarUsuarios();
-			 for(Usuario e: listaUsuarios ) {
+			 List<UsuarioLocal> listaUsuarios = gestionUsuarioService.seleccionarUsuarios();
+			 for(UsuarioLocal e: listaUsuarios ) {
 				 out.println("Empleado:"+ e.getIdUsuario()+ " Nombre:" + e.getNombre());
 			 }
 			

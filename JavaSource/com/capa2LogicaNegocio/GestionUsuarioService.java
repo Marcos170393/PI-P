@@ -9,26 +9,25 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.PersistenceException;
 
-import com.capa1presentacion.Usuario;
-import com.capa3Persistencia.entities.UsuarioEntity;
-import com.capa3Persistencia.entities.UsuariosBean;
-
+import com.capa1presentacion.Rol;
+import com.capa1presentacion.UsuarioLocal;
+import com.capa3Persistencia.entities.Usuario;
+import com.capa3Persistencia.entities.UsuariosBeanService;
 
 
 @Stateless
 @LocalBean
-
 public class GestionUsuarioService implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
 	@EJB
-	UsuariosBean usuarioBean = new UsuariosBean();
+	UsuariosBeanService usuarioBean = new UsuariosBeanService();
 	
 	
-
-	public Usuario fromUsuarioEntity(UsuarioEntity e) {
-		Usuario usuario=new Usuario();
+	//TODO ajustar asignacion de roles
+	public UsuarioLocal fromUsuarioEntity(Usuario e) {
+		UsuarioLocal usuario=new UsuarioLocal();
 		usuario.setIdUsuario(e.getIdUsuario());
 		usuario.setNombre(e.getNombre());
 		usuario.setApellido(e.getApellido());
@@ -36,18 +35,18 @@ public class GestionUsuarioService implements Serializable{
 		usuario.setMail(e.getMail());
 		usuario.setHabilitado(e.isHabilitado());
 		usuario.setNombreUsuario(e.getNombreUsuario());
-		usuario.setRol(e.getRol());
+		usuario.setRol(Rol.ADMINISTRADOR);
 		return usuario;
 	}
-	public UsuarioEntity toUsuarioEntity(Usuario e) {
-		UsuarioEntity usuario= new UsuarioEntity();
+	//TODO ajustar asignacion de roles
+	public Usuario toUsuarioEntity(UsuarioLocal e) {
+		Usuario usuario= new Usuario();
 		usuario.setNombre(e.getNombre());
 		usuario.setApellido(e.getApellido());
 		usuario.setContrasenia(e.getContrasenia());
 		usuario.setMail(e.getMail());
 		usuario.setHabilitado(e.isHabilitado());
 		usuario.setNombreUsuario(e.getNombreUsuario());
-		usuario.setRol(e.getRol());
 		return usuario;
 	}
 
@@ -59,64 +58,64 @@ public class GestionUsuarioService implements Serializable{
 
 	
 
-	public List<Usuario> seleccionarUsuarios() throws Exception {
+	public List<UsuarioLocal> seleccionarUsuarios() throws Exception {
 		
-		List<UsuarioEntity> listaUsuariosEntities= usuarioBean.buscarTodos();
+		List<Usuario> listaUsuariosEntities= usuarioBean.buscarTodos();
 		
-		List<Usuario> listaUsuarios=new ArrayList<Usuario>();
+		List<UsuarioLocal> listaUsuarios=new ArrayList<UsuarioLocal>();
 		
-		for (UsuarioEntity usuarioEntity : listaUsuariosEntities) {
+		for (Usuario usuarioEntity : listaUsuariosEntities) {
 			listaUsuarios.add(fromUsuarioEntity(usuarioEntity));
 		}
 		return listaUsuarios;
 	}
 
-//	public void elminarUsuario(Long id) throws Exception{
-//		usuarioBean.eliminar(id);
-//		
-//	}
+	public void elminarUsuario(Long id) throws Exception{
+		usuarioBean.eliminar(id);
+		
+	}
 	public void elminarUsuarioEntity(Long id) throws Exception{
 		usuarioBean.eliminar(id);
 		
 	}
-	public Usuario buscarUsuarioEntity(Long id) throws Exception {
-		UsuarioEntity user = usuarioBean.buscarUsuarioEntity(id);
+	public UsuarioLocal buscarUsuarioEntity(Long id) throws Exception {
+		Usuario user = usuarioBean.buscarUsuarioEntity(id);
 		return fromUsuarioEntity(user);
 	}
 	
-	public List<UsuarioEntity> buscarUsuarios() throws Exception {
-		List<UsuarioEntity> usuarios = usuarioBean.buscarTodos();
+	public List<Usuario> buscarUsuarios() throws Exception {
+		List<Usuario> usuarios = usuarioBean.buscarTodos();
 		return usuarios;
 	}
 	
-	public Usuario buscarUsuarioEntityName(String name) throws Exception {
+	public UsuarioLocal buscarUsuarioEntityName(String name) throws Exception {
 		try{
-			UsuarioEntity user = usuarioBean.buscarNombreUsuarioEntity(name);
+			Usuario user = usuarioBean.buscarNombreUsuarioEntity(name);
 			return fromUsuarioEntity(user);
 		}catch (PersistenceException|NullPointerException e) 
 
 		{
-			Usuario usuario = new Usuario();
+			UsuarioLocal usuario = new UsuarioLocal();
 			return usuario;
 			
 		}
 
 	}
 	
-	public Usuario agregarUsuario(Usuario usuario) throws Exception   {
-		UsuarioEntity e = usuarioBean.crear(toUsuarioEntity(usuario));
+	public UsuarioLocal agregarUsuario(UsuarioLocal usuario) throws Exception   {
+		Usuario e = usuarioBean.crear(toUsuarioEntity(usuario));
 		return fromUsuarioEntity(e);
 	}
 
-	public void actualizarUsuario(Usuario usuario) throws Exception   {
-		UsuarioEntity usuarioUpdate = usuarioBean.buscarUsuarioEntity(usuario.getIdUsuario());
+	public void actualizarUsuario(UsuarioLocal usuario) throws Exception   {
+		Usuario usuarioUpdate = usuarioBean.buscarUsuarioEntity(usuario.getIdUsuario());
 		usuarioUpdate.setApellido(usuario.getApellido());
 		usuarioUpdate.setContrasenia(usuario.getContrasenia());
 		usuarioUpdate.setHabilitado(usuario.isHabilitado());
 		usuarioUpdate.setMail(usuario.getMail());
 		usuarioUpdate.setNombre(usuario.getNombre());
 		usuarioUpdate.setNombreUsuario(usuario.getNombreUsuario());
-		usuarioUpdate.setRol(usuario.getRol());
+//		usuarioUpdate.setRol(usuario.getRol());
 		usuarioBean.actualizar(usuarioUpdate);
 	}	
 	
