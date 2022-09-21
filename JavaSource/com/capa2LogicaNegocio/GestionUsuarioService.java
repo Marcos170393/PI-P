@@ -12,7 +12,7 @@ import javax.persistence.PersistenceException;
 import com.capa1presentacion.Rol;
 import com.capa1presentacion.UsuarioLocal;
 import com.capa3Persistencia.entities.Usuario;
-import com.capa3Persistencia.entities.UsuariosBeanService;
+import com.capa3Persistencia.entities.UsuariosBean;
 
 
 @Stateless
@@ -22,7 +22,7 @@ public class GestionUsuarioService implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@EJB
-	UsuariosBeanService usuarioBean = new UsuariosBeanService();
+	UsuariosBean usuarioBean = new UsuariosBean();
 	
 	
 	//TODO ajustar asignacion de roles

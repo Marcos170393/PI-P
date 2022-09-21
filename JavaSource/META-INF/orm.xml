@@ -9,4 +9,16 @@
 		<table name="Usuarios">
 		</table>
 	</entity>
+	<entity class="com.capa3Persistencia.entities.Administrador" access="FIELD">
+		<table name="Administradores">
+		</table>
+	</entity>
+	<entity class="com.capa3Persistencia.entities.Ciudad" access="FIELD">
+		<table name="Ciudades">
+		</table>
+	</entity>
+	<entity class="com.capa3Persistencia.entities.Departamento" access="FIELD">
+		<table name="Departamentos">
+		</table>
+	</entity>
 </entity-mappings>

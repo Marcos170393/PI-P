@@ -1,6 +1,8 @@
 package com.capa3Persistencia.entities;
 import java.util.List;
 
+import javax.ejb.Local;
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
@@ -11,12 +13,13 @@ import javax.persistence.TypedQuery;
  * Session Bean implementation class UsuarioEntitysBean
  */
 @Stateless
-public class UsuariosBeanService  {
+@Remote
+public class UsuariosBean  {
 	/********************************************************************ACCESO AL ENTITY MANAGER****/
 	@PersistenceContext
 	private EntityManager em;
 	/********************************************************************CONSTRUCTOR****/
-    public UsuariosBeanService() {
+    public UsuariosBean() {
     }
     /********************************************************************CREAR USER****/
     

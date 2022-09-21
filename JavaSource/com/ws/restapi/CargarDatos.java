@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.capa1presentacion.Rol;
 import com.capa1presentacion.UsuarioLocal;
-import com.capa3Persistencia.entities.UsuariosBeanService;
+import com.capa3Persistencia.entities.UsuariosBean;
 
 /**
  * Servlet implementation class CargarDatos
@@ -40,7 +40,7 @@ public class CargarDatos extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath()+"\n");
 		PrintWriter out = response.getWriter();
-		UsuariosBeanService bean = new UsuariosBeanService();
+		UsuariosBean bean = new UsuariosBean();
 		try {
 			UsuarioLocal e = new UsuarioLocal("admin","admin","admin","admin@gmail.com",true,"admin",Rol.ADMINISTRADOR);
 			UsuarioLocal usuarioCreado = gestionUsuarioService.agregarUsuario(e);
