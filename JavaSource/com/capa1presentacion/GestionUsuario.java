@@ -160,7 +160,7 @@ public class GestionUsuario implements Serializable{
 		try {
 			 Usuario usuario = (Usuario) persistenciaBean.buscarUsuarioEntityName(usuarioSeleccionado.getNombreUsuario());
 					//SI ESTA HABILITADO Y COINCIDE NOMBRE Y CONTRASEÑA
-				if (usuario.getContrasenia().equals(usuarioSeleccionado.getContrasenia()) && usuario.getNombreUsuario().equals(usuarioSeleccionado.getNombreUsuario()) && usuario.isHabilitado()) {
+				if (persistenciaBean.Decrypt(usuario.getContrasenia()).equals(usuarioSeleccionado.getContrasenia()) && usuario.getNombreUsuario().equals(usuarioSeleccionado.getNombreUsuario()) && usuario.isHabilitado()) {
 						 usuarioSeleccionado=new Usuario();	
 						 CurrentUser.setUsuario(usuario);
 						 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, 
