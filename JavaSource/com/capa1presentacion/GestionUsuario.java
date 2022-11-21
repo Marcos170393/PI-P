@@ -205,6 +205,11 @@ public class GestionUsuario implements Serializable{
 		List<Usuario> listaUsuarios;
 		try {
 			listaUsuarios =  persistenciaBean.seleccionarUsuarios();
+			for(int i = 0 ; i < listaUsuarios.size(); i ++) {
+				if(listaUsuarios.get(i).getIdUsuario() == CurrentUser.getUsuario().getIdUsuario()) {
+					listaUsuarios.remove(i);
+				}
+			}
 			return listaUsuarios;
 		} 
 		catch (PersistenciaException e) {
