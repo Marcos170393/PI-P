@@ -50,7 +50,6 @@ public class GestionUsuario implements Serializable{
 	@PostConstruct
 	public void init() {
 		usuarioSeleccionado=new Usuario();
-		
 	}
 	
 	// MODIFICACION DE USUARIO \\
@@ -62,8 +61,10 @@ public class GestionUsuario implements Serializable{
 			//actualizamos id
 			Long nuevoId=usuarioSeleccionado.getIdUsuario();
 			//vaciamos usuarioSeleccionado como para ingresar uno nuevo
-			usuarioSeleccionado=new Usuario();
+			usuarioSeleccionado=null;
+			usuarioSeleccionado= new Usuario();
 			
+			CurrentUser.setUsuario(persistenciaBean.buscarUsuarioEntity(nuevoId));
 			//mensaje de actualizacion correcta
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, 
 			  "Se ha actualizado el usuario con id:"+nuevoId.toString(), "");
@@ -259,6 +260,8 @@ public class GestionUsuario implements Serializable{
 	
 	public String modPerfil() {
 		usuarioSeleccionado = CurrentUser.getUsuario();
+		System.out.println(usuarioSeleccionado.getContrasenia());
+		usuarioSeleccionado.setContrasenia(persistenciaBean.Decrypt(usuarioSeleccionado.getContrasenia()));
 		return "profile";
 	}
 

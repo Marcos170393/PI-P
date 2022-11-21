@@ -117,7 +117,7 @@ public class GestionUsuarioService implements Serializable{
 	public void actualizarUsuario(Usuario usuario) throws Exception   {
 		UsuarioEntity usuarioUpdate = usuarioBean.buscarUsuarioEntity(usuario.getIdUsuario());
 		usuarioUpdate.setApellido(usuario.getApellido());
-		usuarioUpdate.setContrasenia(usuario.getContrasenia());
+		usuarioUpdate.setContrasenia(this.Encrypt(usuario.getContrasenia()));
 		usuarioUpdate.setHabilitado(usuario.isHabilitado());
 		usuarioUpdate.setMail(usuario.getMail());
 		usuarioUpdate.setNombre(usuario.getNombre());
