@@ -52,8 +52,8 @@ public class GestionUsuario implements Serializable{
 		usuarioSeleccionado=new Usuario();
 	}
 	
-	// MODIFICACION DE USUARIO \\
-	public String actualizarUsuario() throws Exception {
+	//Actualizar perfil
+public String actualizarPerfil() throws Exception {
 		
 		try {
 			
@@ -89,6 +89,32 @@ public class GestionUsuario implements Serializable{
 		
 		return "";
 }
+	
+	// MODIFICACION DE USUARIO \\
+	public String actualizarUsuario() throws Exception {
+		
+		try {
+			
+			persistenciaBean.actualizarUsuario(usuarioSeleccionado);
+			usuarioSeleccionado=null;
+			usuarioSeleccionado= new Usuario();
+			return "listado";
+			
+		} 
+		catch (PersistenciaException e) {
+			
+			Throwable rootException=ExceptionsTools.getCause(e);
+			String msg1=e.getMessage();
+			String msg2=ExceptionsTools.formatedMsg(rootException);
+			//mensaje de actualizacion correcta
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,msg1, msg2);
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			
+			e.printStackTrace();
+		}
+		
+		return "";
+	}
 	public void registro() throws Exception {
 		Usuario usuarioNuevo;
 		try {
