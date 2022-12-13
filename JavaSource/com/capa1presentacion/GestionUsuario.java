@@ -98,6 +98,8 @@ public String actualizarPerfil() throws Exception {
 			persistenciaBean.actualizarUsuario(usuarioSeleccionado);
 			usuarioSeleccionado=null;
 			usuarioSeleccionado= new Usuario();
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Usuario actualizado con éxito",null);
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 			return "listado";
 			
 		} 

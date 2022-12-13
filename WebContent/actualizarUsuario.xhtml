@@ -52,7 +52,9 @@ h1 {
 			<div class="input-group">
 				<p:inputText class="input-form" id="nombre"
 					value="#{gestionUsuario.usuarioSeleccionado.nombre}" />
-				<h:message for="nombre" style="color:red" />
+				<p:message for="nombre"  showDetail="true" showIcon="false" closable="true">
+					<p:autoUpdate/>
+			   	</p:message>
 			</div>
 
 			<div>
@@ -61,7 +63,9 @@ h1 {
 			<div class="input-group">
 				<p:inputText class="input-form" id="apellido"
 					value="#{gestionUsuario.usuarioSeleccionado.apellido}" />
-				<h:message for="apellido" style="color:red" />
+				<p:message for="apellido"  showDetail="true" showIcon="false" closable="true">
+					<p:autoUpdate/>
+			   	</p:message>
 			</div>
 
 			<div class="input-group">
@@ -69,7 +73,9 @@ h1 {
 				<div>
 					<p:inputText class="input-form" id="nombreUsuario"
 						value="#{gestionUsuario.usuarioSeleccionado.nombreUsuario}" />
-					<h:message for="nombreUsuario" style="color:red" />
+					<p:message for="nombreUsuario"  showDetail="true" showIcon="false" closable="true">
+						<p:autoUpdate/>
+			   		</p:message>
 				</div>
 
 			</div>
@@ -81,7 +87,9 @@ h1 {
 			<div class="input-group">
 				<p:inputText class="input-form" id="mail"
 					value="#{gestionUsuario.usuarioSeleccionado.mail}" />
-				<h:message for="mail" style="color:red" />
+				<p:message for="mail"  showDetail="true" showIcon="false" closable="true">
+					<p:autoUpdate/>
+			   	</p:message>
 			</div>
 			<div>
 				<p:outputLabel value="Rol" />
@@ -94,6 +102,9 @@ h1 {
 					<f:selectItem itemValue="#{gestionUsuario.afic}" itemLabel="Aficionado" />
 					<f:selectItem itemValue="#{gestionUsuario.inv}" itemLabel="Investigador" />
 				</p:selectOneMenu>
+				<p:message for="rol"  showDetail="true" showIcon="false" closable="true">
+					<p:autoUpdate/>
+			   	</p:message>
 			</div>
 			<div>
 				<p:outputLabel value="Habilitado" />
