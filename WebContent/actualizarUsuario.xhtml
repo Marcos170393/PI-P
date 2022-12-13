@@ -90,7 +90,6 @@ h1 {
 			<div class="input-group">
 				<p:selectOneMenu id="rol"
 					value="#{gestionUsuario.usuarioSeleccionado.rol}">
-					<f:selectItem itemValue="" itemLabel="" />
 					<f:selectItem itemValue="#{gestionUsuario.admin}" itemLabel="Administrador" />
 					<f:selectItem itemValue="#{gestionUsuario.afic}" itemLabel="Aficionado" />
 					<f:selectItem itemValue="#{gestionUsuario.inv}" itemLabel="Investigador" />
@@ -102,7 +101,6 @@ h1 {
 			<div class="input-group">
 				<p:selectOneMenu id="habilitado"
 					value="#{gestionUsuario.usuarioSeleccionado.habilitado}">
-					<f:selectItem itemValue="" itemLabel="" />
 					<f:selectItem itemValue="True" itemLabel="True" />
 					<f:selectItem itemValue="False" itemLabel="False" />
 				</p:selectOneMenu>

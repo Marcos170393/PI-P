@@ -107,8 +107,10 @@ body{
 					</div>
 					<div style="margin-top:10px">
 						<p:inputText id="nombreUsuario"
-							value="#{gestionUsuario.usuarioSeleccionado.nombreUsuario}" />
-						<p:messages for="nombreUsuario" style="color:red" />
+							value="#{gestionUsuario.usuarioSeleccionado.nombreUsuario}" required="true"/>
+						<p:message for="nombreUsuario"  showDetail="true"  showIcon="false" closable="true">
+							<p:autoUpdate/>
+				   		</p:message>
 					</div>
 		
 					<div style="margin-top:20px">
@@ -118,8 +120,10 @@ body{
 					<div style="margin-top:10px">
 						<!-- <p:inputText id="contrasenia" type="password"
 							value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" /> -->
-							<p:password  id="contrasenia" value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" feedback="true|false" />
-						<p:message for="contrasenia" showSummary="true" style="color:red" />
+							<p:password  id="contrasenia" value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" required="true" feedback="true|false" />
+							<p:message for="contrasenia"  showDetail="true" showIcon="false" closable="true">
+								<p:autoUpdate/>
+						   	</p:message>
 					</div>
 				
 					<p:commandButton style="margin:40px 0px;" value="Login"
@@ -149,7 +153,7 @@ body{
 					<div class="input-group">
 						<p:inputText class="input-form" id="nombre" value="#{gestionUsuario.usuarioSeleccionado.nombre}" />
 						
-						<p:message for="nombre"  showDetail="true" showIcon="false" closable="false">
+						<p:message for="nombre"  showDetail="true" showIcon="false" closable="true">
 				        	<p:autoUpdate />
 					   	</p:message>
 					</div>
@@ -159,7 +163,7 @@ body{
 					</div>
 					<div class="input-group">
 						<p:inputText class="input-form" id="apellido" value="#{gestionUsuario.usuarioSeleccionado.apellido}"  />
-						<p:message for="apellido" showDetail="true" showIcon="false" closable="false">
+						<p:message for="apellido" showDetail="true" showIcon="false" closable="true">
 				        	<p:autoUpdate/>
 					   	</p:message>
 					</div>
@@ -168,7 +172,7 @@ body{
 						<p:outputLabel value="Nombre de usuario" />
 						<div>
 							<p:inputText class="input-form" id="nombreUsuario"	value="#{gestionUsuario.usuarioSeleccionado.nombreUsuario}" />
-								<p:message for="nombreUsuario" showDetail="true" showIcon="false" closable="false">
+								<p:message for="nombreUsuario" showDetail="true" showIcon="false" closable="true">
 								<p:autoUpdate/>
 					   	</p:message>
 						</div>
@@ -178,8 +182,8 @@ body{
 						<p:outputLabel value="Mail" />
 					</div>
 					<div class="input-group">
-						<p:inputText class="input-form" id="mail" value="#{gestionUsuario.usuarioSeleccionado.mail}"/>
-						<p:message for="mail"  showDetail="true" showIcon="false" closable="false">
+						<p:inputText class="input-form" id="mail" type="email" value="#{gestionUsuario.usuarioSeleccionado.mail}"/>
+						<p:message for="mail" showDetail="true" showIcon="false" closable="true">
 						<p:autoUpdate/>
 						</p:message>
 				        	
@@ -191,23 +195,22 @@ body{
 					<div class="input-group">
 						<p:password  id="contrasenia"
 							value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" />
-						<p:message for="contrasenia" showDetail="true" showIcon="false" closable="false">
+						<p:message for="contrasenia" showDetail="true" showIcon="false" closable="true">
 						<p:autoUpdate/>
 					   	</p:message>
 					</div>
 					<div>
 						<p:outputLabel value="Rol" />
-		
 					</div>
 					<div class="input-group">
 						<p:selectOneMenu id="rol"
-							value="#{gestionUsuario.usuarioSeleccionado.rol}"  required="true">
+							value="#{gestionUsuario.usuarioSeleccionado.rol}">
 							<f:selectItem disabled="true" itemValue="" itemLabel="" />
 							<f:selectItem itemValue="#{gestionUsuario.admin}" itemLabel="Administrador" />
 							<f:selectItem itemValue="#{gestionUsuario.afic}" itemLabel="Aficionado" />
 							<f:selectItem itemValue="#{gestionUsuario.inv}" itemLabel="Investigador" />
 						</p:selectOneMenu>
-						<p:message for="rol"  showDetail="true" showIcon="false" closable="false">
+						<p:message for="rol"  showDetail="true" showIcon="false" closable="true">
 						<p:autoUpdate/>
 					   	</p:message>
 					</div>

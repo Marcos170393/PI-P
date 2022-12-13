@@ -57,7 +57,7 @@ public String actualizarPerfil() throws Exception {
 		
 		try {
 			
-			persistenciaBean.actualizarUsuario(usuarioSeleccionado);
+			persistenciaBean.actualizarPerfil(usuarioSeleccionado);
 			//actualizamos id
 			Long nuevoId=usuarioSeleccionado.getIdUsuario();
 			//vaciamos usuarioSeleccionado como para ingresar uno nuevo
@@ -188,6 +188,8 @@ public String actualizarPerfil() throws Exception {
 		try {
 			 Usuario usuario = (Usuario) persistenciaBean.buscarUsuarioEntityName(usuarioSeleccionado.getNombreUsuario());
 					//SI ESTA HABILITADO Y COINCIDE NOMBRE Y CONTRASEÑA
+			 System.out.println(persistenciaBean.Decrypt(usuario.getContrasenia())+" "+usuario.getContrasenia() + "  " + usuarioSeleccionado.getContrasenia());
+			 
 				if (persistenciaBean.Decrypt(usuario.getContrasenia()).equals(usuarioSeleccionado.getContrasenia()) && usuario.getNombreUsuario().equals(usuarioSeleccionado.getNombreUsuario()) && usuario.isHabilitado()) {
 						 usuarioSeleccionado=new Usuario();	
 						 CurrentUser.setUsuario(usuario);
