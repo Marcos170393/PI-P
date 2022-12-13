@@ -163,7 +163,7 @@ public String actualizarPerfil() throws Exception {
 				
 				//mensaje de actualizacion correcta
 				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, 
-				  "Se ha agregado un nuevo usuario con id:"+nuevoId.toString(), "");
+				  "Se ha agregado un nuevo usuario con éxito", "");
 				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 				return "home";
 				
