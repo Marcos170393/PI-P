@@ -107,7 +107,7 @@ public String actualizarPerfil() throws Exception {
 			String msg1=e.getMessage();
 			String msg2=ExceptionsTools.formatedMsg(rootException);
 			//mensaje de actualizacion correcta
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,msg1, msg2);
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,msg1,null);
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 			
 			e.printStackTrace();
@@ -133,11 +133,12 @@ public String actualizarPerfil() throws Exception {
 		} 
 		catch (PersistenciaException e) {
 			
-			Throwable rootException=ExceptionsTools.getCause(e);
-			String msg1=e.getMessage();
-			String msg2=ExceptionsTools.formatedMsg(rootException);
+//			Throwable rootException=ExceptionsTools.getCause(e);
+//			String msg1=e.getMessage();
+//			String msg2=rootException.getClass().getSimpleName();
+			System.out.println(e.getMessage());
 			//mensaje de actualizacion correcta
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,msg1, msg2);
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"mal",null);
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 			
 			e.printStackTrace();

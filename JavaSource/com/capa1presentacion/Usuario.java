@@ -1,32 +1,48 @@
 package com.capa1presentacion;
 
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class Usuario {
 
 	@NotNull
 	private Long idUsuario;
 	
-	@NotNull
+	@NotNull(message="Debes ingresar el nombre")
+	@Size(min=15,
+	max=50,
+	message= "El minimo para el apellido son 15 caracteres.")
 	private String nombre;
 	
-	@NotNull
+	@NotNull(message="Debes ingresar el apellido")
+	@Size(min=15,
+		max=50,
+		message= "El minimo para el apellido son 15 caracteres.")
 	private String apellido;
 	
-	@NotNull
+	@NotNull(message="Debes ingresar contraseña")
+	@Size(min=5,
+			max=50,
+			message= "El minimo para la contraseña son 5 caracteres y maximo 50.")
 	private String contrasenia;
 	
-	@NotNull
+	@NotNull(message="Debes ingresar un correo electronico")
+	@Email
 	private String mail;
 	
 	@NotNull
 	private boolean habilitado;
 	
-	@NotNull
+	@NotNull(message="Debes ingresar un nombre de usuario")
+	@Size(min=5,
+	max=50,
+	message= "El minimo para la contraseña son 5 caracteres y maximo 50.")
+
 	private String nombreUsuario;
 	
-	@NotNull
+	@NotNull(message="Debes seleccionar un rol")
 	private Rol rol;
 
 	public Usuario() {
