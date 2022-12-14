@@ -66,6 +66,10 @@ h1 {
 				<h:outputText value="#{user.rol}" />
 			</p:column>
 			
+			<p:column headerText="">
+				<h:outputText value="Pendiente" rendered="#{!user.habilitado}" />
+			</p:column>
+			
 			<p:column headerText="Actualizar/Eliminar">
 				<p:commandButton rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}" value="Eliminar" selectionMode="single" update="tablaUsuarios" action="#{gestionUsuario.eliminarUsuario(user.idUsuario)}">
 					<f:param name="idUsuario" value="#{user.idUsuario}"/>
