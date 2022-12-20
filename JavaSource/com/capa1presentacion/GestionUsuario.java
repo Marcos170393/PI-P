@@ -195,10 +195,6 @@ public String actualizarPerfil() throws Exception {
 				if (persistenciaBean.Decrypt(usuario.getContrasenia()).equals(usuarioSeleccionado.getContrasenia()) && usuario.getNombreUsuario().equals(usuarioSeleccionado.getNombreUsuario()) && usuario.isHabilitado()) {
 						 usuarioSeleccionado=new Usuario();	
 						 CurrentUser.setUsuario(usuario);
-						 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, 
-							"","");
-							FacesContext.getCurrentInstance().addMessage(null, facesMsg);	
-							System.out.println(CurrentUser.getUsuario().getRol().toString().equals("ADMINISTRADOR"));
 						return "home";
 							
 				}else {
