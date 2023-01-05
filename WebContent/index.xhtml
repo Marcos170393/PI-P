@@ -147,6 +147,25 @@ body{
 					<div class="form-title">
 						<h2>Registrarse</h2>				
 					</div>
+		
+						<div>
+						<p:outputLabel value="Rol" />
+					</div>
+					<div class="input-group">
+						<p:selectOneMenu id="rol"
+							value="#{gestionUsuario.usuarioSeleccionado.rol}">
+								<p:ajax listener="#{gestionUsuario.verDatosExtra()}"
+							process="@this" update="crearUsuario" />
+							<f:selectItem disabled="true" itemValue="" itemLabel="" />
+							<f:selectItem itemValue="#{gestionUsuario.admin}" itemLabel="Administrador" />
+							<f:selectItem itemValue="#{gestionUsuario.inv}" itemLabel="Investigador" />
+							<f:selectItem itemValue="#{gestionUsuario.afic}" itemLabel="Aficionado" />
+						</p:selectOneMenu>
+						<p:message for="rol"  showDetail="true" showIcon="false" closable="true">
+						<p:autoUpdate/>
+					   	</p:message>
+					</div>	
+						
 					<div>
 						<p:outputLabel value="Nombre" />
 					</div>
@@ -199,21 +218,60 @@ body{
 						<p:autoUpdate/>
 					   	</p:message>
 					</div>
+				
 					<div>
-						<p:outputLabel value="Rol" />
+						<p:outputLabel value="Cedula" rendered="#{gestionUsuario.verDatosExtras}"/>	
 					</div>
+				
 					<div class="input-group">
-						<p:selectOneMenu id="rol"
-							value="#{gestionUsuario.usuarioSeleccionado.rol}">
-							<f:selectItem disabled="true" itemValue="" itemLabel="" />
-							<f:selectItem itemValue="#{gestionUsuario.admin}" itemLabel="Administrador" />
-							<f:selectItem itemValue="#{gestionUsuario.afic}" itemLabel="Aficionado" />
-							<f:selectItem itemValue="#{gestionUsuario.inv}" itemLabel="Investigador" />
+						<p:inputText id="cedula" value="#{gestionUsuario.usuarioSeleccionado.cedula}" rendered="#{gestionUsuario.verDatosExtras}"/>
+						<p:message for="cedula" showDetail="true" showIcon="false" closable="true">
+						<p:autoUpdate/>
+						</p:message>
+					</div>
+				
+					<div>
+						<p:outputLabel value="Domicilio" rendered="#{gestionUsuario.verDatosExtras}"/>	
+					</div>
+				
+					<div class="input-group">
+						<p:inputText id="domicilio" value="#{gestionUsuario.usuarioSeleccionado.domicilio}" rendered="#{gestionUsuario.verDatosExtras}"/>
+						<p:message for="domicilio" showDetail="true" showIcon="false" closable="true">
+						<p:autoUpdate/>
+						</p:message>
+					</div>
+					
+				
+						<div>
+						<p:outputLabel value="Telefono" rendered="#{gestionUsuario.verDatosExtras}"/>	
+					</div>
+				
+					<div class="input-group">
+						<p:inputText id="telefono" value="#{gestionUsuario.usuarioSeleccionado.telefono}" rendered="#{gestionUsuario.verDatosExtras}"/>
+						<p:message for="telefono" showDetail="true" showIcon="false" closable="true">
+						<p:autoUpdate/>
+						</p:message>
+					</div>
+				
+					<div>
+						<p:outputLabel value="Ciudad" rendered="#{gestionUsuario.verDatosExtras}"/>	
+					</div>
+				
+					<div class="input-group">
+						<p:selectOneMenu id="ciudad"
+							value="#{gestionUsuario.ciudadUsuario}" rendered="#{gestionUsuario.verDatosExtras}" filter="true">
+						<f:selectItem disabled="true" itemValue="" itemLabel="" />
+						<f:selectItems
+							value="#{gestionUsuario.mostrarCiudades()}"
+							var="e" itemLabel="#{e.nombre}"
+							itemValue="#{e.nombre}" />
+							
 						</p:selectOneMenu>
-						<p:message for="rol"  showDetail="true" showIcon="false" closable="true">
+						<p:message for="ciudad" showDetail="true" showIcon="false" closable="true">
 						<p:autoUpdate/>
 					   	</p:message>
-					</div>
+					</div>	
+				
 				<div class="form-button" style="margin:50px">
 					<p:commandButton value="Confirmar"  action="#{gestionUsuario.registro }" />
 				</div>
