@@ -121,8 +121,19 @@ public class GestionUsuario implements Serializable {
 	public String actualizarUsuario() throws Exception {
 
 		try {
-
-			persistenciaBean.actualizarUsuario(usuarioSeleccionado);
+			if(usuarioSeleccionado.getRol().equals(Rol.ADMINISTRADOR) || usuarioSeleccionado.getRol().equals(Rol.INVESTIGADOR)) {	
+				List<Ciudad> ciudades = ciudadPersistencia.seleccionarCiudades();
+				for(Ciudad c: ciudades) {
+					if(c.getNombre().equals(ciudadUsuario)) {
+						usuarioSeleccionado.setCiudad(c);
+						break;
+					}
+				}
+				persistenciaBean.actualizarUsuario(usuarioSeleccionado);
+			}else {
+				persistenciaBean.actualizarUsuarioAficionado(usuarioSeleccionado);
+			}
+			
 			usuarioSeleccionado = null;
 			usuarioSeleccionado = new Usuario();
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario actualizado con éxito", null);
@@ -188,6 +199,14 @@ public class GestionUsuario implements Serializable {
 
 		Usuario usuarioNuevo;
 		try {
+		
+			List<Ciudad> ciudades = ciudadPersistencia.seleccionarCiudades();
+			for(Ciudad c: ciudades) {
+				if(c.getNombre().equals(ciudadUsuario)) {
+					usuarioSeleccionado.setCiudad(c);
+					break;
+				}
+			}
 			usuarioNuevo = (Usuario) persistenciaBean.agregarUsuario(usuarioSeleccionado);
 			// actualizamos id
 			Long nuevoId = usuarioNuevo.getIdUsuario();

@@ -39,7 +39,7 @@ public class GestionUsuarioService implements Serializable {
 			usuario.setIdUsuario(e.getIdUsuario());
 			usuario.setNombre(e.getNombre());
 			usuario.setApellido(e.getApellido());
-			usuario.setContrasenia(this.Decrypt(e.getContrasenia()));
+			usuario.setContrasenia(e.getContrasenia());
 			usuario.setMail(e.getMail());
 			usuario.setHabilitado(e.isHabilitado());
 			usuario.setNombreUsuario(e.getNombreUsuario());
@@ -49,11 +49,11 @@ public class GestionUsuarioService implements Serializable {
 			usuario.setDomicilio(e.getDomicilio());
 			usuario.setTelefono(e.getTelefono());
 			return usuario;
-		}else {
+		} else {
 			usuario.setIdUsuario(e.getIdUsuario());
 			usuario.setNombre(e.getNombre());
 			usuario.setApellido(e.getApellido());
-			usuario.setContrasenia(this.Decrypt(e.getContrasenia()));
+			usuario.setContrasenia(e.getContrasenia());
 			usuario.setMail(e.getMail());
 			usuario.setHabilitado(e.isHabilitado());
 			usuario.setNombreUsuario(e.getNombreUsuario());
@@ -78,7 +78,7 @@ public class GestionUsuarioService implements Serializable {
 			usuario.setDomicilio(e.getDomicilio());
 			usuario.setTelefono(e.getTelefono());
 			return usuario;
-		}else {
+		} else {
 			usuario.setNombre(e.getNombre());
 			usuario.setApellido(e.getApellido());
 			usuario.setContrasenia(this.Encrypt(e.getContrasenia()));
@@ -90,7 +90,6 @@ public class GestionUsuarioService implements Serializable {
 		}
 	}
 
-		
 	// servicios para capa de Presentacion
 
 	public List<Usuario> seleccionarUsuarios() throws Exception {
@@ -152,6 +151,27 @@ public class GestionUsuarioService implements Serializable {
 		usuarioUpdate.setNombre(usuario.getNombre());
 		usuarioUpdate.setNombreUsuario(usuario.getNombreUsuario());
 		usuarioUpdate.setRol(usuario.getRol());
+		usuarioUpdate.setCedula(usuario.getCedula());
+		usuarioUpdate.setCiudad(persistenciaBean.toCiudadEntity(usuario.getCiudad()));
+		usuarioUpdate.setDomicilio(usuario.getDomicilio());
+		usuarioUpdate.setTelefono(usuario.getTelefono());
+		usuarioBean.actualizar(usuarioUpdate);
+
+	}
+
+	public void actualizarUsuarioAficionado(Usuario usuario) throws Exception {
+		UsuarioEntity usuarioUpdate = usuarioBean.buscarUsuarioEntity(usuario.getIdUsuario());
+		usuarioUpdate.setApellido(usuario.getApellido());
+		usuarioUpdate.setContrasenia(usuario.getContrasenia());
+		usuarioUpdate.setHabilitado(usuario.isHabilitado());
+		usuarioUpdate.setMail(usuario.getMail());
+		usuarioUpdate.setNombre(usuario.getNombre());
+		usuarioUpdate.setNombreUsuario(usuario.getNombreUsuario());
+		usuarioUpdate.setRol(usuario.getRol());
+		usuarioUpdate.setCedula(null);
+		usuarioUpdate.setCiudad(null);
+		usuarioUpdate.setDomicilio(null);
+		usuarioUpdate.setTelefono(null);
 		usuarioBean.actualizar(usuarioUpdate);
 	}
 

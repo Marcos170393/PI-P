@@ -7,8 +7,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui">
-<h:head>
-<style>
+	<h:head>
+		<style>
 h1 {
 	font-size: medium;
 	font-weight: bold;
@@ -23,114 +23,199 @@ h1 {
 	color: #ffffff;
 }
 </style>
-	<h:title>
-		<h1 style="text-align: center;">Alta de usuario</h1>
-	</h:title>
-</h:head>
+		<h:title>
+			<h1 style="text-align: center;">Alta de usuario</h1>
+		</h:title>
+	</h:head>
 
 
 
-<ui:define name="content">
+	<ui:define name="content">
 
-	<p:breadCrumb>
-		<p:menuitem value="Página principal"
-			url="home.xhtml" />
-		<p:menuitem value="Alta de usuarios"
-			url="#" />
-	</p:breadCrumb>
-	
-		
-	
-	<div class="form-container">
-	
-		<div class="create-form">
-			<h:form id="crearUsuario">
-			<div class="form-title">
-				<h2>Crear nuevo usuario</h2>				
-			</div>
-			<div>
-				<p:outputLabel value="Nombre" />
-			</div>
-			<div class="input-group">
-				<p:inputText class="input-form" id="nombre" value="#{gestionUsuario.usuarioSeleccionado.nombre}" />
-				<p:message for="nombre"  showDetail="true" showIcon="false" closable="true">
-					<p:autoUpdate/>
-			   	</p:message>
+		<p:breadCrumb>
+			<p:menuitem value="Página principal" url="home.xhtml" />
+			<p:menuitem value="Alta de usuarios" url="#" />
+		</p:breadCrumb>
+
+
+
+		<div class="form-container">
+
+			<div class="create-form">
+				<h:form id="crearUsuario">
+					<div class="form-title">
+						<h2>Crear nuevo usuario</h2>
+					</div>
+
+					<div>
+						<p:outputLabel value="Rol" />
+					</div>
+					<div class="input-group">
+						<p:selectOneMenu id="rol"
+							value="#{gestionUsuario.usuarioSeleccionado.rol}">
+							<p:ajax listener="#{gestionUsuario.verDatosExtra()}"
+								process="@this" update="crearUsuario" />
+							<f:selectItem disabled="true" itemValue="" itemLabel="" />
+							<f:selectItem itemValue="#{gestionUsuario.admin}"
+								itemLabel="Administrador" />
+							<f:selectItem itemValue="#{gestionUsuario.inv}"
+								itemLabel="Investigador" />
+							<f:selectItem itemValue="#{gestionUsuario.afic}"
+								itemLabel="Aficionado" />
+						</p:selectOneMenu>
+						<p:message for="rol" showDetail="true" showIcon="false"
+							closable="true">
+							<p:autoUpdate />
+						</p:message>
+					</div>
+
+
+					<div>
+						<p:outputLabel value="Nombre" />
+					</div>
+					<div class="input-group">
+						<p:inputText class="input-form" id="nombre"
+							value="#{gestionUsuario.usuarioSeleccionado.nombre}" />
+						<p:message for="nombre" showDetail="true" showIcon="false"
+							closable="true">
+							<p:autoUpdate />
+						</p:message>
+					</div>
+
+					<div>
+						<p:outputLabel value="Apellido" />
+					</div>
+					<div class="input-group">
+						<p:inputText class="input-form" id="apellido"
+							value="#{gestionUsuario.usuarioSeleccionado.apellido}" />
+						<p:message for="apellido" showDetail="true" showIcon="false"
+							closable="true">
+							<p:autoUpdate />
+						</p:message>
+					</div>
+
+					<div class="input-group">
+						<p:outputLabel value="Nombre de usuario" />
+						<div>
+							<p:inputText class="input-form" id="nombreUsuario"
+								value="#{gestionUsuario.usuarioSeleccionado.nombreUsuario}" />
+							<p:message for="nombreUsuario" showDetail="true" showIcon="false"
+								closable="true">
+								<p:autoUpdate />
+							</p:message>
+						</div>
+					</div>
+
+					<div>
+						<p:outputLabel value="Mail" />
+					</div>
+					<div class="input-group">
+						<p:inputText class="input-form" id="mail"
+							value="#{gestionUsuario.usuarioSeleccionado.mail}" />
+						<p:message for="mail" showDetail="true" showIcon="false"
+							closable="true">
+							<p:autoUpdate />
+						</p:message>
+					</div>
+					<div>
+						<p:outputLabel value="Contrasenia" />
+
+					</div>
+					<div class="input-group">
+						<p:password id="contrasenia"
+							value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" />
+						<p:message for="contrasenia" showDetail="true" showIcon="false"
+							closable="true">
+							<p:autoUpdate />
+						</p:message>
+					</div>
+
+					<div>
+						<p:outputLabel value="Habilitado" />
+
+					</div>
+					<div class="input-group">
+						<p:selectOneMenu id="habilitado"
+							value="#{gestionUsuario.usuarioSeleccionado.habilitado}">
+							<f:selectItem itemValue="True" itemLabel="True" />
+							<f:selectItem itemValue="False" itemLabel="False" />
+						</p:selectOneMenu>
+					</div>
+
+					<div>
+						<p:outputLabel value="Cedula"
+							rendered="#{gestionUsuario.verDatosExtras}" />
+					</div>
+
+					<div class="input-group">
+						<p:inputText id="cedula"
+							value="#{gestionUsuario.usuarioSeleccionado.cedula}"
+							rendered="#{gestionUsuario.verDatosExtras}" />
+						<p:message for="cedula" showDetail="true" showIcon="false"
+							closable="true">
+							<p:autoUpdate />
+						</p:message>
+					</div>
+
+					<div>
+						<p:outputLabel value="Domicilio"
+							rendered="#{gestionUsuario.verDatosExtras}" />
+					</div>
+
+					<div class="input-group">
+						<p:inputText id="domicilio"
+							value="#{gestionUsuario.usuarioSeleccionado.domicilio}"
+							rendered="#{gestionUsuario.verDatosExtras}" />
+						<p:message for="domicilio" showDetail="true" showIcon="false"
+							closable="true">
+							<p:autoUpdate />
+						</p:message>
+					</div>
+
+
+					<div>
+						<p:outputLabel value="Telefono"
+							rendered="#{gestionUsuario.verDatosExtras}" />
+					</div>
+
+					<div class="input-group">
+						<p:inputText id="telefono"
+							value="#{gestionUsuario.usuarioSeleccionado.telefono}"
+							rendered="#{gestionUsuario.verDatosExtras}" />
+						<p:message for="telefono" showDetail="true" showIcon="false"
+							closable="true">
+							<p:autoUpdate />
+						</p:message>
+					</div>
+
+					<div>
+						<p:outputLabel value="Ciudad"
+							rendered="#{gestionUsuario.verDatosExtras}" />
+					</div>
+
+					<div class="input-group">
+						<p:selectOneMenu id="ciudad"
+							value="#{gestionUsuario.ciudadUsuario}"
+							rendered="#{gestionUsuario.verDatosExtras}" filter="true">
+							<f:selectItem disabled="true" itemValue="" itemLabel="" />
+							<f:selectItems value="#{gestionUsuario.mostrarCiudades()}"
+								var="e" itemLabel="#{e.nombre}" itemValue="#{e.nombre}" />
+
+						</p:selectOneMenu>
+						<p:message for="ciudad" showDetail="true" showIcon="false"
+							closable="true">
+							<p:autoUpdate />
+						</p:message>
+					</div>
+
+					<div class="form-button">
+						<p:commandButton value="Guardar Usuario"
+							action="#{gestionUsuario.salvarCambios()}" />
+					</div>
+				</h:form>
 			</div>
 
-			<div>
-				<p:outputLabel value="Apellido" />
-			</div>
-			<div class="input-group">
-				<p:inputText class="input-form" id="apellido" value="#{gestionUsuario.usuarioSeleccionado.apellido}" />
-				<p:message for="apellido"  showDetail="true" showIcon="false" closable="true">
-					<p:autoUpdate/>
-			   	</p:message>
-			</div>
-
-			<div class="input-group">
-				<p:outputLabel value="Nombre de usuario" />
-				<div>
-					<p:inputText class="input-form" id="nombreUsuario"	value="#{gestionUsuario.usuarioSeleccionado.nombreUsuario}" />
-					<p:message for="nombreUsuario"  showDetail="true" showIcon="false" closable="true">
-						<p:autoUpdate/>
-			   		</p:message>
-				</div>
-			</div>
-
-			<div>
-				<p:outputLabel value="Mail" />
-			</div>
-			<div class="input-group">
-				<p:inputText class="input-form" id="mail" value="#{gestionUsuario.usuarioSeleccionado.mail}" />
-				<p:message for="mail"  showDetail="true" showIcon="false" closable="true">
-					<p:autoUpdate/>
-			   	</p:message>
-			</div>
-			<div>
-				<p:outputLabel value="Contrasenia" />
-
-			</div>
-			<div class="input-group">
-				<p:password id="contrasenia"
-					value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" />
-				<p:message for="contrasenia"  showDetail="true" showIcon="false" closable="true">
-					<p:autoUpdate/>
-			   	</p:message>
-			</div>
-			<div>
-				<p:outputLabel value="Rol" />
-
-			</div>
-			<div class="input-group">
-				<p:selectOneMenu id="rol"
-					value="#{gestionUsuario.usuarioSeleccionado.rol}">
-					<f:selectItem itemValue="#{gestionUsuario.admin}" itemLabel="Administrador" />
-					<f:selectItem itemValue="#{gestionUsuario.afic}" itemLabel="Aficionado" />
-					<f:selectItem itemValue="#{gestionUsuario.inv}" itemLabel="Investigador" />
-				</p:selectOneMenu>
-				<p:message for="rol"  showDetail="true" showIcon="false" closable="true">
-					<p:autoUpdate/>
-			   	</p:message>
-			</div>
-			<div>
-				<p:outputLabel value="Habilitado" />
-
-			</div>
-			<div class="input-group">
-				<p:selectOneMenu id="habilitado"
-					value="#{gestionUsuario.usuarioSeleccionado.habilitado}">
-					<f:selectItem itemValue="True" itemLabel="True" />
-					<f:selectItem itemValue="False" itemLabel="False" />
-				</p:selectOneMenu>
-			</div>
-		<div class="form-button">
-			<p:commandButton value="Guardar Usuario" action="#{gestionUsuario.salvarCambios}" />
 		</div>
-	</h:form>
-		</div>
-
-	</div>
-</ui:define>
+	</ui:define>
 
 </ui:composition>

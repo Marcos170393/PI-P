@@ -38,9 +38,10 @@ h1 {
 	  	</p:messages>
 		<h:form>
 		<p:dataTable id="tablaUsuarios" value="#{gestionUsuario.mostrarUsuarios()}" var="user" rowKey="user.idUsuario" >
-			<p:column headerText="ID">
+	
+		<!--	<p:column headerText="ID">
 				<h:outputText value="#{user.idUsuario}" />
-			</p:column>
+			</p:column> -->
 			
 			<p:column headerText="Nombre">
 				<h:outputText value="#{user.nombre}" />
@@ -66,9 +67,25 @@ h1 {
 				<h:outputText value="#{user.rol}" />
 			</p:column>
 			
-			<p:column headerText="">
-				<h:outputText value="Pendiente" rendered="#{!user.habilitado}" />
+			<p:column headerText="Domicilio">
+				<h:outputText value="#{user.domicilio}" />
 			</p:column>
+			
+			<p:column headerText="Cedula">
+				<h:outputText value="#{user.cedula}" />
+			</p:column>
+			
+			<p:column headerText="Telefono">
+				<h:outputText value="#{user.telefono}" />
+			</p:column>
+			
+			<p:column headerText="Ciudad">
+				<h:outputText value="#{user.ciudad.nombre}" />
+			</p:column>
+			
+		<!--	<p:column headerText=""> </!>
+				<h:outputText value="Pendiente" rendered="#{!user.habilitado}" />
+			</p:column> -->
 			
 			<p:column headerText="Actualizar/Eliminar">
 				<p:commandButton rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}" value="Eliminar" selectionMode="single" update="tablaUsuarios" action="#{gestionUsuario.eliminarUsuario(user.idUsuario)}">

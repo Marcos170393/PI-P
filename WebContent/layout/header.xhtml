@@ -25,6 +25,9 @@
             <p:menuitem value="Alta de usuario" outcome="/altaUsuario.xhtml" rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}" />
             <p:menuitem value="Listado de usuarios" outcome="/listado.xhtml"  />
         </p:submenu>
+        <p:submenu label="Casillas" rendered="#{!currentUser.getUsuario().rol.toString().equals('AFICIONADO')}"> 
+        	<p:menuitem value="Alta de casilla" outcome="/altaCasilla.xhtml" />
+        </p:submenu>
  
  
  
