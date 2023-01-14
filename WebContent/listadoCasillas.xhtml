@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/layout/layout.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<style>
+h1 {
+	font-size: medium;
+	font-weight: bold;
+	font-variant-ligatures:;
+	font-variant-caps:;
+	font-variant-numeric:;
+	font-family: segoe ui, Arial, sans-serif;
+	font-size: 1.1em;
+	border: 1px solid #ffffff;
+	background: #1484e6 50% 50% repeat;
+	font-weight: bold;
+	color: #ffffff;
+}
+</style>
+		<h:title>
+			<h1 style="text-align: center;">Listado de casillas</h1>
+		</h:title>
+	</h:head>
+
+	<ui:define name="content">
+		<p:breadCrumb>
+			<p:menuitem value="Pagina principal" url="home.xhtml" />
+			<p:menuitem value="Listado de casillas" url="#" />
+		</p:breadCrumb>
+		<p:messages id="messages" severity="info" showSummary="true"
+			showDetail="false" closable="true">
+			<p:autoUpdate />
+		</p:messages>
+		<h:form>
+			<p:dataTable id="tablaCasillas"
+				value="#{gestionCasilla.mostrarCasillas()}" var="casilla"
+				rowKey="#{casilla.idCasilla}">
+
+				<p:column headerText="Nombre">
+					<h:outputText value="#{casilla.nombre}" />
+				</p:column>
+
+				<p:column headerText="Descripcion">
+					<h:outputText value="#{casilla.descripcion}" />
+				</p:column>
+
+				<p:column headerText="Disponible">
+					<h:outputText value="#{casilla.disponible}" />
+				</p:column>
+
+				<p:column headerText="Parametro">
+					<h:outputText value="#{casilla.parametro.nombre}" />
+				</p:column>
+
+				<p:column headerText="Tipo de dato">
+					<h:outputText value="#{casilla.tipoDato.nombre}" />
+				</p:column>
+
+				<p:column headerText="Usuario creador">
+					<h:outputText value="#{casilla.usuario.nombreUsuario}" />
+				</p:column>
+				
+					<p:column headerText="Actualizar/Eliminar">
+				<p:commandButton rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" value="Eliminar" selectionMode="single" update="tablaCasillas">
+					<f:param name="idUsuario" value="#{user.idUsuario}"/>
+				</p:commandButton>
+				<p:spacer width="10"/>
+				<p:commandButton rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" value="Actualizar" selectionMode="single">
+					<f:param name="idUsuario" value="#{user.idUsuario}"/>
+				</p:commandButton>
+			</p:column>
+				
+				</p:dataTable>
+			</h:form>
+	</ui:define>
+	
+</ui:composition>
+			
+			

@@ -9,4 +9,8 @@
 		<table name="Usuarios">
 		</table>
 	</entity>
+	<entity class="com.capa3Persistencia.entities.CasillaEntity" access="FIELD">
+		<table name="Casillas">
+		</table>
+	</entity>
 </entity-mappings>

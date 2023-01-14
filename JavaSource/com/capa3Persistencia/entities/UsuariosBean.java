@@ -11,6 +11,8 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.wildfly.common.annotation.Nullable;
 /**
  * Session Bean implementation class UsuarioEntitysBean
@@ -20,6 +22,7 @@ public class UsuariosBean  {
 	/********************************************************************ACCESO AL ENTITY MANAGER****/
 	@PersistenceContext
 	private EntityManager em;
+
 	/********************************************************************CONSTRUCTOR****/
     public UsuariosBean() {
     }

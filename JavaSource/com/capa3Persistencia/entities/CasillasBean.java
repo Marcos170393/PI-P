@@ -27,6 +27,7 @@ public class CasillasBean {
 	
 	public CasillaEntity crear(CasillaEntity casilla) throws Exception {
 		try {
+			em.find(CasillaEntity.class, casilla.getIdCasilla());
 			em.persist(casilla);
 			em.flush();
 			return casilla;
@@ -77,6 +78,14 @@ public class CasillasBean {
 		
 	}
     
+	public CasillaEntity buscarCasillaNombre(String nombre) throws Exception {
+		try {
+			TypedQuery<CasillaEntity> casilla = em.createQuery("Select c FROM CasillaEntity c WHERE nombre=:nombre",CasillaEntity.class).setParameter("nombre", nombre);
+			return casilla.getSingleResult();
+		} catch (Exception e) {
+			throw new Exception("No se pudo obtener la casilla" + e.getCause());
+		}
+	}
     
 
 }

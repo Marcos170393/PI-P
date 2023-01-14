@@ -1,9 +1,15 @@
 package com.capa3Persistencia.entities;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.*;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import com.capa1presentacion.Rol;
+
 
 /**
  * The persistent class for the USUARIOS database table.
@@ -20,9 +26,10 @@ public class UsuarioEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "IDUSUARIO")
-	private long idUsuario;
+	@SequenceGenerator(name="USUARIOS_IDUSUARIO_GENERATOR", sequenceName="SEQ_USUARIO")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="USUARIOS_IDUSUARIO_GENERATOR")
+	@Column(name="ID_USUARIO")
+	private Long idUsuario;
 	private String apellido;
 	private String contrasenia;
 	private String mail;
@@ -36,6 +43,9 @@ public class UsuarioEntity implements Serializable {
 	private String domicilio;
 	private CiudadEntity ciudad;
 	private Long telefono;
+	
+	
+
 
 	/********************************************************************
 	 * CONSTRUCTORES
@@ -156,6 +166,8 @@ public class UsuarioEntity implements Serializable {
 	public void setTelefono(Long telefono) {
 		this.telefono = telefono;
 	}
+
+
 
 	/********************************************************************
 	 * TOSTRING

@@ -73,9 +73,9 @@ public class CiudadesBean {
 		}
 	}
 
-	public CiudadEntity buscarCiudad(String nombre) throws Exception {
+	public CiudadEntity buscarCiudadName(String nombre) throws Exception {
 		try {
-			TypedQuery<CiudadEntity> query = em.createQuery("SELECT c FROM Ciudad c WHERE NOMBRE = :nombre",
+			TypedQuery<CiudadEntity> query = em.createQuery("SELECT c FROM CiudadEntity c WHERE NOMBRE = :nombre",
 					CiudadEntity.class);
 			query.setParameter("nombre", nombre);
 			return query.getSingleResult();

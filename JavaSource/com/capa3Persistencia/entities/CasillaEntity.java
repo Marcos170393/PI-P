@@ -1,10 +1,17 @@
 package com.capa3Persistencia.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
+import javax.persistence.*;
+import javax.validation.Constraint;
+
+import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+
+import com.capa1presentacion.Usuario;
 
 import java.util.List;
 
@@ -35,21 +42,16 @@ public class CasillaEntity implements Serializable {
 	
 	
 	//bi-directional many-to-one association to Parametro
-	@ManyToOne
-	@JoinColumn(name="PARAMETRO")
-	@LazyCollection(LazyCollectionOption.FALSE)
+	
 	private ParametroEntity parametroBean;
 
 	//bi-directional many-to-one association to TipoDato
-	@ManyToOne
-	@JoinColumn(name="ID_TIPO_DATO")
-	@LazyCollection(LazyCollectionOption.FALSE)
 	private TipoDatoEntity tipoDato;
 
 	//bi-directional many-to-one association to Usuario
+	
 	@ManyToOne
 	@JoinColumn(name="ID_USUARIO")
-	@LazyCollection(LazyCollectionOption.FALSE)
 	private UsuarioEntity usuario;
 
 	//bi-directional many-to-many association to Formulario
