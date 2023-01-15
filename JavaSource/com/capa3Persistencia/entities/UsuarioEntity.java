@@ -41,6 +41,8 @@ public class UsuarioEntity implements Serializable {
 	private Rol rol;
 	private String cedula;
 	private String domicilio;
+	
+	@ManyToOne()
 	private CiudadEntity ciudad;
 	private Long telefono;
 	
@@ -63,6 +65,25 @@ public class UsuarioEntity implements Serializable {
 		this.nombreUsuario = nombreUsuario;
 		this.rol = rol;
 		this.habilitado = true;
+	}
+
+	
+	
+	
+	public UsuarioEntity(String apellido, String contrasenia, String mail, String nombre, boolean habilitado,
+			String nombreUsuario, Rol rol, String cedula, String domicilio, CiudadEntity ciudad, Long telefono) {
+		super();
+		this.apellido = apellido;
+		this.contrasenia = contrasenia;
+		this.mail = mail;
+		this.nombre = nombre;
+		this.habilitado = habilitado;
+		this.nombreUsuario = nombreUsuario;
+		this.rol = rol;
+		this.cedula = cedula;
+		this.domicilio = domicilio;
+		this.ciudad = ciudad;
+		this.telefono = telefono;
 	}
 
 	/********************************************************************
@@ -167,15 +188,18 @@ public class UsuarioEntity implements Serializable {
 		this.telefono = telefono;
 	}
 
+	@Override
+	public String toString() {
+		return "UsuarioEntity [idUsuario=" + idUsuario + ", apellido=" + apellido + ", contrasenia=" + contrasenia
+				+ ", mail=" + mail + ", nombre=" + nombre + ", habilitado=" + habilitado + ", nombreUsuario="
+				+ nombreUsuario + ", rol=" + rol + ", cedula=" + cedula + ", domicilio=" + domicilio + ", ciudad="
+				+ ciudad + ", telefono=" + telefono + "]";
+	}
+
 
 
 	/********************************************************************
 	 * TOSTRING
 	 ****/
-	@Override
-	public String toString() {
-		return "Usuario [idUsuario=" + idUsuario + ", apellido=" + apellido + ", contrasenia=" + contrasenia + ", mail="
-				+ mail + ", nombre=" + nombre + ", habilitado=" + habilitado + ", nombreUsuario=" + nombreUsuario
-				+ ", rol=" + rol + "]";
-	}
+	
 }

@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition template="/layout/layout.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<style>
+h1 {
+	font-size: medium;
+	font-weight: bold;
+	font-variant-ligatures:;
+	font-variant-caps:;
+	font-variant-numeric:;
+	font-family: segoe ui, Arial, sans-serif;
+	font-size: 1.1em;
+	border: 1px solid #ffffff;
+	background: #1484e6 50% 50% repeat;
+	font-weight: bold;
+	color: #ffffff;
+}
+</style>
+		<h:title>
+			<h1 style="text-align: center;">Alta de formulario</h1>
+		</h:title>
+	</h:head>
+	
+	<ui:define name="content">
+
+		<p:breadCrumb>
+			<p:menuitem value="Pagina principal" url="home.xhtml" />
+			<p:menuitem value="Alta de formulario" url="#" />
+		</p:breadCrumb>
+	
+
+		<div class="Casillas">
+
+			<div class="create-form">
+				<h:form id="crearFormularios">
+					<div class="form-title">
+						<h2>Crear nuevo formulario</h2>
+					</div>
+					
+				<div>
+				<p:outputLabel value="Nombre"/>
+				</div>	
+				
+				<div class="input-group">
+				<p:inputText class="input-form" id="nombre"
+				
+				</div>
+					
+		</h:form>
+		</div>
+		</div>
+	</ui:define>
+
+ 
+</ui:composition>
+					

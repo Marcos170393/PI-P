@@ -27,7 +27,6 @@ public class CasillasBean {
 	
 	public CasillaEntity crear(CasillaEntity casilla) throws Exception {
 		try {
-			em.find(CasillaEntity.class, casilla.getIdCasilla());
 			em.persist(casilla);
 			em.flush();
 			return casilla;
@@ -49,7 +48,7 @@ public class CasillasBean {
 	
 	public void eliminar(Long idCasilla) throws Exception {
 		 try {
-			 CasillaEntity casilla = em.find(CasillaEntity.class, idCasilla);
+			CasillaEntity casilla = em.find(CasillaEntity.class, idCasilla);
 			em.remove(casilla);
 			em.flush();
 		} catch (PersistenceException e) {

@@ -45,7 +45,7 @@ public class GestionUsuarioService implements Serializable {
 			usuario.setNombreUsuario(e.getNombreUsuario());
 			usuario.setRol(e.getRol());
 			usuario.setCedula(e.getCedula());
-			usuario.setCiudad(persistenciaBean.fromCiudadEntity(e.getCiudad()));
+			usuario.setCiudad(e.getCiudad());
 			usuario.setDomicilio(e.getDomicilio());
 			usuario.setTelefono(e.getTelefono());
 			return usuario;
@@ -74,7 +74,7 @@ public class GestionUsuarioService implements Serializable {
 			usuario.setNombreUsuario(e.getNombreUsuario());
 			usuario.setRol(e.getRol());
 			usuario.setCedula(e.getCedula());
-			usuario.setCiudad(persistenciaBean.toCiudadEntity(e.getCiudad()));
+			usuario.setCiudad(e.getCiudad());
 			usuario.setDomicilio(e.getDomicilio());
 			usuario.setTelefono(e.getTelefono());
 			return usuario;
@@ -152,7 +152,7 @@ public class GestionUsuarioService implements Serializable {
 		usuarioUpdate.setNombreUsuario(usuario.getNombreUsuario());
 		usuarioUpdate.setRol(usuario.getRol());
 		usuarioUpdate.setCedula(usuario.getCedula());
-		usuarioUpdate.setCiudad(persistenciaBean.toCiudadEntity(usuario.getCiudad()));
+		usuarioUpdate.setCiudad((usuario.getCiudad()));
 		usuarioUpdate.setDomicilio(usuario.getDomicilio());
 		usuarioUpdate.setTelefono(usuario.getTelefono());
 		usuarioBean.actualizar(usuarioUpdate);

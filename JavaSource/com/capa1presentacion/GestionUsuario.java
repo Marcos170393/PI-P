@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -16,6 +17,9 @@ import javax.persistence.Enumerated;
 
 import com.capa2LogicaNegocio.GestionCiudadService;
 import com.capa2LogicaNegocio.GestionUsuarioService;
+import com.capa3Persistencia.entities.CiudadEntity;
+import com.capa3Persistencia.entities.CiudadesBean;
+import com.capa3Persistencia.entities.UsuarioEntity;
 import com.capa3Persistencia.exception.PersistenciaException;
 import com.utils.ExceptionsTools;
 
@@ -35,7 +39,10 @@ public class GestionUsuario implements Serializable {
 
 	@Inject
 	GestionCiudadService ciudadPersistencia;
-	
+
+	@EJB
+	CiudadesBean ciudadesBean;
+
 	private Usuario usuarioSeleccionado;
 
 	private boolean verDatosExtra = false;
@@ -71,12 +78,11 @@ public class GestionUsuario implements Serializable {
 	public boolean isVerDatosExtras() {
 		return verDatosExtra;
 	}
-	
+
 	public void verDatosExtra() {
 		if (usuarioSeleccionado.getRol().equals(admin) || usuarioSeleccionado.getRol().equals(inv)) {
 			this.verDatosExtra = true;
-		} 
-		else {
+		} else {
 			this.verDatosExtra = false;
 		}
 	}
@@ -121,19 +127,20 @@ public class GestionUsuario implements Serializable {
 	public String actualizarUsuario() throws Exception {
 
 		try {
-			if(usuarioSeleccionado.getRol().equals(Rol.ADMINISTRADOR) || usuarioSeleccionado.getRol().equals(Rol.INVESTIGADOR)) {	
-				List<Ciudad> ciudades = ciudadPersistencia.seleccionarCiudades();
-				for(Ciudad c: ciudades) {
-					if(c.getNombre().equals(ciudadUsuario)) {
+			if (usuarioSeleccionado.getRol().equals(Rol.ADMINISTRADOR)
+					|| usuarioSeleccionado.getRol().equals(Rol.INVESTIGADOR)) {
+				List<CiudadEntity> ciudades = ciudadesBean.obtenerTodas();
+				for (CiudadEntity c : ciudades) {
+					if (c.getNombre().equals(ciudadUsuario)) {
 						usuarioSeleccionado.setCiudad(c);
 						break;
 					}
 				}
 				persistenciaBean.actualizarUsuario(usuarioSeleccionado);
-			}else {
+			} else {
 				persistenciaBean.actualizarUsuarioAficionado(usuarioSeleccionado);
 			}
-			
+
 			usuarioSeleccionado = null;
 			usuarioSeleccionado = new Usuario();
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario actualizado con éxito", null);
@@ -158,10 +165,10 @@ public class GestionUsuario implements Serializable {
 	public void registro() throws Exception {
 		Usuario usuarioNuevo;
 		try {
-		
-			List<Ciudad> ciudades = ciudadPersistencia.seleccionarCiudades();
-			for(Ciudad c: ciudades) {
-				if(c.getNombre().equals(ciudadUsuario)) {
+
+			List<CiudadEntity> ciudades = ciudadesBean.obtenerTodas();
+			for (CiudadEntity c : ciudades) {
+				if (c.getNombre().equals(ciudadUsuario)) {
 					usuarioSeleccionado.setCiudad(c);
 					break;
 				}
@@ -199,14 +206,14 @@ public class GestionUsuario implements Serializable {
 
 		Usuario usuarioNuevo;
 		try {
-		
-			List<Ciudad> ciudades = ciudadPersistencia.seleccionarCiudades();
-			for(Ciudad c: ciudades) {
-				if(c.getNombre().equals(ciudadUsuario)) {
+			List<CiudadEntity> ciudades = ciudadesBean.obtenerTodas();
+			for (CiudadEntity c : ciudades) {
+				if (c.getNombre().equals(ciudadUsuario)) {
 					usuarioSeleccionado.setCiudad(c);
 					break;
 				}
 			}
+
 			usuarioNuevo = (Usuario) persistenciaBean.agregarUsuario(usuarioSeleccionado);
 			// actualizamos id
 			Long nuevoId = usuarioNuevo.getIdUsuario();
@@ -229,13 +236,13 @@ public class GestionUsuario implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 
 			e.printStackTrace();
-		} finally {
-		}
 
+		} finally {
+
+		}
 		return "";
 	}
 
-	// LOGIN DE USUARIO \\
 	public String validarUsuario() throws Exception {
 		try {
 			Usuario usuario = (Usuario) persistenciaBean
@@ -302,20 +309,20 @@ public class GestionUsuario implements Serializable {
 			return new ArrayList<Usuario>();
 		}
 	}
-	
+
 	public List<Ciudad> mostrarCiudades() throws Exception {
-		
+
 		List<Ciudad> listaCiudades;
-		
+
 		try {
 			listaCiudades = ciudadPersistencia.seleccionarCiudades();
 			return listaCiudades;
-			
-		} catch(PersistenciaException e) {
+
+		} catch (PersistenciaException e) {
 			e.getCause();
 			return new ArrayList<Ciudad>();
 		}
-		
+
 	}
 
 	// METODO PARA MOSTRAR FORMULARIO DE ACTUALIZACION

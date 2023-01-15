@@ -1,5 +1,9 @@
 package com.capa1presentacion;
 
+import com.capa3Persistencia.entities.ParametroEntity;
+import com.capa3Persistencia.entities.TipoDatoEntity;
+import com.capa3Persistencia.entities.UsuarioEntity;
+
 public class Casilla {
 
 	private long idCasilla;
@@ -10,14 +14,14 @@ public class Casilla {
 	
 	private boolean disponible;
 	
-	private Parametro parametro;
+	private ParametroEntity parametro;
 	
-	private TipoDato tipoDato;
+	private TipoDatoEntity tipoDato;
 	
-	private Usuario usuario;
+	private UsuarioEntity usuario;
 
-	public Casilla(String descripcion, String nombre, boolean disponible, Parametro parametro, TipoDato tipoDato,
-			Usuario usuario) {
+	public Casilla(String descripcion, String nombre, boolean disponible, ParametroEntity parametro, TipoDatoEntity tipoDato,
+			UsuarioEntity usuario) {
 		super();
 		this.descripcion = descripcion;
 		this.nombre = nombre;
@@ -63,27 +67,27 @@ public class Casilla {
 		this.disponible = disponible;
 	}
 
-	public Parametro getParametro() {
+	public ParametroEntity getParametro() {
 		return parametro;
 	}
 
-	public void setParametro(Parametro parametro) {
+	public void setParametro(ParametroEntity parametro) {
 		this.parametro = parametro;
 	}
 
-	public TipoDato getTipoDato() {
+	public TipoDatoEntity getTipoDato() {
 		return tipoDato;
 	}
 
-	public void setTipoDato(TipoDato tipoDato) {
+	public void setTipoDato(TipoDatoEntity tipoDato) {
 		this.tipoDato = tipoDato;
 	}
 
-	public Usuario getUsuario() {
+	public UsuarioEntity getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(Usuario usuario) {
+	public void setUsuario(UsuarioEntity usuario) {
 		this.usuario = usuario;
 	}
 

@@ -2,6 +2,9 @@ package com.ws.restapi;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -13,11 +16,23 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.capa1presentacion.Casilla;
 import com.capa1presentacion.Ciudad;
+import com.capa1presentacion.Departamento;
+import com.capa1presentacion.Formulario;
 import com.capa1presentacion.Parametro;
 import com.capa1presentacion.Rol;
 import com.capa1presentacion.TipoDato;
+import com.capa1presentacion.TipoMedicion;
 import com.capa1presentacion.Usuario;
+import com.capa3Persistencia.entities.CasillaEntity;
 import com.capa3Persistencia.entities.CasillasBean;
+import com.capa3Persistencia.entities.CiudadEntity;
+import com.capa3Persistencia.entities.CiudadesBean;
+import com.capa3Persistencia.entities.DepartamentoEntity;
+import com.capa3Persistencia.entities.DepartamentosBean;
+import com.capa3Persistencia.entities.ParametroEntity;
+import com.capa3Persistencia.entities.ParametrosBean;
+import com.capa3Persistencia.entities.TipoDatoEntity;
+import com.capa3Persistencia.entities.TiposDatoBean;
 import com.capa3Persistencia.entities.UsuarioEntity;
 import com.capa3Persistencia.entities.UsuariosBean;
 
@@ -44,7 +59,25 @@ public class CargarDatos extends HttpServlet {
 	com.capa2LogicaNegocio.GestionCasillaService gestionCasillaService;
 	
 	@EJB
+	com.capa2LogicaNegocio.GestionDepartamentoService gestionDptoService;
+	
+	@EJB
+	com.capa2LogicaNegocio.GestionFormularioService gestionFormularioService;
+	
+	@EJB
 	UsuariosBean usuarioBean = new UsuariosBean();
+
+	@EJB
+	CiudadesBean ciudadBean = new CiudadesBean();
+	
+	@EJB
+	ParametrosBean parametroBean = new ParametrosBean();
+	
+	@EJB
+	TiposDatoBean tipoDatoBean = new TiposDatoBean();
+	
+	@EJB
+	DepartamentosBean departamentoBean = new DepartamentosBean();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -65,11 +98,11 @@ public class CargarDatos extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		UsuariosBean bean = new UsuariosBean();
 		try {
-			Ciudad c = new Ciudad("Durazno");
-			c = gestionCiudadService.agregarCiudad(c);
-			out.println("Se ha creado la ciudad con exito");
+			CiudadEntity c = new CiudadEntity("Durazno");
+			c = ciudadBean.crear(c);
+			out.println("Se ha creado la ciudad con exito " + c);
 
-			Ciudad dur = gestionCiudadService.buscarCiudadEntity(1L);
+			CiudadEntity dur = ciudadBean.buscarCiudadName(c.getNombre());
 
 			Usuario u = new Usuario("Martin", "Rodriguez", "martin123", "martin@gmail.com", true, "martin.lti",
 					"12345678", "Joaquin Suarez 702", dur, Long.valueOf(92723073), Rol.ADMINISTRADOR);
@@ -90,21 +123,56 @@ public class CargarDatos extends HttpServlet {
 			out.println("Se creo el empleado:" + usuarioCreado);
 */
 			Parametro p = new Parametro("Longitud");
+			Parametro p2 = new Parametro("Latitud");
+			Parametro p3 = new Parametro("Temperatura");
 			p = gestionParametroService.agregarParametro(p);
-			out.println("Se agrego el parametro " + p);
+			p2 = gestionParametroService.agregarParametro(p2);
+			p3 = gestionParametroService.agregarParametro(p3);
+			out.println("Se agregaron los parametros");
+	
 			
-			TipoDato t = new TipoDato("Grados", "Kpa");
+			TipoDato t = new TipoDato("Grados", "DECIMAL");
+			TipoDato t2 = new TipoDato("Kpa", "DECIMAL");
+			TipoDato t3 = new TipoDato("Co2", "DECIMAL");
+			TipoDato t4 = new TipoDato("G/m3", "ENTERO");
 			t = gestionTipoDatoService.agregarTipoDato(t);
-			out.println("Se agrego el tipo de dato "+ t);
+			t2 = gestionTipoDatoService.agregarTipoDato(t2);
+			t3 = gestionTipoDatoService.agregarTipoDato(t3);
+			t4 = gestionTipoDatoService.agregarTipoDato(t4);
+			out.println("Se agregaron los tipos de dato");
 			
-			Parametro p1 = gestionParametroService.buscarParametroEntity(1L);
-			TipoDato t1 = gestionTipoDatoService.buscarTdatoEntity(1L);
-			Usuario use =  gestionUsuarioService.buscarUsuarioEntityName("marcos.lti");
+			ParametroEntity p1 = parametroBean.buscarParametro(1L);
+			TipoDatoEntity t1 = tipoDatoBean.obtenerTipoDato(1L);
+			UsuarioEntity use =  usuarioBean.buscarNombreUsuarioEntity("martin.lti");
 			
 			out.println(use);
 			Casilla casilla = new Casilla("Creando casilla", "Casilla", true, p1, t1, use);
+			Casilla casilla2 = new Casilla("Creando asdasd", "Casilla2", false, p1, t1, use);
 			casilla = gestionCasillaService.agregarCasilla(casilla);
+			casilla2 = gestionCasillaService.agregarCasilla(casilla2);
 			out.println("Casilla creada.. " + casilla);
+			out.println("Casilla creada.. " + casilla2);
+			
+	
+			List<CasillaEntity> lista = new ArrayList<>();
+			lista.add(gestionCasillaService.forCasillaEntity(casilla));
+			lista.add(gestionCasillaService.forCasillaEntity(casilla2));
+			out.println(lista);
+			
+			Departamento dpto = new Departamento("Durazno");
+			dpto = gestionDptoService.agregarDepartamento(dpto);
+			out.println("Departamento creado " + dpto);
+			dpto = gestionDptoService.buscarDepartamentoEntity(dpto.getIdDepartamento());
+			
+			
+			//DepartamentoEntity depar = departamentoBean.buscarDepartamento(dpto.getIdDepartamento());
+			
+			
+			Formulario formulario = new Formulario("Formulario 1", new Date(), TipoMedicion.MANUAL, "Se crea formulario de prueba", lista, use, dpto);
+			out.println(formulario);
+			formulario = gestionFormularioService.agregarFormulario(formulario);
+			out.println("Formulario creado " + formulario);
+			
 			/*
 			 * Usuario e2 = new
 			 * Usuario("Pedro","Martinez","123456","pedro@gmail.com",true,"Pedro",Rol.

@@ -4,6 +4,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.capa3Persistencia.entities.CiudadEntity;
+
 public class Usuario {
 
 	@NotNull
@@ -40,7 +42,7 @@ public class Usuario {
 	private String domicilio;
 
 	@NotEmpty(message = "Debes seleccionar una ciudad")
-	private Ciudad ciudad;
+	private CiudadEntity ciudad;
 
 	@NotNull(message = "Debes ingresar un telefono")
 	private Long telefono;
@@ -65,7 +67,7 @@ public class Usuario {
 	}
 
 	public Usuario(String nombre, String apellido, String contrasenia, String mail, @NotNull boolean habilitado,
-			String nombreUsuario, String cedula, String domicilio, Ciudad ciudad, Long telefono, Rol rol) {
+			String nombreUsuario, String cedula, String domicilio, CiudadEntity ciudad, Long telefono, Rol rol) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -160,11 +162,11 @@ public class Usuario {
 		this.domicilio = domicilio;
 	}
 
-	public Ciudad getCiudad() {
+	public CiudadEntity getCiudad() {
 		return ciudad;
 	}
 
-	public void setCiudad(Ciudad ciudad) {
+	public void setCiudad(CiudadEntity ciudad) {
 		this.ciudad = ciudad;
 	}
 

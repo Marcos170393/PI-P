@@ -13,6 +13,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import com.capa1presentacion.Usuario;
 
+
 import java.util.List;
 
 
@@ -41,17 +42,21 @@ public class CasillaEntity implements Serializable {
 	private boolean disponible;
 	
 	
-	//bi-directional many-to-one association to Parametro
-	
+	@ManyToOne
+	@JoinColumn(name="PARAMETRO")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private ParametroEntity parametroBean;
 
 	//bi-directional many-to-one association to TipoDato
+	@ManyToOne
+	@JoinColumn(name="ID_TIPO_DATO")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private TipoDatoEntity tipoDato;
 
 	//bi-directional many-to-one association to Usuario
-	
 	@ManyToOne
 	@JoinColumn(name="ID_USUARIO")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private UsuarioEntity usuario;
 
 	//bi-directional many-to-many association to Formulario

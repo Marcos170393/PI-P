@@ -17,7 +17,10 @@ import com.capa1presentacion.Usuario;
 import com.capa3Persistencia.entities.CasillaEntity;
 import com.capa3Persistencia.entities.CasillasBean;
 import com.capa3Persistencia.entities.ParametroEntity;
+import com.capa3Persistencia.entities.ParametrosBean;
+import com.capa3Persistencia.entities.TiposDatoBean;
 import com.capa3Persistencia.entities.UsuarioEntity;
+import com.capa3Persistencia.entities.UsuariosBean;
 
 @Stateless
 @LocalBean
@@ -30,16 +33,18 @@ public class GestionCasillaService implements Serializable {
 
 	@EJB
 	CasillasBean casillaBean = new CasillasBean();
-	
+
 	@Inject
 	GestionUsuarioService persistenciaBean;
 
-	@Inject
-	GestionParametroService parametroPersistencia;
-	
-	@Inject
-	GestionTipoDatoService tdatoPersistencia;
-	
+	@EJB
+	ParametrosBean parametroPersistencia;
+
+	@EJB
+	TiposDatoBean tdatoPersistencia;
+
+	@EJB
+	UsuariosBean usuarioBean;
 
 	public Casilla fromCasillaEntity(CasillaEntity c) {
 		Casilla casilla = new Casilla();
@@ -47,22 +52,47 @@ public class GestionCasillaService implements Serializable {
 		casilla.setNombre(c.getNombre());
 		casilla.setDescripcion(c.getDescripcion());
 		casilla.setDisponible(c.isDisponible());
-		casilla.setParametro(parametroPersistencia.fromParametroEntity(c.getParametroBean()));
-		casilla.setTipoDato(tdatoPersistencia.fromTipodatoEntity(c.getTipoDato()));
-		casilla.setUsuario(persistenciaBean.fromUsuarioEntity(c.getUsuario()));
+		casilla.setParametro(c.getParametroBean());
+		casilla.setTipoDato(c.getTipoDato());
+		casilla.setUsuario(c.getUsuario());
 		return casilla;
 	}
+
 	public CasillaEntity toCasillaEntity(Casilla c) {
 		CasillaEntity casilla = new CasillaEntity();
 		casilla.setNombre(c.getNombre());
 		casilla.setDescripcion(c.getDescripcion());
 		casilla.setDisponible(c.isDisponible());
-		casilla.setParametro(parametroPersistencia.toParametroEntity(c.getParametro()));
-		casilla.setTipoDato(tdatoPersistencia.toTipodatoEntity(c.getTipoDato()));
-		casilla.setUsuario(persistenciaBean.toUsuarioEntity(c.getUsuario()));
+		casilla.setParametro(c.getParametro());
+		casilla.setTipoDato(c.getTipoDato());
+		casilla.setUsuario(c.getUsuario());
 		return casilla;
 	}
-
+	
+	public CasillaEntity forCasillaEntity(Casilla c) {
+		CasillaEntity casilla = new CasillaEntity();
+		casilla.setIdCasilla(c.getIdCasilla());
+		casilla.setNombre(c.getNombre());
+		casilla.setDescripcion(c.getDescripcion());
+		casilla.setDisponible(c.isDisponible());
+		casilla.setParametro(c.getParametro());
+		casilla.setTipoDato(c.getTipoDato());
+		casilla.setUsuario(c.getUsuario());
+		return casilla;
+	}
+	
+	
+	public void actualizarCasilla(Casilla c) throws Exception {
+		CasillaEntity casilla = casillaBean.obtenerCasilla(c.getIdCasilla());
+		casilla.setNombre(c.getNombre());
+		casilla.setDescripcion(c.getDescripcion());
+		casilla.setParametro(c.getParametro());
+		casilla.setTipoDato(c.getTipoDato());
+		casilla.setDisponible(c.isDisponible());
+		casilla.setUsuario(c.getUsuario());
+		casillaBean.actualizar(casilla);
+	}
+	
 	public Casilla agregarCasilla(Casilla casilla) throws Exception {
 		CasillaEntity c = casillaBean.crear(toCasillaEntity(casilla));
 		return fromCasillaEntity(c);
@@ -89,8 +119,28 @@ public class GestionCasillaService implements Serializable {
 		{
 			Casilla c = new Casilla();
 			return c;
-
 		}
+	}
 
+	public Casilla buscarCasillaEntityId(Long id) throws Exception {
+		try {
+			CasillaEntity casilla = casillaBean.obtenerCasilla(id);
+			return fromCasillaEntity(casilla);
+
+		} catch (PersistenceException | NullPointerException e)
+		{
+			Casilla c = new Casilla();
+			return c;
+		}
+	}
+	public void eliminarCasilla(Long id) throws Exception {
+		try {
+			CasillaEntity casilla = casillaBean.obtenerCasilla(id);
+			casillaBean.eliminar(casilla.getIdCasilla());
+		} catch (PersistenceException | NullPointerException e)
+			
+		{
+			
+		}
 	}
 }
