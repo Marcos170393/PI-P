@@ -29,7 +29,7 @@
 			</p:submenu>
 
 
-			<p:submenu label="Casillas"
+			<p:submenu label="Gestion de casillas"
 				rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}">
 				<p:menuitem value="Alta de casilla" outcome="/altaCasilla.xhtml" />
 				<p:menuitem value="Listado de casillas"
@@ -37,10 +37,9 @@
 				</p:menuitem>
 			</p:submenu>
 
-			<p:submenu label="Formularios">
-				<p:menuItem value="Alta de formulario"
-					outcome="/altaFormulario.xhtml"
-					rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}">
+			<p:submenu label="Gestion de Formularios">
+				<p:menuitem value="Alta de formulario" outcome="/altaFormulario.xhtml"
+					rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}"/>
 			</p:submenu>
 
 			<f:facet name="options">

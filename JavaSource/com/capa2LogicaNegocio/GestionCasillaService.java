@@ -63,6 +63,18 @@ public class GestionCasillaService implements Serializable {
 		return casilla;
 	}
 	
+	public CasillaEntity forCasillaEntity(Casilla c) {
+		CasillaEntity casilla = new CasillaEntity();
+		casilla.setIdCasilla(c.getIdCasilla());
+		casilla.setNombre(c.getNombre());
+		casilla.setDescripcion(c.getDescripcion());
+		casilla.setDisponible(true);
+		casilla.setParametro(parametroPersistencia.forParametroEntity(c.getParametro()));
+		casilla.setTipoDato(tdatoPersistencia.forTipodatoEntity(c.getTipoDato()));
+		casilla.setUsuario(persistenciaBean.forUsuarioEntity(c.getUsuario()));
+		return casilla;
+	}
+	
 	public void actualizarCasilla(Casilla c) throws Exception {
 		CasillaEntity casilla = casillaBean.obtenerCasilla(c.getIdCasilla());
 		casilla.setNombre(c.getNombre());
