@@ -37,12 +37,15 @@
 				</p:menuitem>
 			</p:submenu>
 
-
+			<p:submenu label="Formularios">
+				<p:menuItem value="Alta de formulario"
+					outcome="/altaFormulario.xhtml"
+					rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}">
+			</p:submenu>
 
 			<f:facet name="options">
-				<p:linkButton
-					outcome="index"
-					value="Logout" style="margin-right:20px;">
+				<p:linkButton outcome="index" value="Logout"
+					style="margin-right:20px;">
 				</p:linkButton>
 				<p:linkButton outcome="profile" value="Profile"
 					style="margin-right:20px;">

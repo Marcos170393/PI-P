@@ -63,7 +63,17 @@ public class GestionCasillaService implements Serializable {
 		return casilla;
 	}
 	
-
+	public void actualizarCasilla(Casilla c) throws Exception {
+		CasillaEntity casilla = casillaBean.obtenerCasilla(c.getIdCasilla());
+		casilla.setNombre(c.getNombre());
+		casilla.setDescripcion(c.getDescripcion());
+		casilla.setDisponible(c.isDisponible());
+		casilla.setParametro(parametroPersistencia.forParametroEntity(c.getParametro()));
+		casilla.setTipoDato(tdatoPersistencia.forTipodatoEntity(c.getTipoDato()));
+		casilla.setUsuario(persistenciaBean.forUsuarioEntity(c.getUsuario()));
+		casillaBean.actualizar(casilla);
+	}
+	
 	public Casilla agregarCasilla(Casilla casilla) throws Exception {
 		CasillaEntity c = casillaBean.crear(toCasillaEntity(casilla));
 		return fromCasillaEntity(c);
@@ -86,12 +96,23 @@ public class GestionCasillaService implements Serializable {
 			CasillaEntity casilla = casillaBean.buscarCasillaNombre(name);
 			return fromCasillaEntity(casilla);
 		} catch (PersistenceException | NullPointerException e)
-
 		{
 			Casilla c = new Casilla();
 			return c;
-
 		}
+	}
+	public Casilla buscarCasillaEntityId(Long id) throws Exception {
+		try {
+			CasillaEntity casilla = casillaBean.obtenerCasilla(id);
+			return fromCasillaEntity(casilla);
+		} catch (PersistenceException | NullPointerException e)
+		{
+			Casilla c = new Casilla();
+			return c;
+		}
+	}
+	public void elminarCasillaEntity(Long id) throws Exception {
+		casillaBean.eliminar(id);
 
 	}
 }

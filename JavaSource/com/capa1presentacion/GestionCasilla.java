@@ -34,7 +34,7 @@ public class GestionCasilla implements Serializable {
 
 	@Inject
 	GestionTipoDatoService tipoDatoPersistencia;
-	
+
 	private Casilla casillaSeleccionada;
 
 	private String parametroUsuario;
@@ -59,16 +59,16 @@ public class GestionCasilla implements Serializable {
 					break;
 				}
 			}
-			
+
 			List<TipoDato> tipoDatos = tipoDatoPersistencia.seleccionarTipoDato();
 			for (TipoDato t : tipoDatos) {
-				if(t.getNombre().equals(tipoDatoUsuario)) {
+				if (t.getNombre().equals(tipoDatoUsuario)) {
 					casillaSeleccionada.setTipoDato(t);
 				}
 			}
-			
+
 			casillaSeleccionada.setUsuario(CurrentUser.getUsuario());
-			
+
 			casillaNueva = (Casilla) casillaPersistencia.agregarCasilla(casillaSeleccionada);
 			// actualizamos id
 			Long nuevoId = casillaNueva.getIdCasilla();
@@ -117,11 +117,85 @@ public class GestionCasilla implements Serializable {
 		}
 	}
 
+	public void eliminarCasilla(String idCasilla) throws Exception {
+
+		try {
+			casillaPersistencia.elminarCasillaEntity(Long.parseLong(idCasilla));
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Casilla eliminada con éxito", "");
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+		} catch (PersistenciaException e) {
+
+			Throwable rootException = ExceptionsTools.getCause(e);
+			String msg1 = e.getMessage();
+			String msg2 = ExceptionsTools.formatedMsg(rootException);
+			// mensaje de actualizacion correcta
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg1, msg2);
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+
+			e.printStackTrace();
+		} finally {
+
+		}
+
+	}
+
+	// MODIFICACION DE USUARIO \\
+	public String actualizarCasilla() throws Exception {
+
+			
+				Casilla casillaNueva;
+				try {
+
+					List<Parametro> parametros = parametroPersistencia.seleccionarParametros();
+					for (Parametro p : parametros) {
+						if (p.getNombre().equals(parametroUsuario)) {
+							casillaSeleccionada.setParametro(p);
+							break;
+						}
+					}
+					
+					List<TipoDato> tipoDatos = tipoDatoPersistencia.seleccionarTipoDato();
+					for (TipoDato t : tipoDatos) {
+						if(t.getNombre().equals(tipoDatoUsuario)) {
+							casillaSeleccionada.setTipoDato(t);
+						}
+					}
+					
+					casillaSeleccionada.setUsuario(CurrentUser.getUsuario());
+					
+					casillaPersistencia.actualizarCasilla(casillaSeleccionada);
+					// actualizamos id
+					Long nuevoId = casillaSeleccionada.getIdCasilla();
+					// vaciamos usuarioSeleccionado como para ingresar uno nuevo
+					casillaSeleccionada = new Casilla();
+				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario actualizado con éxito", null);
+				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+				return "listadoCasillas";
+
+			} catch (PersistenciaException e) {
+
+				Throwable rootException = ExceptionsTools.getCause(e);
+				String msg1 = e.getMessage();
+				String msg2 = ExceptionsTools.formatedMsg(rootException);
+				// mensaje de actualizacion correcta
+				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg1, null);
+				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+
+				e.printStackTrace();
+			}
+
+			return "";
+		}
+
+	public String actualizarVistaCasilla(String id) throws Exception {
+		casillaSeleccionada = casillaPersistencia.buscarCasillaEntityId(Long.parseLong(id));
+		return "actualizarCasilla";
+	}
+
 	public List<Parametro> listaParametros() throws Exception {
 		List<Parametro> listaParametros = parametroPersistencia.seleccionarParametros();
 		return listaParametros;
 	}
-	
 
 	public List<TipoDato> listaTipoDato() throws Exception {
 		List<TipoDato> listaTipoDato = tipoDatoPersistencia.seleccionarTipoDato();

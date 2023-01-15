@@ -63,21 +63,26 @@ h1 {
 				<p:column headerText="Usuario creador">
 					<h:outputText value="#{casilla.usuario.nombreUsuario}" />
 				</p:column>
-				
-					<p:column headerText="Actualizar/Eliminar">
-				<p:commandButton rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" value="Eliminar" selectionMode="single" update="tablaCasillas">
-					<f:param name="idUsuario" value="#{user.idUsuario}"/>
-				</p:commandButton>
-				<p:spacer width="10"/>
-				<p:commandButton rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" value="Actualizar" selectionMode="single">
-					<f:param name="idUsuario" value="#{user.idUsuario}"/>
-				</p:commandButton>
-			</p:column>
-				
-				</p:dataTable>
-			</h:form>
+
+				<p:column headerText="Actualizar/Eliminar">
+					<p:commandButton
+						rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}"
+						value="Eliminar" selectionMode="single" update="tablaCasillas"
+						action="#{gestionCasilla.eliminarCasilla(casilla.idCasilla)}">
+						<f:param name="idCasilla" value="#{casilla.nombre}" />
+					</p:commandButton>
+					<p:spacer width="10" />
+					<p:commandButton
+						rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}"
+						value="Actualizar" selectionMode="single"
+						action="#{gestionCasilla.actualizarVistaCasilla(casilla.idCasilla)}">
+						<f:param name="idCasilla" value="#{casilla.idCasilla}" />
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
 	</ui:define>
-	
+
 </ui:composition>
-			
-			
+
