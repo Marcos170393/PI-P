@@ -1,5 +1,8 @@
 package com.capa2LogicaNegocio;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -33,6 +36,13 @@ public class GestionTipoDatoService {
 		return tdato;
 	}
 	
+	public TipoDatoEntity forTipodatoEntity(TipoDato t) {
+		TipoDatoEntity tdato = new TipoDatoEntity();
+		tdato.setIdDato(t.getIdDato());
+		tdato.setNombre(t.getNombre());
+		tdato.setUnidadMedida(t.getUnidadMedida());
+		return tdato;
+	}
 	public TipoDato agregarTipoDato(TipoDato tdato) throws Exception {
 		TipoDatoEntity e = tipoDatoBean.crear(toTipodatoEntity(tdato));
 		return fromTipodatoEntity(e);
@@ -41,5 +51,17 @@ public class GestionTipoDatoService {
 	public TipoDato buscarTdatoEntity(Long id) throws Exception {
 		TipoDatoEntity t = tipoDatoBean.obtenerTipoDato(id);
 		return fromTipodatoEntity(t);
+	}
+	
+	public List<TipoDato> seleccionarTipoDato() throws Exception {
+
+		List<TipoDatoEntity> listaTipoDatoEntity = tipoDatoBean.obtenerTodos();
+
+		List<TipoDato> listaTipoDato = new ArrayList<>();
+
+		for (TipoDatoEntity p : listaTipoDatoEntity) {
+			listaTipoDato.add(fromTipodatoEntity(p));
+		}
+		return listaTipoDato;
 	}
 }

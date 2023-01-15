@@ -41,7 +41,10 @@ public class UsuarioEntity implements Serializable {
 	private Rol rol;
 	private String cedula;
 	private String domicilio;
+	
+	@ManyToOne()
 	private CiudadEntity ciudad;
+	
 	private Long telefono;
 	
 	

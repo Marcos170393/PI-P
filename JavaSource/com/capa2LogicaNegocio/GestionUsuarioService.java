@@ -74,7 +74,7 @@ public class GestionUsuarioService implements Serializable {
 			usuario.setNombreUsuario(e.getNombreUsuario());
 			usuario.setRol(e.getRol());
 			usuario.setCedula(e.getCedula());
-			usuario.setCiudad(persistenciaBean.toCiudadEntity(e.getCiudad()));
+			usuario.setCiudad(persistenciaBean.forCiudadEntity(e.getCiudad()));
 			usuario.setDomicilio(e.getDomicilio());
 			usuario.setTelefono(e.getTelefono());
 			return usuario;
@@ -90,6 +90,36 @@ public class GestionUsuarioService implements Serializable {
 		}
 	}
 
+	//Metodo que utilizamos en GestionCasilla para agregar el Usuario a la Casilla
+	public UsuarioEntity forUsuarioEntity(Usuario e) { // Pasando los datos del Frontend a la base
+		UsuarioEntity usuario = new UsuarioEntity();
+
+		if (e.getRol().equals(Rol.ADMINISTRADOR) || e.getRol().equals(Rol.INVESTIGADOR)) {
+			usuario.setIdUsuario(e.getIdUsuario());
+			usuario.setNombre(e.getNombre());
+			usuario.setApellido(e.getApellido());
+			usuario.setContrasenia(this.Encrypt(e.getContrasenia()));
+			usuario.setMail(e.getMail());
+			usuario.setHabilitado(e.isHabilitado());
+			usuario.setNombreUsuario(e.getNombreUsuario());
+			usuario.setRol(e.getRol());
+			usuario.setCedula(e.getCedula());
+			usuario.setCiudad(persistenciaBean.toCiudadEntity(e.getCiudad()));
+			usuario.setDomicilio(e.getDomicilio());
+			usuario.setTelefono(e.getTelefono());
+			return usuario;
+		} else {
+			usuario.setIdUsuario(e.getIdUsuario());
+			usuario.setNombre(e.getNombre());
+			usuario.setApellido(e.getApellido());
+			usuario.setContrasenia(this.Encrypt(e.getContrasenia()));
+			usuario.setMail(e.getMail());
+			usuario.setHabilitado(e.isHabilitado());
+			usuario.setNombreUsuario(e.getNombreUsuario());
+			usuario.setRol(e.getRol());
+			return usuario;
+		}
+	}
 	// servicios para capa de Presentacion
 
 	public List<Usuario> seleccionarUsuarios() throws Exception {

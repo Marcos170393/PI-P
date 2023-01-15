@@ -20,6 +20,7 @@ import com.capa1presentacion.Usuario;
 import com.capa3Persistencia.entities.CasillasBean;
 import com.capa3Persistencia.entities.UsuarioEntity;
 import com.capa3Persistencia.entities.UsuariosBean;
+import com.capa3Persistencia.exception.PersistenciaException;
 
 /**
  * Servlet implementation class CargarDatos
@@ -33,16 +34,16 @@ public class CargarDatos extends HttpServlet {
 
 	@EJB
 	com.capa2LogicaNegocio.GestionCiudadService gestionCiudadService;
-	
+
 	@EJB
 	com.capa2LogicaNegocio.GestionParametroService gestionParametroService;
-	
+
 	@EJB
 	com.capa2LogicaNegocio.GestionTipoDatoService gestionTipoDatoService;
-	
+
 	@EJB
 	com.capa2LogicaNegocio.GestionCasillaService gestionCasillaService;
-	
+
 	@EJB
 	UsuariosBean usuarioBean = new UsuariosBean();
 
@@ -66,45 +67,65 @@ public class CargarDatos extends HttpServlet {
 		UsuariosBean bean = new UsuariosBean();
 		try {
 			Ciudad c = new Ciudad("Durazno");
+			Ciudad c2 = new Ciudad("Fray Bentos");
 			c = gestionCiudadService.agregarCiudad(c);
-			out.println("Se ha creado la ciudad con exito");
+			c2 = gestionCiudadService.agregarCiudad(c2);
+			out.println("Se han creado las ciudades con exito");
 
-			Ciudad dur = gestionCiudadService.buscarCiudadEntity(1L);
 
 			Usuario u = new Usuario("Martin", "Rodriguez", "martin123", "martin@gmail.com", true, "martin.lti",
-					"12345678", "Joaquin Suarez 702", dur, Long.valueOf(92723073), Rol.ADMINISTRADOR);
+					"12345678", "Joaquin Suarez 702", c, Long.valueOf(92723073), Rol.ADMINISTRADOR);
 
 			u = gestionUsuarioService.agregarUsuario(u);
 			out.println("Se ha creado el usuario con exito " + u);
-			
-			
-			Usuario user = new Usuario("Marcos", "Correa", "marcos123", "marcos@gmail.com", true, "marcos.lti", Rol.AFICIONADO);
+
+			Usuario user = new Usuario("Marcos", "Correa", "marcos123", "marcos@gmail.com", true, "marcos.lti",
+					Rol.AFICIONADO);
 			user = gestionUsuarioService.agregarUsuario(user);
 			out.println("Usuario agregado" + user);
-		
+
+			/*
+			 * Usuario e = new Usuario("admin", "admin", "admin", "admin@gmail.com", true,
+			 * "admin", "31022972", "Artigas 123", dur, Long.valueOf(93934432),
+			 * Rol.ADMINISTRADOR); Usuario usuarioCreado =
+			 * gestionUsuarioService.agregarUsuario(e); out.println("Se creo el empleado:" +
+			 * usuarioCreado);
+			 */
+			try {
+				TipoDato dato1 = new TipoDato("grados", "DECIMAL");
+				TipoDato dato2 = new TipoDato("kpa", "DECIMAL");
+				TipoDato dato3 = new TipoDato("co2", "DECIMAL");
+				TipoDato dato4 = new TipoDato("g/m3", "ENTERO");
+				dato1 = gestionTipoDatoService.agregarTipoDato(dato1);
+				dato2 = gestionTipoDatoService.agregarTipoDato(dato2);
+				dato3 = gestionTipoDatoService.agregarTipoDato(dato3);
+				dato4 = gestionTipoDatoService.agregarTipoDato(dato4);
+
+				Parametro param1 = new Parametro("Longitud");
+				Parametro param2 = new Parametro("Altitud");
+				Parametro param3 = new Parametro("Temperatura");
+				
+				param1 = gestionParametroService.agregarParametro(param1);
+				param2 = gestionParametroService.agregarParametro(param2);
+				param3 = gestionParametroService.agregarParametro(param3);
+
+				out.println("Tipos de datos y parametros creados" );
+				
+			/*	Parametro p1 = gestionParametroService.buscarParametroEntity(1L);
+				TipoDato t1 = gestionTipoDatoService.buscarTdatoEntity(1L);
+				Usuario use = gestionUsuarioService.buscarUsuarioEntity(user.getIdUsuario());*/
+
+	
+				Casilla casilla = new Casilla("Creando casilla", "Casilla", true, param1, dato1, u);
+				casilla = gestionCasillaService.agregarCasilla(casilla);
+				out.println("Casilla creada.. " + casilla);
+				
 			
-			
-			/*Usuario e = new Usuario("admin", "admin", "admin", "admin@gmail.com", true, "admin", "31022972",
-					"Artigas 123", dur, Long.valueOf(93934432), Rol.ADMINISTRADOR);
-			Usuario usuarioCreado = gestionUsuarioService.agregarUsuario(e);
-			out.println("Se creo el empleado:" + usuarioCreado);
-*/
-			Parametro p = new Parametro("Longitud");
-			p = gestionParametroService.agregarParametro(p);
-			out.println("Se agrego el parametro " + p);
-			
-			TipoDato t = new TipoDato("Grados", "Kpa");
-			t = gestionTipoDatoService.agregarTipoDato(t);
-			out.println("Se agrego el tipo de dato "+ t);
-			
-			Parametro p1 = gestionParametroService.buscarParametroEntity(1L);
-			TipoDato t1 = gestionTipoDatoService.buscarTdatoEntity(1L);
-			Usuario use =  gestionUsuarioService.buscarUsuarioEntityName("marcos.lti");
-			
-			out.println(use);
-			Casilla casilla = new Casilla("Creando casilla", "Casilla", true, p1, t1, use);
-			casilla = gestionCasillaService.agregarCasilla(casilla);
-			out.println("Casilla creada.. " + casilla);
+			} catch (PersistenciaException p) {
+				p.getMessage();
+
+			}
+
 			/*
 			 * Usuario e2 = new
 			 * Usuario("Pedro","Martinez","123456","pedro@gmail.com",true,"Pedro",Rol.

@@ -45,6 +45,13 @@ public class GestionCiudadService implements Serializable{
 		ciudad.setNombre(e.getNombre());
 		return ciudad;
 	}
+	
+	public CiudadEntity forCiudadEntity(Ciudad e) {
+		CiudadEntity ciudad= new CiudadEntity();
+		ciudad.setIdCiudad(e.getIdCiudad());
+		ciudad.setNombre(e.getNombre());
+		return ciudad;
+	}
 
 	public List<Ciudad> seleccionarCiudades() throws Exception {
 		

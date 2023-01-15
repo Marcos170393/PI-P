@@ -42,10 +42,13 @@ public class CasillaEntity implements Serializable {
 	
 	
 	//bi-directional many-to-one association to Parametro
-	
+	@ManyToOne
+	@JoinColumn(name="ID_PARAMETRO")
 	private ParametroEntity parametroBean;
 
 	//bi-directional many-to-one association to TipoDato
+	@ManyToOne
+	@JoinColumn(name="ID_TIPO_DATO")
 	private TipoDatoEntity tipoDato;
 
 	//bi-directional many-to-one association to Usuario
