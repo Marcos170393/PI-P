@@ -2,6 +2,8 @@ package com.ws.restapi;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.capa1presentacion.Casilla;
 import com.capa1presentacion.Ciudad;
+import com.capa1presentacion.Departamento;
 import com.capa1presentacion.Parametro;
 import com.capa1presentacion.Rol;
 import com.capa1presentacion.TipoDato;
@@ -43,6 +46,9 @@ public class CargarDatos extends HttpServlet {
 
 	@EJB
 	com.capa2LogicaNegocio.GestionCasillaService gestionCasillaService;
+
+	@EJB
+	com.capa2LogicaNegocio.GestionDepartamentoService gestionDptoService;
 
 	@EJB
 	UsuariosBean usuarioBean = new UsuariosBean();
@@ -120,7 +126,14 @@ public class CargarDatos extends HttpServlet {
 				casilla = gestionCasillaService.agregarCasilla(casilla);
 				out.println("Casilla creada.. " + casilla);
 				
-			
+				List<Ciudad> ciudades = new ArrayList<>();
+				ciudades.add(c2);
+				
+				Departamento dpto = new Departamento("Durazno");
+				dpto.setCiudades(ciudades);
+				dpto = gestionDptoService.agregarDepartamento(dpto);
+				out.println("Departamento creado" + dpto);
+				
 			} catch (PersistenciaException p) {
 				p.getMessage();
 

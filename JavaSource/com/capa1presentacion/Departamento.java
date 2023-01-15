@@ -3,6 +3,7 @@ package com.capa1presentacion;
 import java.util.List;
 
 public class Departamento {
+	
 	private long idDepartamento;
 
 	private String nombre;
