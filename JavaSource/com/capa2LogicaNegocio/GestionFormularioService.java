@@ -9,6 +9,7 @@ import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
 
 import com.capa1presentacion.Casilla;
 import com.capa1presentacion.Formulario;
@@ -43,7 +44,7 @@ public class GestionFormularioService implements Serializable{
 		formulario.setIdFormulario(form.getIdFormulario());
 		formulario.setNombre(form.getNombre());
 		formulario.setDisponible(form.isDisponible());
-		formulario.setFechaHora(new Date());
+		formulario.setFechaHora(form.getFechaHora());
 		formulario.setMetodoMedicion(form.getMetodoMedicion());
 		formulario.setResumen(form.getResumen());
 		formulario.setCasillas(form.getCasillas());
@@ -68,6 +69,21 @@ public class GestionFormularioService implements Serializable{
 		return formulario;
 	}
 	
+	public void actualizarFormulario(Formulario form) throws Exception {
+		FormularioEntity formulario = formularioBean.buscarFormulario(form.getIdFormulario());
+		formulario.setNombre(form.getNombre());
+		formulario.setDisponible(true);
+		formulario.setFechaHora(form.getFechaHora());
+		formulario.setMetodoMedicion(form.getMetodoMedicion());
+		formulario.setResumen(form.getResumen());
+		formulario.setCasillas(form.getCasillas());
+		formulario.setCasillasObligatorias(form.getCasillasObligatorias());
+		formulario.setDepartamento(departamentoPersistencia.forDepartamentoEntity(form.getDepartamento()));
+		formulario.setUsuario(usuarioPersistencia.forUsuarioEntity(form.getUsuario()));
+		formularioBean.modificar(formulario);
+	}
+	
+	
 	public Formulario agregarFormulario(Formulario formulario) throws Exception {
 		FormularioEntity form = formularioBean.crear(toFormularioEntity(formulario));
 		return fromFormularioEntity(form);
@@ -88,4 +104,15 @@ public class GestionFormularioService implements Serializable{
 	public void eliminarFormulario(Long idFormulario) throws Exception {
 		formularioBean.eliminar(idFormulario);
 	}
+	
+	public Formulario buscarFormularioEntityId(Long id) throws Exception {
+		try {
+			FormularioEntity formulario = formularioBean.buscarFormulario(id);
+			return fromFormularioEntity(formulario);
+		} catch (PersistenceException | NullPointerException e) {
+			Formulario f = new Formulario();
+			return f;
+		}
+	}
+	
 }

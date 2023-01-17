@@ -24,7 +24,7 @@ h1 {
 }
 </style>
 		<h:title>
-			<h1 style="text-align: center;">Alta de formularios</h1>
+			<h1 style="text-align: center;">Actualizar formulario</h1>
 		</h:title>
 	</h:head>
 
@@ -32,15 +32,15 @@ h1 {
 
 		<p:breadCrumb>
 			<p:menuitem value="Pagina principal" url="home.xhtml" />
-			<p:menuitem value="Alta de formularios" url="#" />
+			<p:menuitem value="Actualizacion de formularios" url="#" />
 		</p:breadCrumb>
 
 		<div class="Formularios">
 
 			<div class="create-form">
-				<h:form id="crearFormularios">
+				<h:form id="actualizarFormulario">
 					<div class="form-title">
-						<h2>Crear formulario</h2>
+						<h2>Actualizar formulario</h2>
 					</div>
 
 					<div>
@@ -140,14 +140,15 @@ h1 {
 						<p:autoUpdate />
 					</p:dataTable>
 
+
 					<div style="margin-bottom: 10px">
 						<p:commandButton value="Agregar casillas" selectionMode="single"
-							action="#{gestionFormulario.actualizarVista()}" />
+							action="#{gestionFormulario.actualizarVistaAgregarCasillas()}" />
 					</div>
 
 					<div class="form-button" style="margin: 30px">
 						<p:commandButton value="Confirmar"
-							action="#{gestionFormulario.salvarCambios()}" />
+							action="#{gestionFormulario.actualizarFormulario()}" />
 					</div>
 
 				</h:form>

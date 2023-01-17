@@ -22,59 +22,55 @@ h1 {
 }
 </style>
 		<h:title>
-			<h1 style="text-align: center;">Listado de formularios</h1>
+			<h1 style="text-align: center;">Seleccione casillas para el formulario</h1>
 		</h:title>
 	</h:head>
 
 	<ui:define name="content">
 		<p:breadCrumb>
 			<p:menuitem value="Pagina principal" url="home.xhtml" />
-			<p:menuitem value="Listado de formularios" url="#" />
+			<p:menuitem value="Listado de casillas" url="#" />
+			<p:menuitem value="Volver" url="actualizarFormulario.xhtml" />
 		</p:breadCrumb>
 		<p:messages id="messages" severity="info" showSummary="true"
 			showDetail="false" closable="true">
 			<p:autoUpdate />
 		</p:messages>
 		<h:form>
-			<p:dataTable id="tablaFormularios"
-				value="#{gestionFormulario.mostrarFormularios()}" var="form"
-				rowKey="#{form.idFormulario}">
+			<p:dataTable id="tablaCasillas"
+				value="#{gestionCasilla.mostrarCasillas()}" var="casilla"
+				rowKey="#{casilla.idCasilla}">
 
 				<p:column headerText="Nombre">
-					<h:outputText value="#{form.nombre}" />
+					<h:outputText value="#{casilla.nombre}" />
 				</p:column>
 
-				<p:column headerText="Fecha de creacion">
-					<h:outputText value="#{form.fechaHora}" />
+				<p:column headerText="Descripcion">
+					<h:outputText value="#{casilla.descripcion}" />
 				</p:column>
 
-				<p:column headerText="Metodo de medicion">
-					<h:outputText value="#{form.metodoMedicion}" />
+				<p:column headerText="Disponible">
+					<h:outputText value="#{casilla.disponible}" />
 				</p:column>
 
-				<p:column headerText="Resumen">
-					<h:outputText value="#{form.resumen}" />
+				<p:column headerText="Parametro">
+					<h:outputText value="#{casilla.parametro.nombre}" />
 				</p:column>
 
-				<p:column headerText="Departamento">
-					<h:outputText value="#{form.departamento.nombre}" />
+				<p:column headerText="Tipo de dato">
+					<h:outputText value="#{casilla.tipoDato.nombre}" />
 				</p:column>
 
-				<p:column headerText="Usuario">
-					<h:outputText value="#{form.usuario.nombreUsuario}" />
+				<p:column headerText="Usuario creador">
+					<h:outputText value="#{casilla.usuario.nombreUsuario}" />
 				</p:column>
 
-				<p:column headerText="Actualizar/Eliminar">
+				<p:column headerText="Agregar">
 					<p:commandButton
 						rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}"
-						value="Eliminar" selectionMode="single" update="tablaFormularios"
-						action="#{gestionFormulario.eliminarFormulario(form.idFormulario)}">
-					</p:commandButton>
-					<p:spacer width="10" />
-					<p:commandButton
-						rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}"
-						value="Actualizar" selectionMode="single"
-						action="#{gestionFormulario.actualizarVistaActualizarFormulario(form.idFormulario)}">
+						value="Agregar" selectionMode="single" 
+						action="#{gestionFormulario.agregarCasillasFormulario(casilla.idCasilla)}">
+						<f:param name="idCasilla" value="#{casilla.idCasilla}" />
 					</p:commandButton>
 				</p:column>
 

@@ -82,7 +82,7 @@ public class GestionFormulario implements Serializable {
 			formularioNuevo = (Formulario) formularioPersistencia.agregarFormulario(formularioSeleccionado);
 			// actualizamos id
 			Long nuevoId = formularioNuevo.getIdFormulario();
-			// vaciamos usuarioSeleccionado como para ingresar uno nuevo
+			// vaciamos formularioSeleccionado como para ingresar uno nuevo
 			formularioSeleccionado = new Formulario();
 			casillasFormulario = new ArrayList<>();
 			// mensaje de actualizacion correcta
@@ -106,6 +106,44 @@ public class GestionFormulario implements Serializable {
 
 		return "";
 	}
+	
+	// MODIFICACION DE FORMULARIO \\
+		public String actualizarFormulario() throws Exception {
+				
+					try {
+
+						List<Departamento> dptos = departamentoPersistencia.buscarDepartamentos();
+						for (Departamento departamento : dptos) {
+							if(departamento.getNombre().equals(departamentoFormulario)) {
+								formularioSeleccionado.setDepartamento(departamento);
+							}
+						}
+						
+						formularioSeleccionado.setUsuario(CurrentUser.getUsuario());
+						
+						formularioPersistencia.actualizarFormulario(formularioSeleccionado);
+						// actualizamos id
+						Long nuevoId = formularioSeleccionado.getIdFormulario();
+						// vaciamos usuarioSeleccionado como para ingresar uno nuevo
+						formularioSeleccionado = new Formulario();
+					FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Formulario actualizado con éxito", null);
+					FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+					return "listadoFormularios";
+
+				} catch (PersistenciaException e) {
+
+					Throwable rootException = ExceptionsTools.getCause(e);
+					String msg1 = e.getMessage();
+					String msg2 = ExceptionsTools.formatedMsg(rootException);
+					// mensaje de actualizacion correcta
+					FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg1, null);
+					FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+
+					e.printStackTrace();
+				}
+
+				return "";
+			}
 	
 	
 	// MOSTRAR LISTADO DE FORMULARIOS \\
@@ -194,6 +232,8 @@ public class GestionFormulario implements Serializable {
 				return new ArrayList<CasillaEntity>();
 			}
 		}
+		
+
 
 		public void eliminarCasillaFormulario(Long idCasilla) throws Exception {
 
@@ -221,11 +261,23 @@ public class GestionFormulario implements Serializable {
 			return listaDptos;
 		}
 		
-		
-		
-	public String actualizarVista() throws Exception {
-		return "listadoCasillasFormulario";
+
+	public String actualizarVistaActualizarFormulario(String id) throws Exception {
+		formularioSeleccionado = formularioPersistencia.buscarFormularioEntityId(Long.parseLong(id));
+		casillasFormulario = formularioSeleccionado.getCasillas(); //Le cargamos la lista de casillas que tiene el formulario seleccionado
+		return "actualizarFormulario";
 		}
+			
+	//Cuando pre
+	public String actualizarVista() throws Exception {
+		return "listadoCasillasCrearFormulario";
+		}
+	
+
+	public String actualizarVistaAgregarCasillas() throws Exception {
+		return "listadoCasillasActualizarFormulario";
+		}
+		
 		
 	public String getDepartamentoFormulario() {
 		return departamentoFormulario;

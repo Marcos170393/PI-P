@@ -139,7 +139,7 @@ public class GestionCasilla implements Serializable {
 
 	}
 
-	// MODIFICACION DE USUARIO \\
+	// ACTUALIZACION DE CASILLAS\\
 	public String actualizarCasilla() throws Exception {
 
 			

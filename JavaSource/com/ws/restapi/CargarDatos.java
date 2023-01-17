@@ -154,7 +154,7 @@ public class CargarDatos extends HttpServlet {
 				form1 = gestionFormularioService.agregarFormulario(form1);
 			
 				
-				Formulario form2 = new Formulario("Formulario 2", new Date(), TipoMedicion.AUTOMATICO, "Probando 2", casillas, u, dpto);
+				Formulario form2 = new Formulario("Formulario 2", new Date(), TipoMedicion.AUTOMATICO, "Probando formulario 2", casillas, u, dpto);
 				form2 = gestionFormularioService.agregarFormulario(form2);
 				out.println("Formularios creados");
 				
