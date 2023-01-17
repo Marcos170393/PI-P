@@ -3,6 +3,7 @@ package com.ws.restapi;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -16,11 +17,15 @@ import javax.servlet.http.HttpServletResponse;
 import com.capa1presentacion.Casilla;
 import com.capa1presentacion.Ciudad;
 import com.capa1presentacion.Departamento;
+import com.capa1presentacion.Formulario;
 import com.capa1presentacion.Parametro;
 import com.capa1presentacion.Rol;
 import com.capa1presentacion.TipoDato;
+import com.capa1presentacion.TipoMedicion;
 import com.capa1presentacion.Usuario;
+import com.capa3Persistencia.entities.CasillaEntity;
 import com.capa3Persistencia.entities.CasillasBean;
+import com.capa3Persistencia.entities.CiudadEntity;
 import com.capa3Persistencia.entities.UsuarioEntity;
 import com.capa3Persistencia.entities.UsuariosBean;
 import com.capa3Persistencia.exception.PersistenciaException;
@@ -49,6 +54,9 @@ public class CargarDatos extends HttpServlet {
 
 	@EJB
 	com.capa2LogicaNegocio.GestionDepartamentoService gestionDptoService;
+
+	@EJB
+	com.capa2LogicaNegocio.GestionFormularioService gestionFormularioService;
 
 	@EJB
 	UsuariosBean usuarioBean = new UsuariosBean();
@@ -126,13 +134,30 @@ public class CargarDatos extends HttpServlet {
 				casilla = gestionCasillaService.agregarCasilla(casilla);
 				out.println("Casilla creada.. " + casilla);
 				
-				List<Ciudad> ciudades = new ArrayList<>();
-				ciudades.add(c2);
+
+				Casilla casilla2 = new Casilla("Creando casilla dos", "Casilla dos", true, param2, dato2, u);
+				casilla2 = gestionCasillaService.agregarCasilla(casilla2);
+				out.println("Casilla creada.. " + casilla2);
+						
+				List<CiudadEntity> ciudades = new ArrayList<>();
+				ciudades.add(gestionCiudadService.forCiudadEntity(c2));
 				
 				Departamento dpto = new Departamento("Durazno");
 				dpto.setCiudades(ciudades);
 				dpto = gestionDptoService.agregarDepartamento(dpto);
 				out.println("Departamento creado" + dpto);
+				
+				List<CasillaEntity> casillas = new ArrayList<>();
+				casillas.add(gestionCasillaService.forCasillaEntity(casilla));
+				
+				Formulario form1 = new Formulario("Formulario 1", new Date(), TipoMedicion.MANUAL, "Se crea un formulario de prueba", casillas, u, dpto);
+				form1 = gestionFormularioService.agregarFormulario(form1);
+			
+				
+				Formulario form2 = new Formulario("Formulario 2", new Date(), TipoMedicion.AUTOMATICO, "Probando 2", casillas, u, dpto);
+				form2 = gestionFormularioService.agregarFormulario(form2);
+				out.println("Formularios creados");
+				
 				
 			} catch (PersistenciaException p) {
 				p.getMessage();

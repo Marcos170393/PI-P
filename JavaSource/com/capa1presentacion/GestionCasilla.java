@@ -46,7 +46,7 @@ public class GestionCasilla implements Serializable {
 		casillaSeleccionada = new Casilla();
 	}
 
-	// GUARDAR NUEVO USUARIO \\
+	// GUARDAR NUEVA CASILLA \\
 	public String salvarCambios() throws Exception {
 
 		Casilla casillaNueva;
@@ -102,7 +102,7 @@ public class GestionCasilla implements Serializable {
 
 		try {
 			List<Casilla> listaCasillas = casillaPersistencia.seleccionarCasillas();
-
+			
 			return listaCasillas;
 		} catch (PersistenciaException e) {
 
@@ -191,6 +191,7 @@ public class GestionCasilla implements Serializable {
 		casillaSeleccionada = casillaPersistencia.buscarCasillaEntityId(Long.parseLong(id));
 		return "actualizarCasilla";
 	}
+	
 
 	public List<Parametro> listaParametros() throws Exception {
 		List<Parametro> listaParametros = parametroPersistencia.seleccionarParametros();

@@ -68,7 +68,7 @@ public class GestionCasillaService implements Serializable {
 		casilla.setIdCasilla(c.getIdCasilla());
 		casilla.setNombre(c.getNombre());
 		casilla.setDescripcion(c.getDescripcion());
-		casilla.setDisponible(true);
+		casilla.setDisponible(c.isDisponible());
 		casilla.setParametro(parametroPersistencia.forParametroEntity(c.getParametro()));
 		casilla.setTipoDato(tdatoPersistencia.forTipodatoEntity(c.getTipoDato()));
 		casilla.setUsuario(persistenciaBean.forUsuarioEntity(c.getUsuario()));
@@ -93,7 +93,20 @@ public class GestionCasillaService implements Serializable {
 
 	public List<Casilla> seleccionarCasillas() throws Exception {
 
-		List<CasillaEntity> listaCasillasEntities = casillaBean.obtenerTodas();
+		List<CasillaEntity> listaCasillasEntities = casillaBean.buscarCasillasHabilitadas();
+
+		List<Casilla> listaCasillas = new ArrayList<Casilla>();
+
+		for (CasillaEntity casillaEntity : listaCasillasEntities) {
+			listaCasillas.add(fromCasillaEntity(casillaEntity));
+		}
+		return listaCasillas;
+	}
+	
+
+	public List<Casilla> seleccionarCasillasFormulario(String nombre) throws Exception {
+
+		List<CasillaEntity> listaCasillasEntities = casillaBean.buscarCasillasFormulario(nombre);
 
 		List<Casilla> listaCasillas = new ArrayList<Casilla>();
 

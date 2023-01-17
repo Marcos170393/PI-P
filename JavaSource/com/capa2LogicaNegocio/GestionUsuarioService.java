@@ -90,7 +90,7 @@ public class GestionUsuarioService implements Serializable {
 		}
 	}
 
-	//Metodo que utilizamos en GestionCasilla para agregar el Usuario a la Casilla
+	//Metodo que utilizamos en GestionCasilla para agregar el Usuario a la Casilla y al Formulario
 	public UsuarioEntity forUsuarioEntity(Usuario e) { // Pasando los datos del Frontend a la base
 		UsuarioEntity usuario = new UsuarioEntity();
 

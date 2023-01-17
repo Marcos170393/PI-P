@@ -109,8 +109,8 @@ public class CasillaEntity implements Serializable {
 
 	public void setParametro(ParametroEntity parametro) {
 		this.parametroBean = parametro;
-	}
-
+	}	
+	
 	public TipoDatoEntity getTipoDato() {
 		return this.tipoDato;
 	}

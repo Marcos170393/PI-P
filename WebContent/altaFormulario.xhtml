@@ -35,15 +35,124 @@ h1 {
 			<p:menuitem value="Alta de formularios" url="#" />
 		</p:breadCrumb>
 
-		<div class="Casillas">
+		<div class="Formularios">
 
 			<div class="create-form">
-				<h:form id="crearCasillas">
+				<h:form id="crearFormularios">
 					<div class="form-title">
 						<h2>Crear formulario</h2>
 					</div>
 
-				
+					<div>
+						<p:outputLabel value="Nombre">
+						</p:outputLabel>
+					</div>
+
+					<div class="input-group">
+						<p:inputText class="input-form" id="nombre"
+							value="#{gestionFormulario.formularioSeleccionado.nombre}" />
+						<p:message for="nombre" showDetail="true" showIcon="false"
+							closable="true" />
+					</div>
+
+					<div>
+						<p:outputLabel value="Metodo de medicion">
+						</p:outputLabel>
+					</div>
+
+					<div class="input-group">
+						<p:selectOneMenu id="metodoMedicion"
+							value="#{gestionFormulario.formularioSeleccionado.metodoMedicion}">
+							<f:selectItem disabled="true" itemValue="" itemLabel="" />
+							<f:selectItem itemValue="#{gestionFormulario.automatica}"
+								itemLabel="Automatico" />
+							<f:selectItem itemValue="#{gestionFormulario.manual}"
+								itemLabel="Manual" />
+						</p:selectOneMenu>
+						<p:message for="metodoMedicion" showDetail="true" showIcon="false"
+							closable="true" />
+						<p:autoUpdate />
+					</div>
+
+					<div>
+						<p:outputLabel value="Departamento">
+						</p:outputLabel>
+					</div>
+
+					<div class="input-group">
+						<p:selectOneMenu id="departamento"
+							value="#{gestionFormulario.departamentoFormulario}">
+							<f:selectItem disabled="true" itemValue="" itemLabel="" />
+							<f:selectItems value="#{gestionFormulario.listaDepartamentos()}"
+								var="d" itemLabel="#{d.nombre}" itemValue="#{d.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="departamento" showDetail="true" showIcon="false"
+							closable="true" />
+						<p:autoUpdate />
+					</div>
+
+					<div>
+						<p:outputLabel value="Resumen">
+						</p:outputLabel>
+					</div>
+
+					<div class="input-group">
+						<p:inputText class="input-form" id="resumen"
+							value="#{gestionFormulario.formularioSeleccionado.resumen}" />
+						<p:message for="resumen" showDetail="true" showIcon="false"
+							closable="true" />
+						<p:autoUpdate />
+					</div>
+
+
+					<h:title>
+						<h2 style="text-align: center;">Listado de casillas</h2>
+					</h:title>
+
+					<p:dataTable id="tablaCasillasForm"
+						value="#{gestionFormulario.mostrarCasillasFormulario()}"
+						var="casilla" rowKey="#{casilla.idCasilla}">
+
+						<p:column headerText="Nombre">
+							<h:outputText value="#{casilla.nombre}" />
+						</p:column>
+
+						<p:column headerText="Descripcion">
+							<h:outputText value="#{casilla.descripcion}" />
+						</p:column>
+
+						<p:column headerText="Parametro">
+							<h:outputText value="#{casilla.parametroBean.nombre}" />
+						</p:column>
+
+						<p:column headerText="Tipo de dato">
+							<h:outputText value="#{casilla.tipoDato.nombre}" />
+						</p:column>
+
+						<p:column headerText="">
+							<p:commandButton value="Eliminar" selectionMode="single"
+								update="tablaCasillasForm"
+								action="#{gestionFormulario.eliminarCasillaFormulario(casilla.idCasilla)}">
+							</p:commandButton>
+						</p:column>
+						<p:message for="tablaCasillasForm" showDetail="true"
+							showIcon="false" closable="true" />
+						<p:autoUpdate />
+					</p:dataTable>
+
+
+					<div style="margin-bottom: 10px">
+						<p:commandButton value="Agregar casillas" selectionMode="single"
+							action="#{gestionFormulario.actualizarVista()}" />
+					</div>
+
+
+
+					<div class="form-button" style="margin: 30px">
+						<p:commandButton value="Confirmar"
+							action="#{gestionFormulario.salvarCambios()}" />
+					</div>
+
 				</h:form>
 			</div>
 		</div>

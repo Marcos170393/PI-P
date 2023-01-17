@@ -2,13 +2,15 @@ package com.capa1presentacion;
 
 import java.util.List;
 
+import com.capa3Persistencia.entities.CiudadEntity;
+
 public class Departamento {
 	
 	private long idDepartamento;
 
 	private String nombre;
 
-	private List<Ciudad> ciudades;
+	private List<CiudadEntity> ciudades;
 
 	public Departamento(String nombre) {
 		super();
@@ -35,11 +37,11 @@ public class Departamento {
 		this.nombre = nombre;
 	}
 
-	public List<Ciudad> getCiudades() {
+	public List<CiudadEntity> getCiudades() {
 		return ciudades;
 	}
 
-	public void setCiudades(List<Ciudad> ciudades) {
+	public void setCiudades(List<CiudadEntity> ciudades) {
 		this.ciudades = ciudades;
 	}
 

@@ -50,7 +50,7 @@ public class FormulariosBean {
 	public void eliminar(Long idForm) throws Exception {
 		try {
 			FormularioEntity form = em.find(FormularioEntity.class, idForm);
-			em.remove(form);
+			form.setDisponible(false);
 			em.flush();
 		} catch (PersistenceException e) {
 			throw new Exception("No se pudo eliminar el Formulario");
@@ -77,6 +77,13 @@ public class FormulariosBean {
 		}
 	}
 
-    
+	public List<FormularioEntity> buscarFormulariosDisponibles() throws Exception {
+		try {
+			TypedQuery<FormularioEntity> query = em.createQuery("Select f FROM FormularioEntity f WHERE isDisponible=true",FormularioEntity.class);
+			return query.getResultList(); 
+		} catch (PersistenceException e) {
+			throw new Exception("No se pudo realizar la busqueda");
+		}
+	}
     
 }

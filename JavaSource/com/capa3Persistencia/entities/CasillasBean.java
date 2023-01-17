@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -16,15 +17,14 @@ public class CasillasBean {
 
 	@PersistenceContext
 	private EntityManager em;
-	
-    /**
-     * Default constructor. 
-     */
-    public CasillasBean() {
-        // TODO Auto-generated constructor stub
-    }
 
-	
+	/**
+	 * Default constructor.
+	 */
+	public CasillasBean() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public CasillaEntity crear(CasillaEntity casilla) throws Exception {
 		try {
 			em.find(CasillaEntity.class, casilla.getIdCasilla());
@@ -36,7 +36,6 @@ public class CasillasBean {
 		}
 	}
 
-	
 	public void actualizar(CasillaEntity casilla) throws Exception {
 		try {
 			em.merge(casilla);
@@ -46,19 +45,17 @@ public class CasillasBean {
 		}
 	}
 
-	
 	public void eliminar(Long idCasilla) throws Exception {
-		 try {
-			 CasillaEntity casilla = em.find(CasillaEntity.class, idCasilla);
-			em.remove(casilla);
+		try {
+			CasillaEntity casilla = em.find(CasillaEntity.class, idCasilla);
+			casilla.setDisponible(false);
 			em.flush();
 		} catch (PersistenceException e) {
-			 throw new Exception("No se pudo eliminar la casilla");
+			throw new Exception("No se pudo eliminar la casilla");
 		}
-		
+
 	}
 
-	
 	public CasillaEntity obtenerCasilla(Long idCasilla) throws Exception {
 		try {
 			CasillaEntity casilla = em.find(CasillaEntity.class, idCasilla);
@@ -68,24 +65,46 @@ public class CasillasBean {
 		}
 	}
 
-	
 	public List<CasillaEntity> obtenerTodas() throws Exception {
-		 try {
-			 TypedQuery<CasillaEntity> query = em.createNamedQuery("Casilla.findAll",CasillaEntity.class);
-			 return query.getResultList();
+		try {
+			TypedQuery<CasillaEntity> query = em.createNamedQuery("Casilla.findAll", CasillaEntity.class);
+			return query.getResultList();
 		} catch (PersistenceException e) {
-			 throw new Exception("No se pudo realizar la busqueda");		}
-		
+			throw new Exception("No se pudo realizar la busqueda");
+		}
+
 	}
-    
+
 	public CasillaEntity buscarCasillaNombre(String nombre) throws Exception {
 		try {
-			TypedQuery<CasillaEntity> casilla = em.createQuery("Select c FROM CasillaEntity c WHERE nombre=:nombre",CasillaEntity.class).setParameter("nombre", nombre);
+			TypedQuery<CasillaEntity> casilla = em
+					.createQuery("Select c FROM CasillaEntity c WHERE nombre=:nombre", CasillaEntity.class)
+					.setParameter("nombre", nombre);
 			return casilla.getSingleResult();
 		} catch (Exception e) {
 			throw new Exception("No se pudo obtener la casilla" + e.getCause());
 		}
 	}
-    
+
+	public List<CasillaEntity> buscarCasillasHabilitadas() throws Exception {
+		try {
+			TypedQuery<CasillaEntity> casilla = em.createQuery("Select c FROM CasillaEntity c WHERE disponible=true",
+					CasillaEntity.class);
+			return casilla.getResultList();
+		} catch (Exception e) {
+			throw new Exception("No se pudo obtener la casilla" + e.getCause());
+		}
+	}
+
+	public List<CasillaEntity> buscarCasillasFormulario(String nombre) throws Exception {
+		try {
+			Query casilla = em
+					.createNativeQuery("SELECT * FROM CASILLAS,USUARIOS WHERE usuarios.nombre =:usuarios.nombre", CasillaEntity.class)
+					.setParameter("nombre", nombre);
+			return casilla.getResultList();
+		} catch (Exception e) {
+			throw new Exception("No se pudo obtener la casilla" + e.getCause());
+		}
+	}
 
 }
