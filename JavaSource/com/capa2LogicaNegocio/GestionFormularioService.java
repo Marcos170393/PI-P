@@ -56,6 +56,21 @@ public class GestionFormularioService implements Serializable{
 	
 	public FormularioEntity toFormularioEntity(Formulario form) {
 		FormularioEntity formulario = new FormularioEntity();
+	//	formulario.setIdFormulario(form.getIdFormulario());
+		formulario.setNombre(form.getNombre());
+		formulario.setDisponible(true);
+		formulario.setFechaHora(new Date());
+		formulario.setMetodoMedicion(form.getMetodoMedicion());
+		formulario.setResumen(form.getResumen());
+		formulario.setCasillas(form.getCasillas());
+		formulario.setCasillasObligatorias(form.getCasillasObligatorias());
+		formulario.setDepartamento(departamentoPersistencia.forDepartamentoEntity(form.getDepartamento()));
+		formulario.setUsuario(usuarioPersistencia.forUsuarioEntity(form.getUsuario()));
+		return formulario;
+	}
+	
+	public FormularioEntity forFormularioEntity(Formulario form) {
+		FormularioEntity formulario = new FormularioEntity();
 		formulario.setIdFormulario(form.getIdFormulario());
 		formulario.setNombre(form.getNombre());
 		formulario.setDisponible(true);

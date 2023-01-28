@@ -182,7 +182,7 @@ public class GestionUsuarioService implements Serializable {
 		usuarioUpdate.setNombreUsuario(usuario.getNombreUsuario());
 		usuarioUpdate.setRol(usuario.getRol());
 		usuarioUpdate.setCedula(usuario.getCedula());
-		usuarioUpdate.setCiudad(persistenciaBean.toCiudadEntity(usuario.getCiudad()));
+		usuarioUpdate.setCiudad(persistenciaBean.forCiudadEntity(usuario.getCiudad()));
 		usuarioUpdate.setDomicilio(usuario.getDomicilio());
 		usuarioUpdate.setTelefono(usuario.getTelefono());
 		usuarioBean.actualizar(usuarioUpdate);
@@ -207,6 +207,8 @@ public class GestionUsuarioService implements Serializable {
 
 	public void actualizarPerfil(Usuario usuario) throws Exception {
 		UsuarioEntity usuarioUpdate = usuarioBean.buscarUsuarioEntity(usuario.getIdUsuario());
+		
+	if (usuario.getRol().equals(Rol.ADMINISTRADOR) || usuario.getRol().equals(Rol.INVESTIGADOR)) {
 		usuarioUpdate.setApellido(usuario.getApellido());
 		usuarioUpdate.setContrasenia(this.Encrypt(usuario.getContrasenia()));
 		usuarioUpdate.setHabilitado(usuario.isHabilitado());
@@ -214,7 +216,26 @@ public class GestionUsuarioService implements Serializable {
 		usuarioUpdate.setNombre(usuario.getNombre());
 		usuarioUpdate.setNombreUsuario(usuario.getNombreUsuario());
 		usuarioUpdate.setRol(usuario.getRol());
+		usuarioUpdate.setCedula(usuario.getCedula());
+		usuarioUpdate.setCiudad(persistenciaBean.forCiudadEntity(usuario.getCiudad()));
+		usuarioUpdate.setDomicilio(usuario.getDomicilio());
+		usuarioUpdate.setTelefono(usuario.getTelefono());
 		usuarioBean.actualizar(usuarioUpdate);
+		}
+	else {
+		usuarioUpdate.setApellido(usuario.getApellido());
+		usuarioUpdate.setContrasenia(this.Encrypt(usuario.getContrasenia()));
+		usuarioUpdate.setHabilitado(usuario.isHabilitado());
+		usuarioUpdate.setMail(usuario.getMail());
+		usuarioUpdate.setNombre(usuario.getNombre());
+		usuarioUpdate.setNombreUsuario(usuario.getNombreUsuario());
+		usuarioUpdate.setRol(usuario.getRol());
+		usuarioUpdate.setCedula(null);
+		usuarioUpdate.setCiudad(null);
+		usuarioUpdate.setDomicilio(null);
+		usuarioUpdate.setTelefono(null);
+		usuarioBean.actualizar(usuarioUpdate);
+		}
 	}
 
 	public String Encrypt(String pInput) {

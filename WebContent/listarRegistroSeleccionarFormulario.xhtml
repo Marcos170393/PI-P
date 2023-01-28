@@ -29,14 +29,14 @@ h1 {
 	<ui:define name="content">
 		<p:breadCrumb>
 			<p:menuitem value="Pagina principal" url="home.xhtml" />
-			<p:menuitem value="Listado de formularios" url="#" />
+			<p:menuitem value="Seleccionar formulario" url="#" />
 		</p:breadCrumb>
 		<p:messages id="messages" severity="info" showSummary="true"
 			showDetail="false" closable="true">
 			<p:autoUpdate />
 		</p:messages>
 		<h:form>
-			<p:dataTable id="tablaFormularios"
+			<p:dataTable id="tablaFormulariosRegistro"
 				value="#{gestionFormulario.mostrarFormularios()}" var="form"
 				rowKey="#{form.idFormulario}">
 
@@ -45,9 +45,7 @@ h1 {
 				</p:column>
 
 				<p:column headerText="Fecha de creacion">
-					<h:outputText value="#{form.fechaHora}">
-						<f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-					</h:outputText>
+					<h:outputText value="#{form.fechaHora}" />
 				</p:column>
 
 				<p:column headerText="Metodo de medicion">
@@ -58,25 +56,14 @@ h1 {
 					<h:outputText value="#{form.resumen}" />
 				</p:column>
 
-				<p:column headerText="Departamento">
-					<h:outputText value="#{form.departamento.nombre}" />
-				</p:column>
-
 				<p:column headerText="Usuario">
 					<h:outputText value="#{form.usuario.nombreUsuario}" />
 				</p:column>
 
-				<p:column headerText="Actualizar/Eliminar">
+				<p:column headerText="">
 					<p:commandButton
-						rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}"
-						value="Eliminar" selectionMode="single" update="tablaFormularios"
-						action="#{gestionFormulario.eliminarFormulario(form.idFormulario)}">
-					</p:commandButton>
-					<p:spacer width="10" />
-					<p:commandButton
-						rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}"
-						value="Actualizar" selectionMode="single"
-						action="#{gestionFormulario.actualizarVistaActualizarFormulario(form.idFormulario)}">
+						value="Seleccionar" selectionMode="single" update="tablaFormulariosRegistro"
+						action="#{gestionRegistro.listarRegistrosSeleccionFormulario(form.idFormulario)}">
 					</p:commandButton>
 				</p:column>
 

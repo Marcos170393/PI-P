@@ -23,27 +23,31 @@
 		<p:menubar>
 
 			<p:submenu label="Gestion de Usuario">
-				<p:menuitem value="Alta de usuario" outcome="/altaUsuario.xhtml"
+				<p:menuitem value="Alta de Usuario" outcome="/altaUsuario.xhtml"
 					rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}" />
-				<p:menuitem value="Listado de usuarios" outcome="/listado.xhtml" />
+				<p:menuitem value="Listado de Usuarios" outcome="/listado.xhtml" />
 			</p:submenu>
 
 
 			<p:submenu label="Gestion de Casillas"
 				rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}">
-				<p:menuitem value="Alta de casilla" outcome="/altaCasilla.xhtml" />
-				<p:menuitem value="Listado de casillas"
+				<p:menuitem value="Alta de Casilla" outcome="/altaCasilla.xhtml" />
+				<p:menuitem value="Listado de Casillas"
 					outcome="/listadoCasillas.xhtml">
 				</p:menuitem>
 			</p:submenu>
 
 			<p:submenu label="Gestion de Formularios">
-				<p:menuitem value="Alta de formulario" outcome="/altaFormulario.xhtml"
+				<p:menuitem value="Alta de Formulario" outcome="/altaFormulario.xhtml"
 					rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}"/>
 				<p:menuitem value="Listado de Formularios" outcome="/listadoFormularios.xhtml"/>
 			</p:submenu>
 
 				<p:submenu label="Gestion de Registros de CA">
+					<p:menuitem value="Alta de Registro" outcome="/seleccionarFormularioRegistro.xhtml" />
+					<p:menuitem value="Listar por Formulario" outcome="/listarRegistroSeleccionarFormulario.xhtml" />
+					<p:menuitem value="Listar por Tipo de Dato" outcome="/listarRegistroTipoDato.xhtml" />
+					
 			</p:submenu>
 
 

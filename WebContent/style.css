@@ -44,6 +44,11 @@ body{
 	text-align: center;
 }
 
+.form-button2{
+  position: relative;
+  bottom: -20px;
+}
+
 .logout {
     background-image: url("../assets/001-logout.png");
     background-size: 2rem;

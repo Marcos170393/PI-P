@@ -1,5 +1,6 @@
 package com.capa1presentacion;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -18,25 +19,27 @@ public class Usuario {
 	private String apellido;
 
 	@NotNull(message = "Debes ingresar contraseña")
-	@Size(min = 3, max = 20, message = "Min. 3 caracteres / Max. 20 caracteres")
+	@Size(min = 8, max = 25, message = "Min. 8 caracteres / Max. 25 caracteres")
 	private String contrasenia;
 
 	@NotEmpty(message = "Debes ingresar un correo electronico")
+	@Email(message = "El correo debe contener @ y .com")
+	@Size(min = 10, max = 40, message = "Min 10 caracteres / Max. 40 caracteres")
 	private String mail;
 
 	@NotNull()
 	private boolean habilitado;
 
 	@NotNull(message = "Debes ingresar un nombre de usuario")
-	@Size(min = 3, max = 20, message = "Min. 3 caracteres / Max. 20 caracteres")
+	@Size(min = 8, max = 25, message = "Min. 8 caracteres / Max. 25 caracteres")
 	private String nombreUsuario;
 
 	@NotNull(message = "Debes ingresar la cedula")
-	@Size(min = 9, max = 10, message = "Debes ingresar la cedula con punto y guion")
+	@Size(min = 8, max = 8, message = "La cedula debe ser de 8 caracteres sin punto y guion")
 	private String cedula;
 
 	@NotNull(message = "Debes ingresar el domicilio")
-	@Size(min = 5, max = 30, message = "Min. 5 caracteres / Max. 30 caracteres")
+	@Size(min = 5, max = 40, message = "Min. 5 caracteres / Max. 40 caracteres")
 	private String domicilio;
 
 	@NotEmpty(message = "Debes seleccionar una ciudad")

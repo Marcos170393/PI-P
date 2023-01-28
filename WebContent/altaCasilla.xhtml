@@ -34,7 +34,12 @@ h1 {
 			<p:menuitem value="Pagina principal" url="home.xhtml" />
 			<p:menuitem value="Alta de casillas" url="#" />
 		</p:breadCrumb>
-
+		
+		<p:messages id="messages" severity="info" showSummary="true"
+			showDetail="false" closable="true">
+			<p:autoUpdate />
+		</p:messages>
+		
 		<div class="Casillas">
 
 			<div class="create-form">
@@ -49,7 +54,9 @@ h1 {
 					<div class="input-group">
 						<p:inputText class="input-form" id="nombre"
 							value="#{gestionCasilla.casillaSeleccionada.nombre}" />
-						<h:message for="nombre" style="width:100%" />
+						<p:message for="nombre" showDetail="true" showIcon="false"
+							closable="true" />
+							<p:autoUpdate />
 					</div>
 
 					<div>
@@ -63,6 +70,9 @@ h1 {
 							<f:selectItems value="#{gestionCasilla.listaParametros()}"
 								var="p" itemLabel="#{p.nombre}" itemValue="#{p.nombre}" />
 						</p:selectOneMenu>
+						<p:message for="parametro" showDetail="true" showIcon="false"
+							closable="true" />
+							<p:autoUpdate />
 					</div>
 
 					<div>
@@ -75,6 +85,9 @@ h1 {
 							<f:selectItem disabled="true" itemValue="" itemLabel="" />
 							<f:selectItems value="#{gestionCasilla.listaTipoDato()}"
 								var="t" itemLabel="#{t.nombre}" itemValue="#{t.nombre}" />
+								<p:message for="tipoDato" showDetail="true" showIcon="false"
+							closable="true" />
+							<p:autoUpdate />
 						</p:selectOneMenu>
 					</div>
 
@@ -85,7 +98,9 @@ h1 {
 
 					<div class="input-group">
 						<p:inputText class="input-form" id="descripcion" value="#{gestionCasilla.casillaSeleccionada.descripcion}" />
-						<h:message for="apellido" style="color:red" />
+						<p:message for="descripcion" showDetail="true" showIcon="false"
+							closable="true" />
+							<p:autoUpdate />
 					</div>
 
 					<div class="form-button" style="margin: 30px">

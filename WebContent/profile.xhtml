@@ -6,97 +6,196 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<h:head></h:head> 
+	<h:head></h:head>
 
-<ui:define name="content">
-	
-	<f:metadata>
-	 <f:event type="preRenderView" listener="#{gestionUsuario.modPerfil()}"/>
-	</f:metadata>
-	
-	
-	<p:breadCrumb>
-		<p:menuitem value="Página principal"
-			url="home.xhtml" />
-		<p:menuitem value="Perfil"
-			url="#" />
-	</p:breadCrumb>
-	<h:form id="crearUsuario">
-		<div class="create-form">
-			<div class="form-title">
-				<h2>Modificar perfil</h2>				
-			</div>
-			<div>
-				<p:outputLabel value="Nombre" />
-			</div>
-			<div class="input-group">
-				<p:inputText class="input-form" id="nombre" value="#{gestionUsuario.usuarioSeleccionado.nombre}" />
-				<h:message for="nombre" style="width:100%" />
-			</div>
+	<ui:define name="content">
 
-			<div>
-				<p:outputLabel value="Apellido" />
-			</div>
-			<div class="input-group">
-				<p:inputText class="input-form" id="apellido" value="#{gestionUsuario.usuarioSeleccionado.apellido}" />
-				<h:message for="apellido" style="color:red" />
-			</div>
+		<f:metadata>
+			<f:event type="preRenderView"
+				listener="#{gestionUsuario.modPerfil()}" />
+		</f:metadata>
 
-			<div class="input-group">
-				<p:outputLabel value="Nombre de usuario" />
-				<div>
-					<p:inputText class="input-form" id="nombreUsuario" disabled="true"	value="#{gestionUsuario.usuarioSeleccionado.nombreUsuario}" />
-					<h:message for="nombreUsuario" style="color:red" />
+
+		<p:breadCrumb>
+			<p:menuitem value="Página principal" url="home.xhtml" />
+			<p:menuitem value="Perfil" url="#" />
+		</p:breadCrumb>
+		<h:form id="crearUsuario">
+			<div class="create-form">
+				<div class="form-title">
+					<h2>Modificar perfil</h2>
 				</div>
-			</div>
+				<div>
+					<p:outputLabel value="Nombre" />
+				</div>
+				<div class="input-group">
+					<p:inputText class="input-form" id="nombre"
+						value="#{gestionUsuario.usuarioSeleccionado.nombre}" />
+						
+					<p:message for="nombre" showDetail="true" showIcon="false"
+						closable="true">
+					<p:autoUpdate />
+					</p:message>
+				</div>
 
-			<div>
-				<p:outputLabel value="Mail" />
-			</div>
-			<div class="input-group">
-				<p:inputText class="input-form" id="mail" value="#{gestionUsuario.usuarioSeleccionado.mail}" />
-				<h:message for="mail" style="color:red" />
-			</div>
-			<div>
-				<p:outputLabel value="Contrasenia" />
+				<div>
+					<p:outputLabel value="Apellido" />
+				</div>
+				<div class="input-group">
+					<p:inputText class="input-form" id="apellido"
+						value="#{gestionUsuario.usuarioSeleccionado.apellido}" />
+						
+					<p:message for="apellido" showDetail="true" showIcon="false"
+						closable="true">
+					<p:autoUpdate />
+					</p:message>
+				</div>
 
-			</div>
-			<div class="input-group">
-				<p:inputText id="contrasenia"
-					value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" />
-				<h:message for="contrasenia" style="color:red" />
-			</div>
-			<div >
-				<p:outputLabel value="Rol" rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}"/>
+				<div class="input-group">
+					<p:outputLabel value="Nombre de usuario" />
+					<div>
+						<p:inputText class="input-form" id="nombreUsuario" disabled="true"
+							value="#{gestionUsuario.usuarioSeleccionado.nombreUsuario}" />
+							
+					<p:message for="nombreUsuario" showDetail="true" showIcon="false"
+						closable="true">
+					<p:autoUpdate />
+					</p:message>
+					</div>
+				</div>
 
-			</div>
-			<div class="input-group">
-				<p:selectOneMenu id="rol"
-					value="#{gestionUsuario.usuarioSeleccionado.rol}" editable="false" rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}">
-					<f:selectItem itemValue="" itemLabel="" />
-					<f:selectItem itemValue="#{gestionUsuario.admin}" itemLabel="Administrador" />
-					<f:selectItem itemValue="#{gestionUsuario.afic}" itemLabel="Aficionado" />
-					<f:selectItem itemValue="#{gestionUsuario.inv}" itemLabel="Investigador" />
-				</p:selectOneMenu>
-			</div>
-			<div >
-				<p:outputLabel value="Habilitado" rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}"/>
+				<div>
+					<p:outputLabel value="Mail" />
+				</div>
+				<div class="input-group">
+					<p:inputText class="input-form" id="mail"
+						value="#{gestionUsuario.usuarioSeleccionado.mail}" />
+						
+					<p:message for="mail" showDetail="true" showIcon="false"
+						closable="true">
+						<p:autoUpdate />
+					</p:message>
+				</div>
+				<div>
+					<p:outputLabel value="Contrasenia" />
 
-			</div>
-			<div class="input-group">
-				<p:selectOneMenu id="habilitado"
-					value="#{gestionUsuario.usuarioSeleccionado.habilitado}" editable="false" rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}">
+				</div>
+				<div class="input-group">
+					<p:inputText id="contrasenia"
+						value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" />
+						
+					<p:message for="contrasenia" showDetail="true" showIcon="false"
+						closable="true">
+						<p:autoUpdate />
+					</p:message>
+				</div>
+				<div>
+					<p:outputLabel value="Rol"
+						rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}" />
+
+				</div>
+				<div class="input-group">
+					<p:selectOneMenu id="rol"
+						value="#{gestionUsuario.usuarioSeleccionado.rol}" disabled="true"
+						rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}">
+						<f:selectItem itemValue="" itemLabel="" />
+						<f:selectItem itemValue="#{gestionUsuario.admin}"
+							itemLabel="Administrador" />
+						<f:selectItem itemValue="#{gestionUsuario.afic}"
+							itemLabel="Aficionado" />
+						<f:selectItem itemValue="#{gestionUsuario.inv}"
+							itemLabel="Investigador" />
+					</p:selectOneMenu>
+				</div>
+				<div>
+					<p:outputLabel value="Habilitado"
+						rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}" />
+
+				</div>
+				<div class="input-group">
+					<p:selectOneMenu id="habilitado"
+						value="#{gestionUsuario.usuarioSeleccionado.habilitado}"
+						disabled="true"
+		rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" >
 					<f:selectItem itemValue="" itemLabel="" />
 					<f:selectItem itemValue="True" itemLabel="True" />
 					<f:selectItem itemValue="False" itemLabel="False" />
-				</p:selectOneMenu>
+					</p:selectOneMenu>
+				</div>
+
+				<div>
+					<p:outputLabel value="Cedula"
+				rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" />
+				</div>
+
+				<div class="input-group">
+					<p:inputText id="cedula"
+						value="#{gestionUsuario.usuarioSeleccionado.cedula}"
+				rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" />
+					<p:message for="cedula" showDetail="true" showIcon="false"
+						closable="true">
+						<p:autoUpdate />
+					</p:message>
+				</div>
+
+				<div>
+					<p:outputLabel value="Domicilio"
+				rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" />
+				</div>
+
+				<div class="input-group">
+					<p:inputText id="domicilio"
+						value="#{gestionUsuario.usuarioSeleccionado.domicilio}"
+				rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" />
+					<p:message for="domicilio" showDetail="true" showIcon="false"
+						closable="true">
+						<p:autoUpdate />
+					</p:message>
+				</div>
+
+
+				<div>
+					<p:outputLabel value="Telefono"
+					rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" />
+				</div>
+
+				<div class="input-group">
+					<p:inputText id="telefono"
+						value="#{gestionUsuario.usuarioSeleccionado.telefono}"
+				rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" />
+					<p:message for="telefono" showDetail="true" showIcon="false"
+						closable="true">
+						<p:autoUpdate />
+					</p:message>
+				</div>
+
+				<div>
+					<p:outputLabel value="Ciudad"
+				rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" />
+				</div>
+
+				<div class="input-group">
+					<p:selectOneMenu id="ciudad"
+						value="#{gestionUsuario.ciudadUsuario}"
+				rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" filter="true">
+						<f:selectItem disabled="true" itemValue="" itemLabel="" />
+						<f:selectItems value="#{gestionUsuario.mostrarCiudades()}" var="e"
+							itemLabel="#{e.nombre}" itemValue="#{e.nombre}" />
+
+					</p:selectOneMenu>
+					<p:message for="ciudad" showDetail="true" showIcon="false"
+						closable="true">
+						<p:autoUpdate />
+					</p:message>
+				</div>
+
+				<div class="form-button">
+					<p:commandButton value="Guardar Usuario"
+						action="#{gestionUsuario.actualizarPerfil}" />
+				</div>
 			</div>
-		<div class="form-button">
-			<p:commandButton value="Guardar Usuario" action="#{gestionUsuario.actualizarPerfil}" />
-		</div>
-		</div>
-	</h:form>
-	
-	
-</ui:define>	 
+		</h:form>
+
+
+	</ui:define>
 </ui:composition>

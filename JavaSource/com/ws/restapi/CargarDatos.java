@@ -19,6 +19,7 @@ import com.capa1presentacion.Ciudad;
 import com.capa1presentacion.Departamento;
 import com.capa1presentacion.Formulario;
 import com.capa1presentacion.Parametro;
+import com.capa1presentacion.Registro;
 import com.capa1presentacion.Rol;
 import com.capa1presentacion.TipoDato;
 import com.capa1presentacion.TipoMedicion;
@@ -59,6 +60,9 @@ public class CargarDatos extends HttpServlet {
 	com.capa2LogicaNegocio.GestionFormularioService gestionFormularioService;
 
 	@EJB
+	com.capa2LogicaNegocio.GestionRegistroService gestionRegistroService;
+
+	@EJB
 	UsuariosBean usuarioBean = new UsuariosBean();
 
 	/**
@@ -81,23 +85,60 @@ public class CargarDatos extends HttpServlet {
 		UsuariosBean bean = new UsuariosBean();
 		try {
 			Ciudad c = new Ciudad("Durazno");
-			Ciudad c2 = new Ciudad("Fray Bentos");
+			Ciudad c1 = new Ciudad("Artigas");
+			Ciudad c2 = new Ciudad("Canelones");
+			Ciudad c3 = new Ciudad("Colonia");
+			Ciudad c4 = new Ciudad("Flores");
+			Ciudad c5 = new Ciudad("Florida");
+			Ciudad c6 = new Ciudad("Lavalleja");
+			Ciudad c7 = new Ciudad("Maldonado");
+			Ciudad c8 = new Ciudad("Montevideo");
+			Ciudad c9 = new Ciudad("Paysandu");
+			Ciudad c10 = new Ciudad("Rio Negro");
+			Ciudad c11 = new Ciudad("Rivera");
+			Ciudad c12 = new Ciudad("Rocha");
+			Ciudad c13 = new Ciudad("Salto");
+			Ciudad c14 = new Ciudad("San Jose");
+			Ciudad c15 = new Ciudad("Soriano");
+			Ciudad c16 = new Ciudad("Tacuarembo");
+			Ciudad c17 = new Ciudad("Treinta y Tres");
+			Ciudad c18 = new Ciudad("Fray Bentos");
+			
 			c = gestionCiudadService.agregarCiudad(c);
+			c1 = gestionCiudadService.agregarCiudad(c1);
 			c2 = gestionCiudadService.agregarCiudad(c2);
+			c3 = gestionCiudadService.agregarCiudad(c3);
+			c4 = gestionCiudadService.agregarCiudad(c4);
+			c5 = gestionCiudadService.agregarCiudad(c5);
+			c6 = gestionCiudadService.agregarCiudad(c6);
+			c7 = gestionCiudadService.agregarCiudad(c7);
+			c8 = gestionCiudadService.agregarCiudad(c8);
+			c9 = gestionCiudadService.agregarCiudad(c9);
+			c10 = gestionCiudadService.agregarCiudad(c10);
+			c11 = gestionCiudadService.agregarCiudad(c11);
+			c12 = gestionCiudadService.agregarCiudad(c12);
+			c13 = gestionCiudadService.agregarCiudad(c13);
+			c14 = gestionCiudadService.agregarCiudad(c14);
+			c15 = gestionCiudadService.agregarCiudad(c15);
+			c16 = gestionCiudadService.agregarCiudad(c16);
+			c17 = gestionCiudadService.agregarCiudad(c17);
+			c18 = gestionCiudadService.agregarCiudad(c18);
 			out.println("Se han creado las ciudades con exito");
 
-
-			Usuario u = new Usuario("Martin", "Rodriguez", "martin123", "martin@gmail.com", true, "martin.lti",
-					"12345678", "Joaquin Suarez 702", c, Long.valueOf(92723073), Rol.ADMINISTRADOR);
+			Usuario u = new Usuario("Admin", "Administrador", "administrador", "admin@gmail", true, "administrador", "12345678",
+					"Durazno 123", c, Long.valueOf(92723073), Rol.ADMINISTRADOR);
 
 			u = gestionUsuarioService.agregarUsuario(u);
 			out.println("Se ha creado el usuario con exito " + u);
 
-			Usuario user = new Usuario("Marcos", "Correa", "marcos123", "marcos@gmail.com", true, "marcos.lti",
-					Rol.AFICIONADO);
-			user = gestionUsuarioService.agregarUsuario(user);
-			out.println("Usuario agregado" + user);
+			Usuario u2 = new Usuario("Invest", "Investigador", "investigador", "investigador@gmail", true,
+					"investigador", "12345867", "Canelones 132", c1, Long.valueOf(91885647), Rol.INVESTIGADOR);
+			u2 = gestionUsuarioService.agregarUsuario(u2);
+			out.println("Usuario agregado" + u2);
 
+			Usuario u3 = new Usuario("Afic", "Aficionado", "aficionado", "aficionado@gmail.com", true,
+					"aficionado", Rol.AFICIONADO);
+			u3 = gestionUsuarioService.agregarUsuario(u3);
 			/*
 			 * Usuario e = new Usuario("admin", "admin", "admin", "admin@gmail.com", true,
 			 * "admin", "31022972", "Artigas 123", dur, Long.valueOf(93934432),
@@ -118,47 +159,54 @@ public class CargarDatos extends HttpServlet {
 				Parametro param1 = new Parametro("Longitud");
 				Parametro param2 = new Parametro("Altitud");
 				Parametro param3 = new Parametro("Temperatura");
-				
+
 				param1 = gestionParametroService.agregarParametro(param1);
 				param2 = gestionParametroService.agregarParametro(param2);
 				param3 = gestionParametroService.agregarParametro(param3);
 
-				out.println("Tipos de datos y parametros creados" );
-				
-			/*	Parametro p1 = gestionParametroService.buscarParametroEntity(1L);
-				TipoDato t1 = gestionTipoDatoService.buscarTdatoEntity(1L);
-				Usuario use = gestionUsuarioService.buscarUsuarioEntity(user.getIdUsuario());*/
+				out.println("Tipos de datos y parametros creados");
 
-	
+				/*
+				 * Parametro p1 = gestionParametroService.buscarParametroEntity(1L); TipoDato t1
+				 * = gestionTipoDatoService.buscarTdatoEntity(1L); Usuario use =
+				 * gestionUsuarioService.buscarUsuarioEntity(user.getIdUsuario());
+				 */
+
 				Casilla casilla = new Casilla("Creando casilla", "Casilla", true, param1, dato1, u);
 				casilla = gestionCasillaService.agregarCasilla(casilla);
 				out.println("Casilla creada.. " + casilla);
-				
 
 				Casilla casilla2 = new Casilla("Creando casilla dos", "Casilla dos", true, param2, dato2, u);
 				casilla2 = gestionCasillaService.agregarCasilla(casilla2);
 				out.println("Casilla creada.. " + casilla2);
-						
+
 				List<CiudadEntity> ciudades = new ArrayList<>();
 				ciudades.add(gestionCiudadService.forCiudadEntity(c2));
-				
+
 				Departamento dpto = new Departamento("Durazno");
 				dpto.setCiudades(ciudades);
 				dpto = gestionDptoService.agregarDepartamento(dpto);
 				out.println("Departamento creado" + dpto);
-				
+
 				List<CasillaEntity> casillas = new ArrayList<>();
 				casillas.add(gestionCasillaService.forCasillaEntity(casilla));
-				
-				Formulario form1 = new Formulario("Formulario 1", new Date(), TipoMedicion.MANUAL, "Se crea un formulario de prueba", casillas, u, dpto);
+				casillas.add(gestionCasillaService.forCasillaEntity(casilla2));
+
+				Formulario form1 = new Formulario("Formulario 1", new Date(), TipoMedicion.MANUAL,
+						"Se crea un formulario de prueba", casillas, u, dpto);
 				form1 = gestionFormularioService.agregarFormulario(form1);
-			
-				
-				Formulario form2 = new Formulario("Formulario 2", new Date(), TipoMedicion.AUTOMATICO, "Probando formulario 2", casillas, u, dpto);
+
+				Formulario form2 = new Formulario("Formulario 2", new Date(), TipoMedicion.AUTOMATICO,
+						"Probando formulario 2", casillas, u, dpto);
 				form2 = gestionFormularioService.agregarFormulario(form2);
 				out.println("Formularios creados");
-				
-				
+
+				Registro reg = new Registro(u, form2, casilla2, new Date(), 100l, 1);
+				reg = gestionRegistroService.agregarRegistro(reg);
+
+				Registro reg2 = new Registro(u, form1, casilla2, new Date(), 400l, 1);
+				reg2 = gestionRegistroService.agregarRegistro(reg2);
+				out.print("Registros agregados");
 			} catch (PersistenciaException p) {
 				p.getMessage();
 

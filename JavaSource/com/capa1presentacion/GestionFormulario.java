@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Enumerated;
+import javax.swing.JRadioButton;
 
 import com.capa2LogicaNegocio.GestionCasillaService;
 import com.capa2LogicaNegocio.GestionDepartamentoService;
@@ -37,12 +38,12 @@ public class GestionFormulario implements Serializable {
 
 	@Inject
 	GestionCasillaService casillaPersistencia;
-	
+
 	@Inject
 	GestionDepartamentoService departamentoPersistencia;
 
 	private Formulario formularioSeleccionado;
-	
+
 	private String departamentoFormulario;
 
 	@Enumerated
@@ -52,16 +53,19 @@ public class GestionFormulario implements Serializable {
 	private TipoMedicion automatica = TipoMedicion.AUTOMATICO;
 
 	private static List<CasillaEntity> casillasFormulario = new ArrayList<>();
+
+	private static List<CasillaEntity> casillasObligatoriasFormulario = new ArrayList<>();
+
+	private String esObligatoria;
 	
 	@EJB
-	CasillasBean casillasBean = new CasillasBean(); 
-	
+	CasillasBean casillasBean = new CasillasBean();
+
 	@PostConstruct
 	public void init() {
 		formularioSeleccionado = new Formulario();
 		casillasFormulario = new ArrayList<>();
 	}
-
 
 	// GUARDAR NUEVA CASILLA \\
 	public String salvarCambios() throws Exception {
@@ -71,13 +75,15 @@ public class GestionFormulario implements Serializable {
 
 			List<Departamento> dptos = departamentoPersistencia.buscarDepartamentos();
 			for (Departamento departamento : dptos) {
-				if(departamento.getNombre().equals(departamentoFormulario)) {
+				if (departamento.getNombre().equals(departamentoFormulario)) {
 					formularioSeleccionado.setDepartamento(departamento);
 				}
 			}
 
 			formularioSeleccionado.setUsuario(CurrentUser.getUsuario());
 			formularioSeleccionado.setCasillas(casillasFormulario);
+			formularioSeleccionado.setCasillasObligatorias(casillasObligatoriasFormulario);
+			
 
 			formularioNuevo = (Formulario) formularioPersistencia.agregarFormulario(formularioSeleccionado);
 			// actualizamos id
@@ -85,6 +91,7 @@ public class GestionFormulario implements Serializable {
 			// vaciamos formularioSeleccionado como para ingresar uno nuevo
 			formularioSeleccionado = new Formulario();
 			casillasFormulario = new ArrayList<>();
+			casillasObligatoriasFormulario = new ArrayList<>();
 			// mensaje de actualizacion correcta
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Se ha agregado un nuevo formulario con éxito", "");
@@ -106,46 +113,46 @@ public class GestionFormulario implements Serializable {
 
 		return "";
 	}
-	
+
 	// MODIFICACION DE FORMULARIO \\
-		public String actualizarFormulario() throws Exception {
-				
-					try {
+	public String actualizarFormulario() throws Exception {
 
-						List<Departamento> dptos = departamentoPersistencia.buscarDepartamentos();
-						for (Departamento departamento : dptos) {
-							if(departamento.getNombre().equals(departamentoFormulario)) {
-								formularioSeleccionado.setDepartamento(departamento);
-							}
-						}
-						
-						formularioSeleccionado.setUsuario(CurrentUser.getUsuario());
-						
-						formularioPersistencia.actualizarFormulario(formularioSeleccionado);
-						// actualizamos id
-						Long nuevoId = formularioSeleccionado.getIdFormulario();
-						// vaciamos usuarioSeleccionado como para ingresar uno nuevo
-						formularioSeleccionado = new Formulario();
-					FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Formulario actualizado con éxito", null);
-					FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-					return "listadoFormularios";
+		try {
 
-				} catch (PersistenciaException e) {
-
-					Throwable rootException = ExceptionsTools.getCause(e);
-					String msg1 = e.getMessage();
-					String msg2 = ExceptionsTools.formatedMsg(rootException);
-					// mensaje de actualizacion correcta
-					FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg1, null);
-					FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-
-					e.printStackTrace();
+			List<Departamento> dptos = departamentoPersistencia.buscarDepartamentos();
+			for (Departamento departamento : dptos) {
+				if (departamento.getNombre().equals(departamentoFormulario)) {
+					formularioSeleccionado.setDepartamento(departamento);
 				}
-
-				return "";
 			}
-	
-	
+
+			formularioSeleccionado.setUsuario(CurrentUser.getUsuario());
+
+			formularioPersistencia.actualizarFormulario(formularioSeleccionado);
+			// actualizamos id
+			Long nuevoId = formularioSeleccionado.getIdFormulario();
+			// vaciamos usuarioSeleccionado como para ingresar uno nuevo
+			formularioSeleccionado = new Formulario();
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Formulario actualizado con éxito",
+					null);
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			return "listadoFormularios";
+
+		} catch (PersistenciaException e) {
+
+			Throwable rootException = ExceptionsTools.getCause(e);
+			String msg1 = e.getMessage();
+			String msg2 = ExceptionsTools.formatedMsg(rootException);
+			// mensaje de actualizacion correcta
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg1, null);
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+
+			e.printStackTrace();
+		}
+
+		return "";
+	}
+
 	// MOSTRAR LISTADO DE FORMULARIOS \\
 	public List<Formulario> mostrarFormularios() throws Exception {
 
@@ -187,16 +194,19 @@ public class GestionFormulario implements Serializable {
 		}
 
 	}
-	
+
 	public String agregarCasillasFormulario(Long idCasilla) throws Exception {
 
 		try {
-			
-			//Buscamos la casilla en la que presionamos agregar y la agregamos al listado																																					
+
+			// Buscamos la casilla en la que presionamos agregar y la agregamos al listado
 			CasillaEntity casilla = casillasBean.obtenerCasilla(idCasilla);
-				casillasFormulario.add(casilla);
+			casillasFormulario.add(casilla);
 			
-	
+			/*if(esObligatoria.equals(casilla.getNombre())) {
+				casillasObligatoriasFormulario.add(casilla);
+			}*/
+
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Casilla agregada con exito", "");
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 			return "";
@@ -213,72 +223,79 @@ public class GestionFormulario implements Serializable {
 		}
 	}
 
-		public List<CasillaEntity> mostrarCasillasFormulario() throws Exception {
+	public List<CasillaEntity> mostrarCasillasFormulario() throws Exception {
 
-			try {
-				//Cargamos la lista estatica de casillas del formulario
-				List<CasillaEntity> list = casillasFormulario;
-				return list;
-				
-			} catch (Exception e) {
+		try {
+			// Cargamos la lista estatica de casillas del formulario
+			List<CasillaEntity> list = casillasFormulario;
+			return list;
 
-				Throwable rootException = ExceptionsTools.getCause(e);
-				String msg1 = e.getMessage();
-				String msg2 = ExceptionsTools.formatedMsg(rootException);
-				// mensaje de actualizacion correcta
-				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg1, msg2);
-				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-				e.printStackTrace();
-				return new ArrayList<CasillaEntity>();
+		} catch (Exception e) {
+
+			Throwable rootException = ExceptionsTools.getCause(e);
+			String msg1 = e.getMessage();
+			String msg2 = ExceptionsTools.formatedMsg(rootException);
+			// mensaje de actualizacion correcta
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg1, msg2);
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			e.printStackTrace();
+			return new ArrayList<CasillaEntity>();
+		}
+	}
+
+	public void eliminarCasillaFormulario(Long idCasilla) throws Exception {
+
+		try {
+			for (CasillaEntity c : casillasFormulario) {
+				if (c.getIdCasilla() == idCasilla) {
+					casillasFormulario.remove(c);
+				}
 			}
+
+		} catch (Exception e) {
+
+			Throwable rootException = ExceptionsTools.getCause(e);
+			String msg1 = e.getMessage();
+			String msg2 = ExceptionsTools.formatedMsg(rootException);
+			// mensaje de actualizacion correcta
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg1, msg2);
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			e.printStackTrace();
 		}
-		
+	}
 
-
-		public void eliminarCasillaFormulario(Long idCasilla) throws Exception {
-
-			try {
-				for(CasillaEntity c : casillasFormulario ) {
-					if(c.getIdCasilla() == idCasilla) {
-						casillasFormulario.remove(c);
-					}
-				}				
-	
-			} catch (Exception e) {
-
-				Throwable rootException = ExceptionsTools.getCause(e);
-				String msg1 = e.getMessage();
-				String msg2 = ExceptionsTools.formatedMsg(rootException);
-				// mensaje de actualizacion correcta
-				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg1, msg2);
-				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-				e.printStackTrace();
-			}
-		}
-
-		public List<Departamento> listaDepartamentos() throws Exception{
-			List<Departamento> listaDptos = departamentoPersistencia.buscarDepartamentos();
-			return listaDptos;
-		}
-		
+	public List<Departamento> listaDepartamentos() throws Exception {
+		List<Departamento> listaDptos = departamentoPersistencia.buscarDepartamentos();
+		return listaDptos;
+	}
 
 	public String actualizarVistaActualizarFormulario(String id) throws Exception {
 		formularioSeleccionado = formularioPersistencia.buscarFormularioEntityId(Long.parseLong(id));
-		casillasFormulario = formularioSeleccionado.getCasillas(); //Le cargamos la lista de casillas que tiene el formulario seleccionado
+		casillasFormulario = formularioSeleccionado.getCasillas(); // Le cargamos la lista de casillas que tiene el
+																	// formulario seleccionado
 		return "actualizarFormulario";
-		}
-			
-	//Cuando pre
+	}
+
+	public String confirmarCambiosCrearForm() {
+		FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cambios guardados", "");
+		FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+		return "altaFormulario";
+	}
+
+	public String confirmarCambiosActualizarForm() {
+		FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cambios guardados", "");
+		FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+		return "actualizarFormulario";
+	}
+
 	public String actualizarVista() throws Exception {
 		return "listadoCasillasCrearFormulario";
-		}
-	
+	}
 
 	public String actualizarVistaAgregarCasillas() throws Exception {
 		return "listadoCasillasActualizarFormulario";
-		}
-		
-		
+	}
+
 	public String getDepartamentoFormulario() {
 		return departamentoFormulario;
 	}
@@ -317,6 +334,14 @@ public class GestionFormulario implements Serializable {
 
 	public static void setCasillasFormulario(List<CasillaEntity> casillasFormulario) {
 		GestionFormulario.casillasFormulario = casillasFormulario;
+	}
+
+	public void setEsObligatoria(String esObligatoria) {
+		this.esObligatoria = esObligatoria;
+	}
+
+	public String getEsObligatoria() {
+		return esObligatoria;
 	}
 
 }

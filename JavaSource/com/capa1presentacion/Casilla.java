@@ -1,17 +1,26 @@
 package com.capa1presentacion;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Casilla {
 
 	private long idCasilla;
 	
+	@NotNull(message="Debes ingresar una descripcion")
+	@Size(min = 0, max = 100, message= "Maximo 100 caracteres.")
 	private String descripcion;
 	
+	@NotNull(message = "Debes ingresar un nombre")
+	@Size(min = 8, max = 30, message = "Min. 8 caracteres / Max. 30 caracteres")
 	private String nombre;
 	
 	private boolean disponible;
 	
+	@NotNull(message="Debes seleccionar un parametro")
 	private Parametro parametro;
 	
+	@NotNull(message="Debes seleccionar un tipo de dato")
 	private TipoDato tipoDato;
 	
 	private Usuario usuario;
