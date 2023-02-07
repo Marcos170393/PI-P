@@ -37,12 +37,9 @@ h1 {
 		</p:messages>
 		<h:form>
 			
-		<div class="input-group">
-		<p:inputText id="filtro" value="#{gestionCasilla.casillaSeleccionada.nombre}" />
-		</div>
 			<p:dataTable id="tablaCasillas"
 				value="#{gestionCasilla.mostrarCasillas()}" var="casilla"
-				rowKey="#{casilla.idCasilla}" filterBy="#{casilla.nombre}">
+				rowKey="#{casilla.idCasilla}">
 
 				<p:column headerText="Nombre">
 					<h:outputText value="#{casilla.nombre}" />

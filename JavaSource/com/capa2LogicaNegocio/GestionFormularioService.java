@@ -130,4 +130,14 @@ public class GestionFormularioService implements Serializable{
 		}
 	}
 	
+	public Formulario buscarFormularioEntityName(String name) throws Exception {
+		try {
+			FormularioEntity formulario = formularioBean.buscarFormularioName(name);
+			return fromFormularioEntity(formulario);
+		} catch (PersistenceException | NullPointerException e) {
+			Formulario f = new Formulario();
+			return f;
+		}
+	}
+	
 }

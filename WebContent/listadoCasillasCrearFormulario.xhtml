@@ -35,7 +35,8 @@ h1 {
 			showDetail="false" closable="true">
 			<p:autoUpdate />
 		</p:messages>
-		<h:form>
+		
+		<h:form id="agregarCasillas">
 			<p:dataTable id="tablaCasillas"
 				value="#{gestionCasilla.mostrarCasillas()}" var="casilla"
 				rowKey="#{casilla.idCasilla}">
@@ -63,7 +64,7 @@ h1 {
 				<p:column headerText="Usuario creador">
 					<h:outputText value="#{casilla.usuario.nombreUsuario}" />
 				</p:column>
-
+				
 				<p:column headerText="Agregar">
 					<p:commandButton
 						rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}"
@@ -72,9 +73,15 @@ h1 {
 						<f:param name="idCasilla" value="#{casilla.idCasilla}" />
 					</p:commandButton>
 				</p:column>
+				
 			</p:dataTable>
-
-						
+		
+				<p:selectOneRadio id="obligatoria" value="#{gestionFormulario.esObligatoria}" unselectable="true">
+					<f:selectItem itemValue="Obligatoria"
+						itemLabel="Obligatoria" selectionMode="single" />
+				</p:selectOneRadio>
+				
+		
 			<div class="form-button" style="margin: 30px">
 				<p:commandButton value="Confirmar"
 					action="#{gestionFormulario.confirmarCambiosCrearForm()}" />

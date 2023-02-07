@@ -47,7 +47,7 @@ public class GestionCasillaService implements Serializable {
 		casilla.setNombre(c.getNombre());
 		casilla.setDescripcion(c.getDescripcion());
 		casilla.setDisponible(c.isDisponible());
-		casilla.setParametro(parametroPersistencia.fromParametroEntity(c.getParametroBean()));
+		casilla.setParametro(parametroPersistencia.fromParametroEntity(c.getParametro()));
 		casilla.setTipoDato(tdatoPersistencia.fromTipodatoEntity(c.getTipoDato()));
 		casilla.setUsuario(persistenciaBean.fromUsuarioEntity(c.getUsuario()));
 		return casilla;

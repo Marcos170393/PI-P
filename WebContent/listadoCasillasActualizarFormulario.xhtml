@@ -74,7 +74,11 @@ h1 {
 				</p:column>
 
 			</p:dataTable>
-				
+			
+				<p:selectOneRadio id="obligatoria" value="#{gestionFormulario.esObligatoria}" unselectable="true">
+					<f:selectItem itemValue="Obligatoria"
+						itemLabel="Obligatoria" selectionMode="single" />
+				</p:selectOneRadio>
 			<div class="form-button" style="margin: 30px">
 				<p:commandButton value="Confirmar"
 					action="#{gestionFormulario.confirmarCambiosActualizarForm()}" />

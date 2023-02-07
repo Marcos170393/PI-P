@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Enumerated;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
 import com.capa2LogicaNegocio.GestionCasillaService;
@@ -21,7 +22,6 @@ import com.capa2LogicaNegocio.GestionFormularioService;
 import com.capa3Persistencia.entities.CasillaEntity;
 import com.capa3Persistencia.entities.CasillasBean;
 import com.capa3Persistencia.exception.PersistenciaException;
-
 import com.utils.ExceptionsTools;
 
 @Named(value = "gestionFormulario") // JEE8
@@ -56,8 +56,8 @@ public class GestionFormulario implements Serializable {
 
 	private static List<CasillaEntity> casillasObligatoriasFormulario = new ArrayList<>();
 
-	private String esObligatoria;
-	
+	private String casillaObligatoria;
+
 	@EJB
 	CasillasBean casillasBean = new CasillasBean();
 
@@ -83,7 +83,6 @@ public class GestionFormulario implements Serializable {
 			formularioSeleccionado.setUsuario(CurrentUser.getUsuario());
 			formularioSeleccionado.setCasillas(casillasFormulario);
 			formularioSeleccionado.setCasillasObligatorias(casillasObligatoriasFormulario);
-			
 
 			formularioNuevo = (Formulario) formularioPersistencia.agregarFormulario(formularioSeleccionado);
 			// actualizamos id
@@ -133,6 +132,8 @@ public class GestionFormulario implements Serializable {
 			Long nuevoId = formularioSeleccionado.getIdFormulario();
 			// vaciamos usuarioSeleccionado como para ingresar uno nuevo
 			formularioSeleccionado = new Formulario();
+			casillasFormulario = new ArrayList<>();
+			casillasObligatoriasFormulario = new ArrayList<>();
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Formulario actualizado con éxito",
 					null);
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
@@ -173,10 +174,10 @@ public class GestionFormulario implements Serializable {
 		}
 	}
 
-	public void eliminarFormulario(String idCasilla) throws Exception {
+	public void eliminarFormulario(String idFormulario) throws Exception {
 
 		try {
-			formularioPersistencia.eliminarFormulario(Long.parseLong(idCasilla));
+			formularioPersistencia.eliminarFormulario(Long.parseLong(idFormulario));
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Formulario eliminado con éxito", "");
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 		} catch (PersistenciaException e) {
@@ -202,10 +203,10 @@ public class GestionFormulario implements Serializable {
 			// Buscamos la casilla en la que presionamos agregar y la agregamos al listado
 			CasillaEntity casilla = casillasBean.obtenerCasilla(idCasilla);
 			casillasFormulario.add(casilla);
-			
-			/*if(esObligatoria.equals(casilla.getNombre())) {
+
+			if (casillaObligatoria != null) {
 				casillasObligatoriasFormulario.add(casilla);
-			}*/
+			}
 
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Casilla agregada con exito", "");
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
@@ -215,7 +216,6 @@ public class GestionFormulario implements Serializable {
 			Throwable rootException = ExceptionsTools.getCause(e);
 			String msg1 = e.getMessage();
 			String msg2 = ExceptionsTools.formatedMsg(rootException);
-			// mensaje de actualizacion correcta
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg1, msg2);
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 			e.printStackTrace();
@@ -235,7 +235,6 @@ public class GestionFormulario implements Serializable {
 			Throwable rootException = ExceptionsTools.getCause(e);
 			String msg1 = e.getMessage();
 			String msg2 = ExceptionsTools.formatedMsg(rootException);
-			// mensaje de actualizacion correcta
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg1, msg2);
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 			e.printStackTrace();
@@ -243,12 +242,49 @@ public class GestionFormulario implements Serializable {
 		}
 	}
 
-	public void eliminarCasillaFormulario(Long idCasilla) throws Exception {
+	public void eliminarCasillaFormularioCrear(Long idCasilla) throws Exception {
 
 		try {
 			for (CasillaEntity c : casillasFormulario) {
 				if (c.getIdCasilla() == idCasilla) {
 					casillasFormulario.remove(c);
+				}
+			}
+
+		} catch (Exception e) {
+
+			Throwable rootException = ExceptionsTools.getCause(e);
+			String msg1 = e.getMessage();
+			String msg2 = ExceptionsTools.formatedMsg(rootException);
+			// mensaje de actualizacion correcta
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg1, msg2);
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			e.printStackTrace();
+		}
+	}
+
+	public void eliminarCasillaFormularioActualizar(Long idCasilla) throws Exception {
+
+		try {
+
+			for (CasillaEntity casilla : casillasFormulario) {
+
+				if (casilla.getIdCasilla() == idCasilla) {
+					Boolean esObligatoria = false;
+
+					for (CasillaEntity c : casillasObligatoriasFormulario) {
+						if (c.getIdCasilla() == idCasilla) {
+							esObligatoria = true;
+						}
+					}
+					// Si la variable queda como TRUE, la accion de eliminar es denegada
+					if (esObligatoria) {
+						FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Casilla obligatoria, no se puede eliminar", "");
+						FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+					} else {
+						// La casilla no es obligatoria y se puede eliminar del listado.
+						casillasFormulario.remove(casilla);
+					}
 				}
 			}
 
@@ -272,7 +308,7 @@ public class GestionFormulario implements Serializable {
 	public String actualizarVistaActualizarFormulario(String id) throws Exception {
 		formularioSeleccionado = formularioPersistencia.buscarFormularioEntityId(Long.parseLong(id));
 		casillasFormulario = formularioSeleccionado.getCasillas(); // Le cargamos la lista de casillas que tiene el
-																	// formulario seleccionado
+		casillasObligatoriasFormulario = formularioSeleccionado.getCasillasObligatorias();															// formulario seleccionado
 		return "actualizarFormulario";
 	}
 
@@ -337,11 +373,11 @@ public class GestionFormulario implements Serializable {
 	}
 
 	public void setEsObligatoria(String esObligatoria) {
-		this.esObligatoria = esObligatoria;
+		this.casillaObligatoria = esObligatoria;
 	}
 
 	public String getEsObligatoria() {
-		return esObligatoria;
+		return casillaObligatoria;
 	}
 
 }

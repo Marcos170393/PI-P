@@ -125,7 +125,7 @@ h1 {
 						</p:column>
 
 						<p:column headerText="Parametro">
-							<h:outputText value="#{casilla.parametroBean.nombre}" />
+							<h:outputText value="#{casilla.parametro.nombre}" />
 						</p:column>
 
 						<p:column headerText="Tipo de dato">
@@ -133,14 +133,11 @@ h1 {
 						</p:column>
 
 						<p:column headerText="">
-							<p:commandButton value="Eliminar" selectionMode="single"
+							<p:commandButton id="eliminar" value="Eliminar" selectionMode="single"
 								update="tablaCasillasForm"
-								action="#{gestionFormulario.eliminarCasillaFormulario(casilla.idCasilla)}">
+								action="#{gestionFormulario.eliminarCasillaFormularioActualizar(casilla.idCasilla)}">
 							</p:commandButton>
 						</p:column>
-						<p:message for="tablaCasillasForm" showDetail="true"
-							showIcon="false" closable="true" />
-						<p:autoUpdate />
 					</p:dataTable>
 
 

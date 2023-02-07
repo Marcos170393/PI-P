@@ -44,7 +44,7 @@ public class CasillaEntity implements Serializable {
 	//bi-directional many-to-one association to Parametro
 	@ManyToOne
 	@JoinColumn(name="ID_PARAMETRO")
-	private ParametroEntity parametroBean;
+	private ParametroEntity parametro;
 
 	//bi-directional many-to-one association to TipoDato
 	@ManyToOne
@@ -71,7 +71,7 @@ public class CasillaEntity implements Serializable {
 		super();
 		this.descripcion = descripcion;
 		this.nombre = nombre;
-		this.parametroBean = parametro;
+		this.parametro = parametro;
 		this.tipoDato = tipoDato;
 		this.usuario = usuario;
 		this.disponible = true;
@@ -103,12 +103,12 @@ public class CasillaEntity implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public ParametroEntity getParametroBean() {
-		return this.parametroBean;
+	public ParametroEntity getParametro() {
+		return this.parametro;
 	}
 
 	public void setParametro(ParametroEntity parametro) {
-		this.parametroBean = parametro;
+		this.parametro = parametro;
 	}	
 	
 	public TipoDatoEntity getTipoDato() {
@@ -154,7 +154,7 @@ public class CasillaEntity implements Serializable {
 	@Override
 	public String toString() {
 		return "Casilla [idCasilla=" + idCasilla + ", descripcion=" + descripcion + ", nombre=" + nombre
-				+ ", disponible=" + disponible + ", parametroBean=" + parametroBean + ", tipoDato=" + tipoDato
+				+ ", disponible=" + disponible + ", parametro" + parametro + ", tipoDato=" + tipoDato
 				+ ", usuario=" + usuario + ", formularios=" + "formularios" + "]";
 	}
 

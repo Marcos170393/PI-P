@@ -58,7 +58,7 @@ h1 {
 			</div>
 
 			<div>
-				<p:outputLabel value="Valor (*)" />
+				<p:outputLabel value="Valor " />
 			</div>
 
 			<div class="input-group">
@@ -79,7 +79,7 @@ h1 {
 			
 			<p:dataTable id="tablaCasillasRegistro"
 				value="#{gestionRegistro.cargarDatos()}" var="casilla"
-				rowKey="#{casilla.idCasilla}" row="4">
+				rowKey="#{casilla.idCasilla}">
 
 				<p:column headerText="Nombre">
 					<h:outputText value="#{casilla.nombre}" />
@@ -90,7 +90,7 @@ h1 {
 				</p:column>
 
 				<p:column headerText="Parametro">
-					<h:outputText value="#{casilla.parametroBean.nombre}" />
+					<h:outputText value="#{casilla.parametro.nombre}" />
 				</p:column>
 
 				<p:column headerText="Tipo de dato">
@@ -99,6 +99,10 @@ h1 {
 
 				<p:column headerText="Unidad de medida">
 					<h:outputText value="#{casilla.tipoDato.unidadMedida}" />
+				</p:column>
+
+				<p:column headerText="Obligatoria">
+					<h:outputText id="obligatorio" value="#{gestionRegistro.obligatoria}" />
 				</p:column>
 
 				<p:message for="tablaCasillasRegistro" showDetail="true"

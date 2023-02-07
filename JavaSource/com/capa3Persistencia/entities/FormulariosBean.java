@@ -8,7 +8,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
-
 /**
  * Session Bean implementation class FormulariosBean
  */
@@ -17,15 +16,14 @@ public class FormulariosBean {
 
 	@PersistenceContext
 	private EntityManager em;
-	
-    /**
-     * Default constructor. 
-     */
-    public FormulariosBean() {
-        // TODO Auto-generated constructor stub
-    }
 
-	
+	/**
+	 * Default constructor.
+	 */
+	public FormulariosBean() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public FormularioEntity crear(FormularioEntity form) throws Exception {
 		try {
 			em.persist(form);
@@ -36,7 +34,6 @@ public class FormulariosBean {
 		}
 	}
 
-	
 	public void modificar(FormularioEntity form) throws Exception {
 		try {
 			em.merge(form);
@@ -46,7 +43,6 @@ public class FormulariosBean {
 		}
 	}
 
-	
 	public void eliminar(Long idForm) throws Exception {
 		try {
 			FormularioEntity form = em.find(FormularioEntity.class, idForm);
@@ -57,7 +53,6 @@ public class FormulariosBean {
 		}
 	}
 
-	
 	public FormularioEntity buscarFormulario(Long idFormulario) throws Exception {
 		try {
 			FormularioEntity form = em.find(FormularioEntity.class, idFormulario);
@@ -67,10 +62,21 @@ public class FormulariosBean {
 		}
 	}
 
-	
+	public FormularioEntity buscarFormularioName(String name) throws Exception {
+		try {
+			TypedQuery<FormularioEntity> query = em
+					.createQuery("Select f FROM FormularioEntity f WHERE nombre = :nombre", FormularioEntity.class)
+					.setParameter("nombre", name);
+			return query.getSingleResult();
+		} catch (PersistenceException e) {
+			throw new Exception("No se pudo realizar la busqueda");
+		}
+	}
+
 	public List<FormularioEntity> buscarTodos() throws Exception {
 		try {
-			TypedQuery<FormularioEntity> query = em.createNamedQuery("FormularioEntity.findAll",FormularioEntity.class);
+			TypedQuery<FormularioEntity> query = em.createNamedQuery("FormularioEntity.findAll",
+					FormularioEntity.class);
 			return query.getResultList();
 		} catch (PersistenceException e) {
 			throw new Exception("No se pudo realizar la busqueda");
@@ -79,11 +85,12 @@ public class FormulariosBean {
 
 	public List<FormularioEntity> buscarFormulariosDisponibles() throws Exception {
 		try {
-			TypedQuery<FormularioEntity> query = em.createQuery("Select f FROM FormularioEntity f WHERE isDisponible=true",FormularioEntity.class);
-			return query.getResultList(); 
+			TypedQuery<FormularioEntity> query = em
+					.createQuery("Select f FROM FormularioEntity f WHERE isDisponible=true", FormularioEntity.class);
+			return query.getResultList();
 		} catch (PersistenceException e) {
 			throw new Exception("No se pudo realizar la busqueda");
 		}
 	}
-    
+
 }
