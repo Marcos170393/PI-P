@@ -31,6 +31,8 @@ public class Registro {
 		this.uk_registro = uk_registro;
 	}
 
+	
+	
 	public Registro() {
 		// TODO Auto-generated constructor stub
 	}

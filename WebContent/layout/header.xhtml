@@ -43,26 +43,30 @@
 				<p:menuitem value="Listado de Formularios" outcome="/listadoFormularios.xhtml"/>
 			</p:submenu>
 
-				<p:submenu label="Gestion de Registros de CA">
+			<p:submenu label="Gestion de Registros de CA">
 					<p:menuitem value="Alta de Registro" outcome="/seleccionarFormularioRegistro.xhtml" />
+					<p:menuitem value="Modificar Registro" outcome="/seleccionarFormularioModificarRegistro.xhtml" />
 					<p:menuitem value="Listar por Formulario" outcome="/listarRegistroSeleccionarFormulario.xhtml" />
 					<p:menuitem value="Listar por Tipo de Dato" outcome="/listarRegistroTipoDato.xhtml" />
-					
 			</p:submenu>
-
-
+	
 			<f:facet name="options">
 				<p:linkButton outcome="index" value="Logout"
 					style="margin-right:20px;">
 				</p:linkButton>
+				
+
 				<p:linkButton outcome="profile" value="Profile"
 					style="margin-right:20px;">
 				</p:linkButton>
 
-
 			</f:facet>
-
-
+				
+		<p:submenu label="Usuario: #{currentUser.getUsuario().nombreUsuario}" icon="ui-icon-person"  style="float:right">       
+ 			<p:menuitem value="Cerrar Sesión" action="#{gestionUsuario.cerrarSesion()}" icon="ui-icon-power" />
+ 		
+ 		</p:submenu>
+				
 		</p:menubar>
 	</h:form>
 

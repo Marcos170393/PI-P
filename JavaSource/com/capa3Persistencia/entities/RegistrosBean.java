@@ -40,7 +40,18 @@ public class RegistrosBean {
 			throw new PersistenceException("No se pudo crear el registro");
 		}
 	}
+	
+	public void actualizar(RegistroEntity reg) throws Exception {
+		try {
 
+			em.merge(reg);
+			em.flush();
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new Exception("No se pudo actualizar el RegistroEntity");
+		}
+	}
+	
 	public List<RegistroEntity> obtenerTodos() throws PersistenceException {
 		try {
 			TypedQuery<RegistroEntity> query = em.createNamedQuery("RegistroEntity.findAll", RegistroEntity.class);
@@ -49,6 +60,14 @@ public class RegistrosBean {
 			throw new PersistenceException("No se pudo realizar la busqueda");
 		}
 
+	}
+	
+	public RegistroEntity buscarRegistroEntity(Long idRegistro) throws Exception {
+		try {
+			return em.find(RegistroEntity.class, idRegistro);
+		} catch (Exception e) {
+			throw new Exception("Error al realizar la busqueda");
+		}
 	}
 
 	public List<RegistroEntity> obtenerRegistroPorFormulario(Long idFormulario) throws PersistenceException {

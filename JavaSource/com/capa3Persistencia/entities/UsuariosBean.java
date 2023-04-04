@@ -52,7 +52,7 @@ public class UsuariosBean  {
 	public void eliminar(Long idUser) throws Exception {
 		try {
 			UsuarioEntity user = em.find(UsuarioEntity.class, idUser);
-			em.remove(user);
+			user.setDisponible(false);
 			em.flush();
 		} catch (Exception e) {
 			throw new Exception("No se pudo eliminar el UsuarioEntity");
@@ -91,4 +91,15 @@ public class UsuariosBean  {
 			throw new Exception("Error al realizar la busqueda");
 		}
 	}
+	
+	public List<UsuarioEntity> buscarUsuariosDisponibles() throws Exception {
+		try {
+			TypedQuery<UsuarioEntity> usuarios = em.createQuery("Select u FROM UsuarioEntity u WHERE disponible=true",
+					UsuarioEntity.class);
+			return usuarios.getResultList();
+		} catch (Exception e) {
+			throw new Exception("No se pudo obtener la casilla" + e.getCause());
+		}
+	}
+	
 }

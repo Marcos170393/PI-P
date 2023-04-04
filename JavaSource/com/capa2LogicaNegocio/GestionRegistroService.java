@@ -9,12 +9,15 @@ import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
 
 import com.capa1presentacion.Formulario;
 import com.capa1presentacion.Registro;
+import com.capa1presentacion.Usuario;
 import com.capa3Persistencia.entities.FormularioEntity;
 import com.capa3Persistencia.entities.RegistroEntity;
 import com.capa3Persistencia.entities.RegistrosBean;
+import com.capa3Persistencia.entities.UsuarioEntity;
 
 @Stateless
 @LocalBean
@@ -64,6 +67,28 @@ public class GestionRegistroService implements Serializable {
 	public Registro agregarRegistro(Registro reg) {
 		RegistroEntity registro = registroBean.crear(toRegistroEntity(reg));
 		return fromRegistroEntity(registro);
+	}
+
+	public void actualizarRegistro(Registro registro) throws Exception {
+		RegistroEntity registroUpdate = registroBean.buscarRegistroEntity(registro.getIdRegistro());
+		registroUpdate.setFecha(new Date());
+		registroUpdate.setFormulario(formularioPersistencia.forFormularioEntity(registro.getFormulario()));
+		registroUpdate.setCasilla(casillaPersistencia.forCasillaEntity(registro.getCasilla()));
+		registroUpdate.setUsuario(usuarioPersistencia.forUsuarioEntity(registro.getUsuario()));
+		registroUpdate.setUk_registro(registro.getUk_registro());
+		registroUpdate.setValor(registro.getValor());
+		registroBean.actualizar(registroUpdate);
+	}
+
+	public Registro buscarRegistroEntityId(Long id) throws Exception {
+		try {
+			RegistroEntity registro = registroBean.buscarRegistroEntity(id);
+			return fromRegistroEntity(registro);
+		} catch (PersistenceException | NullPointerException e) {
+			Registro r = new Registro();
+			return r;
+		}
+		
 	}
 
 	public List<Registro> seleccionarRegistros() throws Exception {

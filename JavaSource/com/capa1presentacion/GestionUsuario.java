@@ -1,6 +1,8 @@
 package com.capa1presentacion;
 
 import javax.faces.event.ActionEvent;
+
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +15,13 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Enumerated;
+import javax.servlet.http.HttpSession;
 
 import com.capa2LogicaNegocio.GestionCiudadService;
 import com.capa2LogicaNegocio.GestionUsuarioService;
 import com.capa3Persistencia.exception.PersistenciaException;
 import com.utils.ExceptionsTools;
+import com.utils.Util;
 
 //import javax.faces.bean.ManagedBean;
 //import javax.faces.bean.SessionScoped;
@@ -35,7 +39,7 @@ public class GestionUsuario implements Serializable {
 
 	@Inject
 	GestionCiudadService ciudadPersistencia;
-	
+
 	private Usuario usuarioSeleccionado;
 
 	private boolean verDatosExtra = false;
@@ -71,12 +75,11 @@ public class GestionUsuario implements Serializable {
 	public boolean isVerDatosExtras() {
 		return verDatosExtra;
 	}
-	
+
 	public void verDatosExtra() {
 		if (usuarioSeleccionado.getRol().equals(admin) || usuarioSeleccionado.getRol().equals(inv)) {
 			this.verDatosExtra = true;
-		} 
-		else {
+		} else {
 			this.verDatosExtra = false;
 		}
 	}
@@ -121,19 +124,20 @@ public class GestionUsuario implements Serializable {
 	public String actualizarUsuario() throws Exception {
 
 		try {
-			if(usuarioSeleccionado.getRol().equals(Rol.ADMINISTRADOR) || usuarioSeleccionado.getRol().equals(Rol.INVESTIGADOR)) {	
+			if (usuarioSeleccionado.getRol().equals(Rol.ADMINISTRADOR)
+					|| usuarioSeleccionado.getRol().equals(Rol.INVESTIGADOR)) {
 				List<Ciudad> ciudades = ciudadPersistencia.seleccionarCiudades();
-				for(Ciudad c: ciudades) {
-					if(c.getNombre().equals(ciudadUsuario)) {
+				for (Ciudad c : ciudades) {
+					if (c.getNombre().equals(ciudadUsuario)) {
 						usuarioSeleccionado.setCiudad(c);
 						break;
 					}
 				}
 				persistenciaBean.actualizarUsuario(usuarioSeleccionado);
-			}else {
+			} else {
 				persistenciaBean.actualizarUsuarioAficionado(usuarioSeleccionado);
 			}
-			
+
 			usuarioSeleccionado = null;
 			usuarioSeleccionado = new Usuario();
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario actualizado con éxito", null);
@@ -158,10 +162,10 @@ public class GestionUsuario implements Serializable {
 	public void registro() throws Exception {
 		Usuario usuarioNuevo;
 		try {
-		
+
 			List<Ciudad> ciudades = ciudadPersistencia.seleccionarCiudades();
-			for(Ciudad c: ciudades) {
-				if(c.getNombre().equals(ciudadUsuario)) {
+			for (Ciudad c : ciudades) {
+				if (c.getNombre().equals(ciudadUsuario)) {
 					usuarioSeleccionado.setCiudad(c);
 					break;
 				}
@@ -199,10 +203,10 @@ public class GestionUsuario implements Serializable {
 
 		Usuario usuarioNuevo;
 		try {
-		
+
 			List<Ciudad> ciudades = ciudadPersistencia.seleccionarCiudades();
-			for(Ciudad c: ciudades) {
-				if(c.getNombre().equals(ciudadUsuario)) {
+			for (Ciudad c : ciudades) {
+				if (c.getNombre().equals(ciudadUsuario)) {
 					usuarioSeleccionado.setCiudad(c);
 					break;
 				}
@@ -249,6 +253,8 @@ public class GestionUsuario implements Serializable {
 					&& usuario.isHabilitado()) {
 				usuarioSeleccionado = new Usuario();
 				CurrentUser.setUsuario(usuario);
+				HttpSession hs = Util.getSession();
+				hs.setAttribute("gestionUsuario", usuario);
 				return "home";
 
 			} else {
@@ -282,7 +288,7 @@ public class GestionUsuario implements Serializable {
 
 		List<Usuario> listaUsuarios;
 		try {
-			listaUsuarios = persistenciaBean.seleccionarUsuarios();
+			listaUsuarios = persistenciaBean.buscarUsuariosDisponibles();
 			for (int i = 0; i < listaUsuarios.size(); i++) {
 				if (listaUsuarios.get(i).getIdUsuario() == CurrentUser.getUsuario().getIdUsuario()) {
 					listaUsuarios.remove(i);
@@ -302,20 +308,20 @@ public class GestionUsuario implements Serializable {
 			return new ArrayList<Usuario>();
 		}
 	}
-	
+
 	public List<Ciudad> mostrarCiudades() throws Exception {
-		
+
 		List<Ciudad> listaCiudades;
-		
+
 		try {
 			listaCiudades = ciudadPersistencia.seleccionarCiudades();
 			return listaCiudades;
-			
-		} catch(PersistenciaException e) {
+
+		} catch (PersistenciaException e) {
 			e.getCause();
 			return new ArrayList<Ciudad>();
 		}
-		
+
 	}
 
 	// METODO PARA MOSTRAR FORMULARIO DE ACTUALIZACION
@@ -345,6 +351,12 @@ public class GestionUsuario implements Serializable {
 
 		}
 
+	}
+
+	public void cerrarSesion() throws IOException {
+		HttpSession hs = Util.getSession();
+		hs.invalidate();
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/PI_P/index.xhtml");
 	}
 
 	public String modPerfil() {

@@ -141,6 +141,23 @@ public class RestApiService {
 	}
 	
 	@GET
+	@Path("buscarFormularioId/{id}")
+	@Produces("application/json")
+	public Formulario obtenerFormularioId(@PathParam("id") Long id) {
+		try {
+			Formulario form = gestionFormularioService.buscarFormularioEntityId(id);
+			if (form == null) {
+				return new Formulario();
+			}
+			return form;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Formulario();
+		}
+
+	}
+	
+	@GET
 	@Path("buscarCasilla/{nombre}")
 	@Produces("application/json")
 	public Casilla obtenerCasilla(@PathParam("nombre") String nombre) {
@@ -170,6 +187,22 @@ public class RestApiService {
 			} catch (Exception e) {
 				e.printStackTrace();
 				return new Registro();
+			}
+		
+	
+	}
+		
+		@GET	
+		@Path("buscarRegistros/{id_formulario}")
+		@Produces("application/json")
+		public List<Registro> buscarRegistros(@PathParam("id_formulario") Long id_formulario) {
+			try {
+				List<Registro> r = new ArrayList<>();
+				r = gestionRegistroService.seleccionarRegistrosIdFormulario(id_formulario);
+				return r;
+			} catch (Exception e) {
+				return new ArrayList<Registro>();
+				
 			}
 		
 	

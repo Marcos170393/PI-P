@@ -35,6 +35,7 @@ public class UsuarioEntity implements Serializable {
 	private String mail;
 	private String nombre;
 	private boolean habilitado;
+	private boolean disponible;
 	@Column(unique = true, name = "NOMBRE_USUARIO")
 	private String nombreUsuario;
 	@Enumerated(EnumType.STRING)
@@ -66,6 +67,7 @@ public class UsuarioEntity implements Serializable {
 		this.nombreUsuario = nombreUsuario;
 		this.rol = rol;
 		this.habilitado = true;
+		this.disponible = true;
 	}
 
 	/********************************************************************
@@ -171,6 +173,14 @@ public class UsuarioEntity implements Serializable {
 	}
 
 
+
+	public boolean isDisponible() {
+		return disponible;
+	}
+
+	public void setDisponible(boolean disponible) {
+		this.disponible = disponible;
+	}
 
 	/********************************************************************
 	 * TOSTRING

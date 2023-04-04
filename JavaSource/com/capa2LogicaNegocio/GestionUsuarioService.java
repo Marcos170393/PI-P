@@ -77,6 +77,7 @@ public class GestionUsuarioService implements Serializable {
 			usuario.setCiudad(persistenciaBean.forCiudadEntity(e.getCiudad()));
 			usuario.setDomicilio(e.getDomicilio());
 			usuario.setTelefono(e.getTelefono());
+			usuario.setDisponible(true);
 			return usuario;
 		} else {
 			usuario.setNombre(e.getNombre());
@@ -86,6 +87,7 @@ public class GestionUsuarioService implements Serializable {
 			usuario.setHabilitado(e.isHabilitado());
 			usuario.setNombreUsuario(e.getNombreUsuario());
 			usuario.setRol(e.getRol());
+			usuario.setDisponible(true);
 			return usuario;
 		}
 	}
@@ -150,6 +152,16 @@ public class GestionUsuarioService implements Serializable {
 
 	public List<UsuarioEntity> buscarUsuarios() throws Exception {
 		List<UsuarioEntity> usuarios = usuarioBean.buscarTodos();
+		return usuarios;
+	}
+	
+	public List<Usuario> buscarUsuariosDisponibles() throws Exception {
+		List<UsuarioEntity> usuariosEntity = usuarioBean.buscarUsuariosDisponibles();
+		List<Usuario> usuarios = new ArrayList<>();
+		for(UsuarioEntity c: usuariosEntity) {
+			usuarios.add(fromUsuarioEntity(c));
+		}
+	
 		return usuarios;
 	}
 

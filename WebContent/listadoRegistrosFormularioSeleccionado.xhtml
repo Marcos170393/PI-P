@@ -71,6 +71,17 @@ h1 {
 			</p:dataTable>
 			
 			
+			<h:commandLink id="export" styleClass="ui-button" style="margin-top: 1rem" value="Exportar" >
+		    	<h:graphicImage styleClass="" library="images" name="xls.png" width="30px" height="30px" ></h:graphicImage>  
+		    	<p:dataExporter type="xls" postProcessor="#{exportarExcel.postProcessXLS}"
+		  	   	target="tablaRegistros" fileName="registroCA" />
+		  	   	
+				<p:message for="export" showDetail="true" showIcon="false"
+							closable="true" />
+							<p:autoUpdate />
+		    </h:commandLink> 
+				
+			
 		</h:form>
 	</ui:define>
 

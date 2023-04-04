@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/layout/layout.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<style>
+h1 {
+	font-size: medium;
+	font-weight: bold;
+	font-variant-ligatures:;
+	font-variant-caps:;
+	font-variant-numeric:;
+	font-family: segoe ui, Arial, sans-serif;
+	font-size: 1.1em;
+	border: 1px solid #ffffff;
+	background: #1484e6 50% 50% repeat;
+	font-weight: bold;
+	color: #ffffff;
+}
+</style>
+		<h:title>
+			<h1 style="text-align: center;">Listado de registros</h1>
+		</h:title>
+	</h:head>
+
+	<ui:define name="content">
+		<p:breadCrumb>
+			<p:menuitem value="Pagina principal" url="home.xhtml" />
+			<p:menuitem value="Listado de registros por formulario" url="#" />
+		</p:breadCrumb>
+		<p:messages id="messages" severity="info" showSummary="true"
+			showDetail="false" closable="true">
+			<p:autoUpdate />
+		</p:messages>
+		<h:form>
+
+			<p:dataTable id="tablaActualizarRegistros"
+				value="#{gestionRegistro.cargarListadoRegistrosFormulario()}" var="registro" rowkey="#{registro.idRegistro}">
+			
+				<p:column headerText="UK registro">
+					<h:outputText value="#{registro.uk_registro}" />
+				</p:column>
+
+				<p:column headerText="Formulario">
+					<h:outputText value="#{registro.formulario.nombre}" />
+				</p:column>
+
+				<p:column headerText="Departamento">
+					<h:outputText value="#{registro.formulario.departamento.nombre}" />
+				</p:column>
+
+				<p:column headerText="Fecha de creacion">
+					<h:outputText value="#{registro.fecha}" />
+				</p:column>
+
+				<p:column headerText="Tipo de dato">
+					<h:outputText value="#{registro.casilla.tipoDato.nombre}" />
+				</p:column>
+
+				<p:column headerText="Usuario">
+					<h:outputText value="#{registro.usuario.nombreUsuario}" />
+				</p:column>
+				
+				<p:column headerText="Obligatoria">
+					<h:outputText value="#{gestionRegistro.obligatoria}" />
+				</p:column>
+								
+				<p:column headerText="Medicion">
+					<h:inputText value="#{registro.valor}" />
+				</p:column>
+
+				<p:column headerText="">
+					<p:commandButton
+						value="Confirmar Cambios" selectionMode="single" update="tablaActualizarRegistros"
+						action="#{gestionRegistro.actualizarRegistro(registro.idRegistro, registro.valor)}">
+					</p:commandButton>
+				</p:column>
+
+			    <p:message for="tablaActualizarRegistros" showDetail="true"
+					showIcon="false" closable="true" />
+				<p:autoUpdate />
+			
+			
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+
