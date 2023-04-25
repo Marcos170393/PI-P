@@ -29,7 +29,7 @@ public class RestApiService {
 
 	@EJB
 	GestionFormularioService gestionFormularioService;
-	
+
 	@EJB
 	GestionCasillaService gestionCasillaService;
 
@@ -139,7 +139,7 @@ public class RestApiService {
 		}
 
 	}
-	
+
 	@GET
 	@Path("buscarFormularioId/{id}")
 	@Produces("application/json")
@@ -156,7 +156,7 @@ public class RestApiService {
 		}
 
 	}
-	
+
 	@GET
 	@Path("buscarCasilla/{nombre}")
 	@Produces("application/json")
@@ -174,38 +174,49 @@ public class RestApiService {
 
 	}
 
+	@POST
+	@Path("crear")
+	@Produces("application/json")
+	public Registro crear(Registro registro) {
+		try {
 
-		@POST
-		@Path("crear")
-		@Produces("application/json")
-		public Registro crear(Registro registro) {
-			try {
-				
-				registro.setFecha(new Date());
-				gestionRegistroService.agregarRegistro(registro);
-				return registro;
-			} catch (Exception e) {
-				e.printStackTrace();
-				return new Registro();
-			}
-		
-	
+			registro.setFecha(new Date());
+			gestionRegistroService.agregarRegistro(registro);
+			return registro;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Registro();
+		}
+
 	}
-		
-		@GET	
-		@Path("buscarRegistros/{id_formulario}")
-		@Produces("application/json")
-		public List<Registro> buscarRegistros(@PathParam("id_formulario") Long id_formulario) {
-			try {
-				List<Registro> r = new ArrayList<>();
-				r = gestionRegistroService.seleccionarRegistrosIdFormulario(id_formulario);
-				return r;
-			} catch (Exception e) {
-				return new ArrayList<Registro>();
-				
-			}
-		
-	
+
+	@POST
+	@Path("actualizar")
+	@Produces("application/json")
+	public Registro Actualizar(Registro registro) {
+		try {
+			registro.setFecha(new Date());
+			gestionRegistroService.actualizarRegistro(registro);
+			return registro;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Registro();
+		}
+	}
+
+	@GET
+	@Path("buscarRegistros/{id_formulario}")
+	@Produces("application/json")
+	public List<Registro> buscarRegistros(@PathParam("id_formulario") Long id_formulario) {
+		try {
+			List<Registro> r = new ArrayList<>();
+			r = gestionRegistroService.seleccionarRegistrosIdFormulario(id_formulario);
+			return r;
+		} catch (Exception e) {
+			return new ArrayList<Registro>();
+
+		}
+
 	}
 
 }

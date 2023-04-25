@@ -58,10 +58,14 @@ h1 {
 					<h:outputText value="#{form.resumen}" />
 				</p:column>
 
+				<p:column headerText="Departamento">
+					<h:outputText value="#{form.departamento.nombre}" />
+				</p:column>
+				
 				<p:column headerText="Usuario">
 					<h:outputText value="#{form.usuario.nombreUsuario}" />
 				</p:column>
-
+				
 				<p:column headerText="">
 					<p:commandButton
 						value="Seleccionar" selectionMode="single" update="tablaFormulariosRegistro"

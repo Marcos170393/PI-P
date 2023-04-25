@@ -40,7 +40,7 @@ public class RegistrosBean {
 			throw new PersistenceException("No se pudo crear el registro");
 		}
 	}
-	
+
 	public void actualizar(RegistroEntity reg) throws Exception {
 		try {
 
@@ -51,7 +51,7 @@ public class RegistrosBean {
 			throw new Exception("No se pudo actualizar el RegistroEntity");
 		}
 	}
-	
+
 	public List<RegistroEntity> obtenerTodos() throws PersistenceException {
 		try {
 			TypedQuery<RegistroEntity> query = em.createNamedQuery("RegistroEntity.findAll", RegistroEntity.class);
@@ -61,7 +61,7 @@ public class RegistrosBean {
 		}
 
 	}
-	
+
 	public RegistroEntity buscarRegistroEntity(Long idRegistro) throws Exception {
 		try {
 			return em.find(RegistroEntity.class, idRegistro);
@@ -72,14 +72,15 @@ public class RegistrosBean {
 
 	public List<RegistroEntity> obtenerRegistroPorFormulario(Long idFormulario) throws PersistenceException {
 		try {
-			Query query = em.createNativeQuery("SELECT * FROM REGISTROS WHERE id_formulario=" + idFormulario, RegistroEntity.class);
+			Query query = em.createNativeQuery("SELECT * FROM REGISTROS WHERE id_formulario=" + idFormulario,
+					RegistroEntity.class);
 			return query.getResultList();
 		} catch (PersistenceException e) {
 			throw new PersistenceException("No se pudo realizar la busqueda");
 		}
 
-	}	
-	
+	}
+
 	public Integer obtenerUk() throws PersistenceException {
 		try {
 			TypedQuery<RegistroEntity> query = em.createQuery(
@@ -88,7 +89,7 @@ public class RegistrosBean {
 			return query.getSingleResult().getUk_registro();
 
 		} catch (PersistenceException e) {
-			throw new PersistenceException("No se pudo realizar la busqueda");
+			return 0;
 		}
 	}
 

@@ -11,6 +11,7 @@ import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -140,9 +141,15 @@ public class GestionUsuario implements Serializable {
 
 			usuarioSeleccionado = null;
 			usuarioSeleccionado = new Usuario();
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario actualizado con �xito", null);
-			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			return "listado";
+	     	FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+				    "Usuario actualizado con exito", "");
+				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+				// Guardar el mensaje en el flash scope
+				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+				// Redirigir a listadoCasillas.xhtml usando ExternalContext
+				FacesContext.getCurrentInstance().getExternalContext().redirect("listado.xhtml");
+				return null; // Retornar null para indicar que no hay que procesar la respuesta
+        
 
 		} catch (PersistenciaException e) {
 
@@ -218,10 +225,19 @@ public class GestionUsuario implements Serializable {
 			usuarioSeleccionado = new Usuario();
 
 			// mensaje de actualizacion correcta
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Se ha agregado un nuevo usuario con �xito", "");
-			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			return "home";
+	     	FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+				    "Se ha agregado un nuevo usuario con exito", "");
+				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+
+				// Guardar el mensaje en el flash scope
+				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+
+				// Redirigir a listadoCasillas.xhtml usando ExternalContext
+				FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
+  
+				return null; // Retornar null para indicar que no hay que procesar la respuesta
+        
+		
 
 		} catch (PersistenciaException e) {
 
@@ -238,49 +254,53 @@ public class GestionUsuario implements Serializable {
 
 		return "";
 	}
-
-	// LOGIN DE USUARIO \\
 	public String validarUsuario() throws Exception {
-		try {
-			Usuario usuario = (Usuario) persistenciaBean
-					.buscarUsuarioEntityName(usuarioSeleccionado.getNombreUsuario());
-			// SI ESTA HABILITADO Y COINCIDE NOMBRE Y CONTRASEÑA
-			System.out.println(persistenciaBean.Decrypt(usuario.getContrasenia()) + " " + usuario.getContrasenia()
-					+ "  " + usuarioSeleccionado.getContrasenia());
+	    try {
+	        Usuario usuario = (Usuario) persistenciaBean
+	                .buscarUsuarioEntityName(usuarioSeleccionado.getNombreUsuario());
+	        // SI ESTA HABILITADO Y COINCIDE NOMBRE Y CONTRASEÑA
+	        System.out.println(persistenciaBean.Decrypt(usuario.getContrasenia()) + " " + usuario.getContrasenia()
+	                + "  " + usuarioSeleccionado.getContrasenia());
 
-			if (persistenciaBean.Decrypt(usuario.getContrasenia()).equals(usuarioSeleccionado.getContrasenia())
-					&& usuario.getNombreUsuario().equals(usuarioSeleccionado.getNombreUsuario())
-					&& usuario.isHabilitado()) {
-				usuarioSeleccionado = new Usuario();
-				CurrentUser.setUsuario(usuario);
-				HttpSession hs = Util.getSession();
-				hs.setAttribute("gestionUsuario", usuario);
-				return "home";
+	        if (persistenciaBean.Decrypt(usuario.getContrasenia()).equals(usuarioSeleccionado.getContrasenia())
+	                && usuario.getNombreUsuario().equals(usuarioSeleccionado.getNombreUsuario())
+	                && usuario.isHabilitado()) {
+	            usuarioSeleccionado = new Usuario();
+	            CurrentUser.setUsuario(usuario);
+	            HttpSession hs = Util.getSession();
+	            hs.setAttribute("gestionUsuario", usuario);
+	            
+	            // Redirigir a home.xhtml usando ExternalContext
+	            FacesContext context = FacesContext.getCurrentInstance();
+	            ExternalContext externalContext = context.getExternalContext();
+	            externalContext.redirect("home.xhtml");
 
-			} else {
+	            return null; // Retornar null para indicar que no hay que procesar la respuesta
 
-				if (usuario.getNombreUsuario().equals("")) {
-					FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se encontro el usuario",
-							"");
-					FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-					return "";
-				} else if (!usuario.isHabilitado()) {
-					FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario inhabilitado", "");
-					FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-					return "";
-				} else {
-					FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contraseña incorrecta", "");
-					FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-					return "";
-				}
+	        } else {
 
-			}
-		} catch (Exception e) {
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Nombre de usuario o contraseña incorrectos", "");
-			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			return "";
-		}
+	            if (usuario.getNombreUsuario().equals("")) {
+	                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se encontro el usuario",
+	                        "");
+	                FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+	                return "";
+	            } else if (!usuario.isHabilitado()) {
+	                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario inhabilitado", "");
+	                FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+	                return "";
+	            } else {
+	                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contraseña incorrecta", "");
+	                FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+	                return "";
+	            }
+
+	        }
+	    } catch (Exception e) {
+	        FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+	                "Nombre de usuario o contraseña incorrectos", "");
+	        FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+	        return "";
+	    }
 	}
 
 	// MOSTRAR LISTADO DE USUARIOS \\
@@ -327,7 +347,12 @@ public class GestionUsuario implements Serializable {
 	// METODO PARA MOSTRAR FORMULARIO DE ACTUALIZACION
 	public String actualizarVistaUsuario(String id) throws Exception {
 		usuarioSeleccionado = persistenciaBean.buscarUsuarioEntity(Long.parseLong(id));
-		return "actualizarUsuario";
+		
+		FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        externalContext.redirect("actualizarUsuario.xhtml");
+		return null;
+		
 	}
 
 	// BAJA DE USUAIOS

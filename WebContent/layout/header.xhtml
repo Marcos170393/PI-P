@@ -46,15 +46,20 @@
 			<p:submenu label="Gestion de Registros de CA">
 					<p:menuitem value="Alta de Registro" outcome="/seleccionarFormularioRegistro.xhtml" />
 					<p:menuitem value="Modificar Registro" outcome="/seleccionarFormularioModificarRegistro.xhtml" />
-					<p:menuitem value="Listar por Formulario" outcome="/listarRegistroSeleccionarFormulario.xhtml" />
-					<p:menuitem value="Listar por Tipo de Dato" outcome="/listarRegistroTipoDato.xhtml" />
+					<p:menuitem value="Listado de Registros" outcome="/listarRegistrosTodos.xhtml" />
+					<p:menuitem value="Listado por Formulario" outcome="/listarRegistroSeleccionarFormulario.xhtml" />
 			</p:submenu>
-	
+			
+			<p:submenu label="Análisis y gestión de reportes">
+				<p:menuitem value="Listado por Tipo de Dato"
+					outcome="/listarRegistroTipoDato.xhtml"
+					rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" />
+					<p:menuitem value="Listado por Fecha" />
+
+			</p:submenu>
+			
+			
 			<f:facet name="options">
-				<p:linkButton outcome="index" value="Logout"
-					style="margin-right:20px;">
-				</p:linkButton>
-				
 
 				<p:linkButton outcome="profile" value="Profile"
 					style="margin-right:20px;">

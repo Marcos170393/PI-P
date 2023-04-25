@@ -38,8 +38,9 @@ h1 {
 		<h:form>
 
 			<p:dataTable id="tablaRegistros"
-				value="#{gestionRegistro.cargarListadoRegistrosFormulario()}" var="registro" rowkey="#{registro.idRegistro}">
-			
+				value="#{gestionRegistro.cargarListadoRegistrosFormulario()}"
+				var="registro" rowkey="#{registro.idRegistro}">
+
 				<p:column headerText="UK registro">
 					<h:outputText value="#{registro.uk_registro}" />
 				</p:column>
@@ -56,6 +57,10 @@ h1 {
 					<h:outputText value="#{registro.fecha}" />
 				</p:column>
 
+				<p:column headerText="Casilla">
+					<h:outputText value="#{registro.casilla.nombre}" />
+				</p:column>
+
 				<p:column headerText="Tipo de dato">
 					<h:outputText value="#{registro.casilla.tipoDato.nombre}" />
 				</p:column>
@@ -69,20 +74,18 @@ h1 {
 				</p:column>
 
 			</p:dataTable>
-			
-			
-			<h:commandLink id="export" styleClass="ui-button" style="margin-top: 1rem" value="Exportar" >
-		    	<h:graphicImage styleClass="" library="images" name="xls.png" width="30px" height="30px" ></h:graphicImage>  
-		    	<p:dataExporter type="xls" postProcessor="#{exportarExcel.postProcessXLS}"
-		  	   	target="tablaRegistros" fileName="registroCA" />
-		  	   	
+
+
+			<h:commandLink id="export" styleClass="ui-button" style="margin-top: 1rem" value="Exportar">
+				<h:graphicImage styleClass="" library="images" name="xls.png" width="30px" height="30px"></h:graphicImage>
+				<p:dataExporter type="xls" postProcessor="#{exportarExcel.postProcessXLS}" target="tablaRegistros" fileName="registroCA" />
 				<p:message for="export" showDetail="true" showIcon="false"
-							closable="true" />
-							<p:autoUpdate />
-		    </h:commandLink> 
-				
-			
+					closable="true" />
+				<p:autoUpdate />
+			</h:commandLink>
+
 		</h:form>
+			
 	</ui:define>
 
 </ui:composition>

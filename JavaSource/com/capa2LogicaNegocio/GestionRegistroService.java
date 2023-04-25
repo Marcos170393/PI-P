@@ -113,5 +113,10 @@ public class GestionRegistroService implements Serializable {
 		}
 		return listaRegistros;
 	}
+	
+	public void eliminarRegistro(Long idRegistro) {
+		registroBean.eliminarRegistro(idRegistro);
+	}
+	
 
 }

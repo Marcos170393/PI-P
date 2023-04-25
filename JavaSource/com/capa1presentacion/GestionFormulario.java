@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -91,11 +92,17 @@ public class GestionFormulario implements Serializable {
 			formularioSeleccionado = new Formulario();
 			casillasFormulario = new ArrayList<>();
 			casillasObligatoriasFormulario = new ArrayList<>();
-			// mensaje de actualizacion correcta
+			// mensaje de actualizacion correct
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Se ha agregado un nuevo formulario con éxito", "");
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			return "home";
+
+			// Guardar el mensaje en el flash scope
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+
+			// Redirigir a home.xhtml usando ExternalContext
+			FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
+			return null;
 
 		} catch (PersistenciaException e) {
 
@@ -134,10 +141,16 @@ public class GestionFormulario implements Serializable {
 			formularioSeleccionado = new Formulario();
 			casillasFormulario = new ArrayList<>();
 			casillasObligatoriasFormulario = new ArrayList<>();
+
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Formulario actualizado con éxito",
 					null);
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			return "listadoFormularios";
+			// Guardar el mensaje en el flash scope
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+			// Redirigir a listadoCasillas.xhtml usando ExternalContext
+			FacesContext.getCurrentInstance().getExternalContext().redirect("listadoFormularios.xhtml");
+
+			return null; // Retornar null para indicar que no hay que procesar la respuesta
 
 		} catch (PersistenciaException e) {
 
@@ -279,7 +292,8 @@ public class GestionFormulario implements Serializable {
 					}
 					// Si la variable queda como TRUE, la accion de eliminar es denegada
 					if (esObligatoria) {
-						FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Casilla obligatoria, no se puede eliminar", "");
+						FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Casilla obligatoria, no se puede eliminar", "");
 						FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 					} else {
 						// La casilla no es obligatoria y se puede eliminar del listado.
@@ -308,8 +322,13 @@ public class GestionFormulario implements Serializable {
 	public String actualizarVistaActualizarFormulario(String id) throws Exception {
 		formularioSeleccionado = formularioPersistencia.buscarFormularioEntityId(Long.parseLong(id));
 		casillasFormulario = formularioSeleccionado.getCasillas(); // Le cargamos la lista de casillas que tiene el
-		casillasObligatoriasFormulario = formularioSeleccionado.getCasillasObligatorias();															// formulario seleccionado
-		return "actualizarFormulario";
+		casillasObligatoriasFormulario = formularioSeleccionado.getCasillasObligatorias();
+		// formulario seleccionado
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+		externalContext.redirect("actualizarFormulario.xhtml");
+		return null;
+
 	}
 
 	public String confirmarCambiosCrearForm() {
@@ -318,18 +337,29 @@ public class GestionFormulario implements Serializable {
 		return "altaFormulario";
 	}
 
-	public String confirmarCambiosActualizarForm() {
+	public String confirmarCambiosActualizarForm() throws Exception {
+		// mensaje de actualizacion correcta
 		FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cambios guardados", "");
 		FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-		return "actualizarFormulario";
+		// Guardar el mensaje en el flash scope
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+		// Redirigir a listadoCasillas.xhtml usando ExternalContext
+		FacesContext.getCurrentInstance().getExternalContext().redirect("actualizarFormulario.xhtml");
+		return null; // Retornar null para indicar que no hay que procesar la respuesta
 	}
 
 	public String actualizarVista() throws Exception {
-		return "listadoCasillasCrearFormulario";
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+		externalContext.redirect("listadoCasillasCrearFormulario.xhtml");
+		return null;
 	}
 
 	public String actualizarVistaAgregarCasillas() throws Exception {
-		return "listadoCasillasActualizarFormulario";
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+		externalContext.redirect("listadoCasillasActualizarFormulario.xhtml");
+		return null;
 	}
 
 	public String getDepartamentoFormulario() {

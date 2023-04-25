@@ -18,7 +18,7 @@ public class AuthorizationFilter extends HttpFilter {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-
+/*
 	@Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
@@ -38,5 +38,5 @@ public class AuthorizationFilter extends HttpFilter {
         chain.doFilter(request, response); // continue filtering   
         }     
     }
-    
+    */
 }

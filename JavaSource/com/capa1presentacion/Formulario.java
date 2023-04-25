@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.capa3Persistencia.entities.CasillaEntity;
+import com.capa3Persistencia.entities.RegistroEntity;
 
 public class Formulario {
 
@@ -39,6 +40,8 @@ public class Formulario {
 	@NotNull(message="Debes seleccionar un departamento")
 	private Departamento departamento;
 
+	private List<RegistroEntity> registros;
+	
 	public Formulario(String nombre, Date fechaHora, TipoMedicion metodoMedicion, String resumen,
 			List<CasillaEntity> casillas, Usuario usuario, Departamento departamento) {
 		super();
@@ -134,6 +137,15 @@ public class Formulario {
 
 	public void setDepartamento(Departamento departamento) {
 		this.departamento = departamento;
+	}
+
+	
+	public List<RegistroEntity> getRegistros() {
+		return registros;
+	}
+
+	public void setRegistros(List<RegistroEntity> registros) {
+		this.registros = registros;
 	}
 
 	@Override

@@ -184,9 +184,46 @@ public class CargarDatos extends HttpServlet {
 				ciudades.add(gestionCiudadService.forCiudadEntity(c2));
 
 				Departamento dpto = new Departamento("Durazno");
+				Departamento dpto2 = new Departamento("Artigas");
+				Departamento dpto3 = new Departamento("Canelones");
+				Departamento dpto4 = new Departamento("Colonia");
+				Departamento dpto5 = new Departamento("Flores");
+				Departamento dpto6 = new Departamento("Florida");
+				Departamento dpto7 = new Departamento("Lavalleja");
+				Departamento dpto8 = new Departamento("Maldonado");
+				Departamento dpto9 = new Departamento("Montevideo");
+				Departamento dpto10 = new Departamento("Paysandu");
+				Departamento dpto11 = new Departamento("Rio Negro");
+				Departamento dpto12 = new Departamento("Rivera");
+				Departamento dpto13 = new Departamento("Rocha");
+				Departamento dpto14 = new Departamento("Salto");
+				Departamento dpto15 = new Departamento("San Jose");
+				Departamento dpto16 = new Departamento("Soriano");
+				Departamento dpto17 = new Departamento("Tacuarembo");
+				Departamento dpto18 = new Departamento("Treinta y Tres");
+				Departamento dpto19 = new Departamento("Fray Bentos");
 				dpto.setCiudades(ciudades);
+				
 				dpto = gestionDptoService.agregarDepartamento(dpto);
-				out.println("Departamento creado" + dpto);
+				dpto2 = gestionDptoService.agregarDepartamento(dpto2);
+				dpto3 = gestionDptoService.agregarDepartamento(dpto3);
+				dpto4 = gestionDptoService.agregarDepartamento(dpto4);
+				dpto5 = gestionDptoService.agregarDepartamento(dpto5);
+				dpto6 = gestionDptoService.agregarDepartamento(dpto6);
+				dpto7 = gestionDptoService.agregarDepartamento(dpto7);
+				dpto8 = gestionDptoService.agregarDepartamento(dpto8);
+				dpto9 = gestionDptoService.agregarDepartamento(dpto9);
+				dpto10 = gestionDptoService.agregarDepartamento(dpto10);
+				dpto11 = gestionDptoService.agregarDepartamento(dpto11);
+				dpto12 = gestionDptoService.agregarDepartamento(dpto12);
+				dpto13 = gestionDptoService.agregarDepartamento(dpto13);
+				dpto14 = gestionDptoService.agregarDepartamento(dpto14);
+				dpto15 = gestionDptoService.agregarDepartamento(dpto15);
+				dpto16 = gestionDptoService.agregarDepartamento(dpto16);
+				dpto17 = gestionDptoService.agregarDepartamento(dpto17);
+				dpto18 = gestionDptoService.agregarDepartamento(dpto18);
+				dpto19 = gestionDptoService.agregarDepartamento(dpto19);
+				out.println("Departamento creados");
 
 				List<CasillaEntity> casillas = new ArrayList<>();
 				casillas.add(gestionCasillaService.forCasillaEntity(casilla));
@@ -211,43 +248,6 @@ public class CargarDatos extends HttpServlet {
 				p.getMessage();
 
 			}
-
-			/*
-			 * Usuario e2 = new
-			 * Usuario("Pedro","Martinez","123456","pedro@gmail.com",true,"Pedro",Rol.
-			 * AFICIONADO); Usuario usuarioCreado2 =
-			 * gestionUsuarioService.agregarUsuario(e2); out.println("Se creo el empleado:"+
-			 * usuarioCreado2);
-			 * 
-			 * Usuario e3 = new
-			 * Usuario("Gonzalo","Perez","123456","gonza@gmail.com",true,"Gonza",Rol.
-			 * INVESTIGADOR); Usuario usuarioCreado3 =
-			 * gestionUsuarioService.agregarUsuario(e3); out.println("Se creo el empleado:"+
-			 * usuarioCreado3);
-			 * 
-			 * Usuario e4 = new
-			 * Usuario("Martin","Morales","123456","martin@gmail.com",true,"Martin",Rol.
-			 * INVESTIGADOR); Usuario usuarioCreado4 =
-			 * gestionUsuarioService.agregarUsuario(e4); out.println("Se creo el empleado:"+
-			 * usuarioCreado4);
-			 * 
-			 * Usuario e5 = new
-			 * Usuario("root","root","root","root@gmail.com",true,"root",Rol.ADMINISTRADOR);
-			 * Usuario usuarioCreado5 = gestionUsuarioService.agregarUsuario(e5);
-			 * out.println("Se creo el empleado:"+ usuarioCreado5);
-			 * 
-			 * Usuario e6 = new
-			 * Usuario("Adrian","Suar","123456","adrian@gmail.com",true,"Adrian",Rol.
-			 * INVESTIGADOR); Usuario usuarioCreado6 =
-			 * gestionUsuarioService.agregarUsuario(e6); out.println("Se creo el empleado:"+
-			 * usuarioCreado6);
-			 * 
-			 * Usuario e7 = new
-			 * Usuario("Florencia","Pose","123456","mPose@gmail.com",true,"Flor",Rol.
-			 * ADMINISTRADOR); Usuario usuarioCreado7 =
-			 * gestionUsuarioService.agregarUsuario(e7); out.println("Se creo el empleado:"+
-			 * usuarioCreado7);
-			 */
 
 		} catch (Exception e) {
 			out.println("No se creo el empleado:" + e.getClass().getSimpleName() + "-" + e.getMessage());

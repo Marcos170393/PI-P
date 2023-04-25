@@ -29,6 +29,7 @@ h1 {
 	<ui:define name="content">
 		<p:breadCrumb>
 			<p:menuitem value="Pagina principal" url="home.xhtml" />
+			<p:menuitem value="Seleccionar formulario" url="seleccionarFormularioRegistro.xhtml" />
 			<p:menuitem value="Registro de Calidad del Aire" url="#" />
 		</p:breadCrumb>
 		<p:messages id="messages" severity="info" showSummary="true"
@@ -65,23 +66,20 @@ h1 {
 				</p:column>
 				
 				<p:column headerText="Valor">
-					<h:inputText id="registroValor" value="#{casilla.valorRegistroCA}"/>
+					<h:inputText id="registroValor" value="#{casilla.valorRegistroCA}" style="margin: 0 auto; display: block;"/>
 				</p:column>
-				
-				<p:column headerText="">
-					<p:commandButton
-						style="text-align: center;"
-						value="Crear Registro" selectionMode="single"
-						action="#{gestionRegistro.salvarCambiosProbando(casilla.idCasilla, casilla.valorRegistroCA)}">
-					</p:commandButton>
-					<p:spacer width="10" />
-				</p:column>
-				
+					
 				<p:message for="tablaCasillasRegistro" showDetail="true"
 					showIcon="false" closable="true" />
 				<p:autoUpdate />
 			
 			</p:dataTable>
+			
+			<div style="text-align:center; margin-top: 40px;">
+    			<p:commandButton value="Crear Registro de CA" action="#{gestionRegistro.agregarRegistroCA()}" style="margin-right: 20px;" />
+    			<p:commandButton value="Descartar Cambios" action="#{gestionRegistro.descartarCambios()}" />
+			</div>
+					
 		</h:form>
 	</ui:define>
 

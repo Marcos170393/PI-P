@@ -58,6 +58,7 @@ public class FormularioEntity implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "ID_USUARIO")
 	private UsuarioEntity usuario;
+	
 
 	private boolean isDisponible;
 
@@ -160,7 +161,7 @@ public class FormularioEntity implements Serializable {
 	public void setCasillasObligatorias(List<CasillaEntity> casillasObligatorias) {
 		this.casillasObligatorias = casillasObligatorias;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Formulario [idFormulario=" + idFormulario + ", nombre=" + nombre + ", fechaHora=" + fechaHora

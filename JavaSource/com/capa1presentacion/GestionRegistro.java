@@ -1,12 +1,22 @@
 package com.capa1presentacion;
 
+import java.io.File;
+import java.io.IOException;
+
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -17,6 +27,15 @@ import com.capa3Persistencia.entities.CasillaEntity;
 import com.capa3Persistencia.entities.RegistrosBean;
 import com.capa3Persistencia.exception.PersistenciaException;
 import com.utils.ExceptionsTools;
+import com.utils.ImportarDatos;
+import java.io.InputStream;
+
+import javax.servlet.http.Part;
+
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.primefaces.model.UploadedFile;
 
 @Named(value = "gestionRegistro") // JEE8
 @SessionScoped // JEE8
@@ -53,9 +72,13 @@ public class GestionRegistro implements Serializable {
 
 	private static List<CasillaEntity> casillasRegistroObligatoriasModificar = new ArrayList<>();
 
+	private static List<Registro> registrosAgregados = new ArrayList<>();
+
 	private List<Registro> listaRegistrosTipoDato = new ArrayList<>();
 
-	private List<Registro> listaRegistrosSeleccionFormulario = new ArrayList<>();
+	private static List<Registro> listaRegistrosSeleccionFormulario = new ArrayList<>();
+
+	private static List<Registro> listadoRegistrosTodos = new ArrayList<>();
 
 	private String nombreTipoDato;
 
@@ -65,6 +88,9 @@ public class GestionRegistro implements Serializable {
 
 	private boolean obligatoria;
 
+	@EJB
+	ImportarDatos importarDatos;
+
 	@PostConstruct
 	public void init() {
 		registroSeleccionado = new Registro();
@@ -73,47 +99,51 @@ public class GestionRegistro implements Serializable {
 	}
 
 	// GUARDAR NUEVO REGISTRO DE CALIDAD DEL AIRE \\
-	public String salvarCambiosProbando(Long idCasilla, Long valorRegistroCA) throws Exception {
+	public String agregarRegistroCA() throws Exception {
 
-		Registro registroNuevo;
-		Casilla c = new Casilla();
 		try {
-
-			c = casillaPersistencia.buscarCasillaEntityId(idCasilla);
-			registroSeleccionado.setFormulario(form);
-			registroSeleccionado.setUsuario(CurrentUser.getUsuario());
-			registroSeleccionado.setUk_registro(registroBean.obtenerUk() + 1);
-			valorRegistro = valorRegistroCA;
-			registroSeleccionado.setValor(valorRegistro);
-			registroSeleccionado.setCasilla(c);
-
 			boolean incompleto = false;
-			for (CasillaEntity casillas : form.getCasillasObligatorias()) {
-				if (casillas.getIdCasilla() == c.getIdCasilla()) {
-					if (valorRegistro == null) {
-						incompleto = true;
-						FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Tienes casillas obligatorias sin valor", "");
-						FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			for (CasillaEntity casillasOb : form.getCasillasObligatorias()) {
+				for (CasillaEntity casillas : casillasRegistro) {
+					if (casillasOb.getIdCasilla() == casillas.getIdCasilla()) {
+						if (casillas.getValorRegistroCA() == null) {
+							incompleto = true;
+							// Si la casilla es obligatoria y el campo valor se encuentra vacio, salta el
+							// siguiente mensaje.
+							FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+									"Debes ingresar valor en las casillas obligatorias", "");
+							FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+						}
 					}
 				}
 			}
 			if (!incompleto) {
-				registroPersistencia.agregarRegistro(registroSeleccionado);
-				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro agregado", "");
+				int uk = registroBean.obtenerUk() + 1;
+
+				for (CasillaEntity ce : casillasRegistro) {
+					registroSeleccionado.setCasilla(casillaPersistencia.fromCasillaEntity(ce));
+					registroSeleccionado.setFormulario(form);
+					registroSeleccionado.setUsuario(CurrentUser.getUsuario());
+					registroSeleccionado.setUk_registro(uk);
+					registroSeleccionado.setValor(ce.getValorRegistroCA());
+
+					registroPersistencia.agregarRegistro(registroSeleccionado);
+				}
+				casillasRegistro.clear();
+				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registros creados con exito", "");
 				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+				FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
 			}
-
 			registroSeleccionado = new Registro();
-
-			return "";
+			return null;
 
 		} catch (Exception e) {
 
 			Throwable rootException = ExceptionsTools.getCause(e);
 			String msg1 = e.getMessage();
 			String msg2 = ExceptionsTools.formatedMsg(rootException);
-			// mensaje de actualizacion correcta
+
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg1, msg2);
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 
@@ -124,36 +154,47 @@ public class GestionRegistro implements Serializable {
 		return "";
 	}
 
+	public String descartarCambios() throws IOException {
+
+		casillasRegistro.clear();
+		FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cambios descartados", "");
+		FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+		FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
+		return null; // Retornar null para indicar que no hay que procesar la respuesta
+	}
+
 	// MODIFICACION DE REGISTRO \\
-	public String actualizarRegistro(Long idRegistro, Long valorRegistro) throws Exception {
-
-		Casilla c = new Casilla();
+	public String actualizarRegistro() throws Exception {
 		try {
-			registroSeleccionado = registroPersistencia.buscarRegistroEntityId(idRegistro);
-			registroSeleccionado.setUsuario(CurrentUser.getUsuario());
-			registroSeleccionado.setValor(valorRegistro);
-
 			boolean incompleto = false;
-			for (CasillaEntity casillas : formModificar.getCasillasObligatorias()) {
-				if (casillas.getIdCasilla() == c.getIdCasilla()) {
-					if (valorRegistro == null) {
-						incompleto = true;
-						FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Tienes casillas obligatorias sin valor", "");
-						FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			for (CasillaEntity casillasOb : formModificar.getCasillasObligatorias()) {
+				for (Registro registro : listaRegistrosSeleccionFormulario)
+					if (registro.getCasilla().getIdCasilla() == casillasOb.getIdCasilla()) {
+						if (registro.getValor() == null) {
+							incompleto = true;
+							FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+									"Tienes casillas obligatorias sin valor", "");
+							FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+						}
 					}
-				}
 			}
 
 			if (!incompleto) {
-				registroPersistencia.actualizarRegistro(registroSeleccionado);
-				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro actualizado con éxito",
-						null);
-				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			}
+				for (Registro r : listaRegistrosSeleccionFormulario) {
+					r.setUsuario(CurrentUser.getUsuario());
+					registroPersistencia.actualizarRegistro(r);
 
+				}
+
+				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registros actualizados con exito",
+						"");
+				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+				FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
+			}
 			registroSeleccionado = new Registro();
-			return "";
+			return null;
 
 		} catch (PersistenciaException e) {
 
@@ -178,7 +219,12 @@ public class GestionRegistro implements Serializable {
 		casillasRegistro = f.getCasillas();
 		form = f;
 		casillasRegistroObligatorias = f.getCasillasObligatorias();
-		return "crearRegistroProbando";
+
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+		externalContext.redirect("crearRegistroProbando.xhtml");
+		return null;
+
 	}
 
 	// Cuando seleccionamos un tipo de dato traemos los registros coincidentes con
@@ -186,12 +232,14 @@ public class GestionRegistro implements Serializable {
 	public void buscar() throws Exception {
 		List<Registro> listaRegistrosEntity = registroPersistencia.seleccionarRegistros();
 		boolean coincide = false;
+		listaRegistrosTipoDato.clear();
 		for (Registro r : listaRegistrosEntity) {
 			if (r.getCasilla().getTipoDato().getNombre().equals(nombreTipoDato)) {
 				coincide = true;
 				if (coincide) {
 					listaRegistrosTipoDato.add(r);
 				}
+
 			}
 		}
 		if (!coincide) {
@@ -210,7 +258,7 @@ public class GestionRegistro implements Serializable {
 
 	public String seleccionarFormularioModificarRegistro(Long idFormulario) throws Exception {
 
-//Esta busqueda de form es simplemente para asignar las casillas a los listados paraluego poder hacer el control de no dejar una casilla obligatoria vacia
+//Esta busqueda de form es simplemente para asignar las casillas a los listados para luego poder hacer el control de no dejar una casilla obligatoria vacia
 		Formulario f = formularioPersistencia.buscarFormularioEntityId(idFormulario);
 		casillasRegistroModificar = f.getCasillas();
 		casillasRegistroObligatoriasModificar = f.getCasillasObligatorias();
@@ -221,27 +269,103 @@ public class GestionRegistro implements Serializable {
 		for (Registro registro : listado) {
 			listaRegistrosSeleccionFormulario.add(registro);
 		}
-		return "actualizarRegistro";
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+		externalContext.redirect("actualizarRegistro.xhtml");
+		return null;
+
 	}
 
 	// Buscamos los registros que tiene el formulario seleccionado en
 	// "listarRegistroSeleccionarFormulario" (traemos el id para buscar el
 	// formulario seleccionado)
-	public String listarRegistrosSeleccionFormulario(Long idFormulario) {
+	public String listarRegistrosSeleccionFormulario(Long idFormulario) throws IOException {
 		List<Registro> listado = registroPersistencia.seleccionarRegistrosIdFormulario(idFormulario);// Metodo que trae
 																										// la lista de
-		listaRegistrosSeleccionFormulario.clear(); // limpiamos listado antes de agregar registros // registros
+																										// registros
+		listaRegistrosSeleccionFormulario.clear(); // limpiamos listado antes de agregar registros
 		for (Registro registro : listado) {
 			listaRegistrosSeleccionFormulario.add(registro);
 		}
-		return "listadoRegistrosFormularioSeleccionado";
+
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+		externalContext.redirect("listadoRegistrosFormularioSeleccionado.xhtml");
+		
+		return null;
+	}
+
+	protected String getFileName(Part p) {
+		String submittedFileName = p.getSubmittedFileName();
+		return Paths.get(submittedFileName).getFileName().toString();
+	}
+
+	private Part archivoSubido;
+
+	public Part getArchivoSubido() {
+		return archivoSubido;
+	}
+
+	public void setArchivoSubido(Part archivoSubido) {
+		this.archivoSubido = archivoSubido;
+	}
+
+	public void importarExcel() {
+	    try {
+	        String nombre = getFileName(archivoSubido);
+	        System.out.println(nombre);
+	        String rutaArchivo = "C:\\data\\" + getFileName(archivoSubido);
+	        archivoSubido.write(rutaArchivo);
+	        System.out.println("El archivo se ha cargado correctamente en la ruta: " + rutaArchivo);
+	        importarDatos.importarDatos();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+
+	public List<Registro> listarRegistrosTodos() throws Exception {
+
+		listadoRegistrosTodos = registroPersistencia.seleccionarRegistros();
+
+		for (ListIterator<Registro> iter = listadoRegistrosTodos.listIterator(listadoRegistrosTodos.size()); iter
+				.hasPrevious();) {
+			Registro registro = iter.previous();
+			if (CurrentUser.getUsuario().getRol() == Rol.AFICIONADO
+					&& CurrentUser.getUsuario().getIdUsuario() != registro.getUsuario()
+							.getIdUsuario()) { /*
+												 * Si el id del usuario aficionado es distinto al id del usuario que
+												 * creo el registro, borra el registro del listado para solo ver los
+												 * suyos
+												 */
+				iter.remove();
+			}
+		}
+		return listadoRegistrosTodos;
 	}
 
 	// Cargamos el listado de registros en "listadoRegistrosFormulario" obtenidos
 	// del metodo de arriba
 	public List<Registro> cargarListadoRegistrosFormulario() {
+
+		for (ListIterator<Registro> iter = listaRegistrosSeleccionFormulario
+				.listIterator(listaRegistrosSeleccionFormulario.size()); iter.hasPrevious();) {
+			Registro registro = iter.previous();
+			
+			if (CurrentUser.getUsuario().getRol() == Rol.AFICIONADO
+					&& CurrentUser.getUsuario().getIdUsuario() != registro.getUsuario().getIdUsuario()) {
+				iter.remove();
+			}
+		}
 		return listaRegistrosSeleccionFormulario;
 	}
+	
+	public void eliminarRegistro(Long idRegistro) {
+		registroPersistencia.eliminarRegistro(idRegistro);
+		FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro eliminado con éxito", "");
+		FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+	}
+	
+	
 
 	public List<Registro> getListaRegistros() {
 		return listaRegistrosTipoDato;

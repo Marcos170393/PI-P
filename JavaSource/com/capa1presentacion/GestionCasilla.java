@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
@@ -76,11 +77,15 @@ public class GestionCasilla implements Serializable {
 			// vaciamos usuarioSeleccionado como para ingresar uno nuevo
 			casillaSeleccionada = new Casilla();
 
-			// mensaje de actualizacion correcta
+			// mensaje de actualizacion correcta		
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Se ha agregado una nueva casilla con éxito", "");
-			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			return "home";
+				    "Se ha agregado una nueva casilla con exito", "");
+				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+				// Guardar el mensaje en el flash scope
+				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+				// Redirigir a listadoCasillas.xhtml usando ExternalContext
+				FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
+				return null; // Retornar null para indicar que no hay que procesar la respuesta
 
 		} catch (PersistenciaException e) {
 
@@ -169,9 +174,19 @@ public class GestionCasilla implements Serializable {
 					Long nuevoId = casillaSeleccionada.getIdCasilla();
 					// vaciamos usuarioSeleccionado como para ingresar uno nuevo
 					casillaSeleccionada = new Casilla();
-				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario actualizado con éxito", null);
-				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-				return "listadoCasillas";
+			      	FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+						    "Casilla actualizada con exito", "");
+						FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+
+						// Guardar el mensaje en el flash scope
+						FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+
+						// Redirigir a listadoCasillas.xhtml usando ExternalContext
+						FacesContext.getCurrentInstance().getExternalContext().redirect("listadoCasillas.xhtml");
+	      
+						return null; // Retornar null para indicar que no hay que procesar la respuesta
+	            
+				
 
 			} catch (PersistenciaException e) {
 
@@ -190,7 +205,11 @@ public class GestionCasilla implements Serializable {
 
 	public String actualizarVistaCasilla(String id) throws Exception {
 		casillaSeleccionada = casillaPersistencia.buscarCasillaEntityId(Long.parseLong(id));
-		return "actualizarCasilla";
+		
+		FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        externalContext.redirect("actualizarCasilla.xhtml");
+		return null;
 	}
 	
 
