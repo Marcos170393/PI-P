@@ -154,7 +154,7 @@ public class GestionCasilla implements Serializable {
 
 					List<Parametro> parametros = parametroPersistencia.seleccionarParametros();
 					for (Parametro p : parametros) {
-						if (p.getNombre().equals(parametroUsuario)) {
+						if (p.getNombre().equals(casillaSeleccionada.getParametro().getNombre())) {
 							casillaSeleccionada.setParametro(p);
 							break;
 						}
@@ -162,13 +162,12 @@ public class GestionCasilla implements Serializable {
 					
 					List<TipoDato> tipoDatos = tipoDatoPersistencia.seleccionarTipoDato();
 					for (TipoDato t : tipoDatos) {
-						if(t.getNombre().equals(tipoDatoUsuario)) {
+						if(t.getNombre().equals(casillaSeleccionada.getTipoDato().getNombre())) {
 							casillaSeleccionada.setTipoDato(t);
 						}
 					}
 					
 					casillaSeleccionada.setUsuario(CurrentUser.getUsuario());
-					
 					casillaPersistencia.actualizarCasilla(casillaSeleccionada);
 					// actualizamos id
 					Long nuevoId = casillaSeleccionada.getIdCasilla();
@@ -177,11 +176,7 @@ public class GestionCasilla implements Serializable {
 			      	FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 						    "Casilla actualizada con exito", "");
 						FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-
-						// Guardar el mensaje en el flash scope
 						FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-
-						// Redirigir a listadoCasillas.xhtml usando ExternalContext
 						FacesContext.getCurrentInstance().getExternalContext().redirect("listadoCasillas.xhtml");
 	      
 						return null; // Retornar null para indicar que no hay que procesar la respuesta
@@ -203,8 +198,8 @@ public class GestionCasilla implements Serializable {
 			return "";
 		}
 
-	public String actualizarVistaCasilla(String id) throws Exception {
-		casillaSeleccionada = casillaPersistencia.buscarCasillaEntityId(Long.parseLong(id));
+	public String actualizarVistaCasilla(Long id) throws Exception {
+		casillaSeleccionada = casillaPersistencia.buscarCasillaEntityId(id);
 		
 		FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();

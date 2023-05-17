@@ -29,8 +29,7 @@ h1 {
 	<ui:define name="content">
 		<p:breadCrumb>
 			<p:menuitem value="Pagina principal" url="home.xhtml" />
-			<p:menuitem value="Listado de formularios" url="seleccionarFormularioModificarRegistro.xhtml" />
-			<p:menuitem value="Listado de registros por formulario" url="#" />
+			<p:menuitem value="Listado de registros por tipo de dato" url="#" />
 		</p:breadCrumb>
 		<p:messages id="messages" severity="info" showSummary="true"
 			showDetail="false" closable="true">
@@ -38,8 +37,25 @@ h1 {
 		</p:messages>
 		<h:form>
 
-			<p:dataTable id="tablaActualizarRegistros"
-				value="#{gestionRegistro.cargarListadoRegistrosFormulario()}" var="registro" rowkey="#{registro.idRegistro}">
+			<div class="input-group">
+				<h:title>
+				<h3>Buscar registros por Departamento</h3>
+				</h:title>
+			</div>
+
+
+			<div class="input-group">
+				<p:selectOneMenu id="departamentoName"
+					value="#{gestionRegistro.nombreDepartamento}">
+					<f:selectItem disabled="true" itemValue="" itemLabel="" />
+					<f:selectItems value="#{gestionFormulario.listaDepartamentos()}" var="d" itemLabel="#{d.nombre}" itemValue="#{d.nombre}" />
+				</p:selectOneMenu>
+				<p:commandButton value="Seleccionar"
+					action="#{gestionRegistro.buscarRegistrosDepartamento()}" update="tablaRegistros"/>
+				</div>
+
+			<p:dataTable id="tablaRegistros"
+				value="#{gestionRegistro.cargarListadoRegistrosDepto()}" var="registro" rowkey="#{registro.idRegistro}">
 			
 				<p:column headerText="UK registro">
 					<h:outputText value="#{registro.uk_registro}" />
@@ -61,27 +77,15 @@ h1 {
 					<h:outputText value="#{registro.casilla.tipoDato.nombre}" />
 				</p:column>
 
+				<p:column headerText="Medicion">
+					<h:outputText value="#{registro.valor}" />
+				</p:column>
+
 				<p:column headerText="Usuario">
 					<h:outputText value="#{registro.usuario.nombreUsuario}" />
 				</p:column>
-				
-				<p:column headerText="Obligatoria">
-					<h:outputText value="#{registro.esObligatoria}" />
-				</p:column>
-								
-				<p:column headerText="Medicion">
-					<h:inputText value="#{registro.valor}"  style="margin: 0 auto; display: block;" />
-				</p:column>
 
-			    <p:message for="tablaActualizarRegistros" showDetail="true"
-					showIcon="false" closable="true" />
-				<p:autoUpdate />
 			</p:dataTable>
-			
-			<div style="text-align:center; margin-top: 40px;">
-    			<p:commandButton value="Modificar Registros de CA" action="#{gestionRegistro.actualizarRegistro()}" style="margin-right: 20px;" />
-    			<p:commandButton value="Descartar Cambios" action="#{gestionRegistro.descartarCambios()}" />
-			</div>
 		</h:form>
 	</ui:define>
 

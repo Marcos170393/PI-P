@@ -62,9 +62,16 @@ public class CasillaEntity implements Serializable {
 	 * @LazyCollection(LazyCollectionOption.FALSE) private List<Formulario>
 	 * formularios;
 	 */
-	//Utilizamos esta variable solamente para guardar el valor del registro, ya que si no es tipo Casilla no funciona.
+	// Utilizamos esta variable solamente para guardar el valor del registro, ya que
+	// si no es tipo Casilla no funciona.
 	@Transient
 	private Long valorRegistroCA;
+
+	// Utilizamos esta variable solamente porque cuando se cargan las casillas para
+	// crear el registro, si el dato no es te dipo casilla no lo toma, esta variable
+	// no se guarda en la base de datos, por eso el @Transient, al igual que el valorRegistroCA
+	@Transient
+	private boolean obligatoria;
 
 	public CasillaEntity() {
 	}
@@ -151,6 +158,14 @@ public class CasillaEntity implements Serializable {
 	 * this.formularios = formularios; }
 	 * 
 	 */
+
+	public boolean isObligatoria() {
+		return obligatoria;
+	}
+
+	public void setObligatoria(boolean obligatoria) {
+		this.obligatoria = obligatoria;
+	}
 
 	@Override
 	public String toString() {

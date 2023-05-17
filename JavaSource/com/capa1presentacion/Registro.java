@@ -2,23 +2,24 @@ package com.capa1presentacion;
 
 import java.util.Date;
 
-
-
 public class Registro {
-	
+
 	private long idRegistro;
-	
+
 	private Usuario usuario;
-	
+
 	private Formulario formulario;
-	
+
 	private Casilla casilla;
-	
+
 	private Date fecha;
-	
+
 	private Long valor;
-	
+
 	private Integer uk_registro;
+
+	private boolean esObligatoria; // Se utiliza solamente para cuando se carga el listado de modificar registros,
+									// ya que se debe indicar en el listado si el valor es obligatorio o no
 
 	public Registro(Usuario usuario, Formulario formulario, Casilla casilla, Date fecha, Long valor,
 			Integer uk_registro) {
@@ -31,8 +32,6 @@ public class Registro {
 		this.uk_registro = uk_registro;
 	}
 
-	
-	
 	public Registro() {
 		// TODO Auto-generated constructor stub
 	}
@@ -93,13 +92,19 @@ public class Registro {
 		this.uk_registro = uk_registro;
 	}
 
+	public boolean isEsObligatoria() {
+		return esObligatoria;
+	}
+
+	public void setEsObligatoria(boolean esObligatoria) {
+		this.esObligatoria = esObligatoria;
+	}
+
 	@Override
 	public String toString() {
 		return "Registro [idRegistro=" + idRegistro + ", usuario=" + usuario + ", formulario=" + formulario
 				+ ", casilla=" + casilla + ", fecha=" + fecha + ", valor=" + valor + ", uk_registro=" + uk_registro
 				+ "]";
-	} 
-	
-	
-	
+	}
+
 }

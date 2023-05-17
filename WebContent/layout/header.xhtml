@@ -38,27 +38,36 @@
 			</p:submenu>
 
 			<p:submenu label="Gestion de Formularios">
-				<p:menuitem value="Alta de Formulario" outcome="/altaFormulario.xhtml"
-					rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}"/>
-				<p:menuitem value="Listado de Formularios" outcome="/listadoFormularios.xhtml"/>
+				<p:menuitem value="Alta de Formulario"
+					outcome="/altaFormulario.xhtml"
+					rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" />
+				<p:menuitem value="Listado de Formularios"
+					outcome="/listadoFormularios.xhtml" />
 			</p:submenu>
 
 			<p:submenu label="Gestion de Registros de CA">
-					<p:menuitem value="Alta de Registro" outcome="/seleccionarFormularioRegistro.xhtml" />
-					<p:menuitem value="Modificar Registro" outcome="/seleccionarFormularioModificarRegistro.xhtml" />
-					<p:menuitem value="Listado de Registros" outcome="/listarRegistrosTodos.xhtml" />
-					<p:menuitem value="Listado por Formulario" outcome="/listarRegistroSeleccionarFormulario.xhtml" />
+				<p:menuitem value="Alta de Registro"
+					outcome="/seleccionarFormularioRegistro.xhtml" />
+				<p:menuitem value="Modificar Registro"
+					outcome="/seleccionarFormularioModificarRegistro.xhtml" />
+				<p:menuitem value="Listado de Registros"
+					outcome="/listarRegistrosTodos.xhtml" />
+				<p:menuitem value="Listado por Formulario"
+					outcome="/listarRegistroSeleccionarFormulario.xhtml" />
 			</p:submenu>
-			
+
 			<p:submenu label="Análisis y gestión de reportes">
 				<p:menuitem value="Listado por Tipo de Dato"
-					outcome="/listarRegistroTipoDato.xhtml"
-					rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" />
-					<p:menuitem value="Listado por Fecha" />
+				outcome="/listarRegistroTipoDato.xhtml"
+				rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" />
+				<p:menuitem value="Listado por Fecha" />
+				<p:menuitem value="Listado por Departamento"
+				outcome="/listarRegistroDepartamento.xhtml"
+				rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" />
 
 			</p:submenu>
-			
-			
+
+
 			<f:facet name="options">
 
 				<p:linkButton outcome="profile" value="Profile"
@@ -66,12 +75,14 @@
 				</p:linkButton>
 
 			</f:facet>
-				
-		<p:submenu label="Usuario: #{currentUser.getUsuario().nombreUsuario}" icon="ui-icon-person"  style="float:right">       
- 			<p:menuitem value="Cerrar Sesión" action="#{gestionUsuario.cerrarSesion()}" icon="ui-icon-power" />
- 		
- 		</p:submenu>
-				
+
+			<p:submenu label="Usuario: #{currentUser.getUsuario().nombreUsuario}"
+				icon="ui-icon-person" style="float:right">
+				<p:menuitem value="Cerrar Sesión"
+					action="#{gestionUsuario.cerrarSesion()}" icon="ui-icon-power" />
+
+			</p:submenu>
+
 		</p:menubar>
 	</h:form>
 

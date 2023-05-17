@@ -6,10 +6,12 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
 
 import com.capa1presentacion.Casilla;
 import com.capa1presentacion.CurrentUser;
@@ -191,9 +193,9 @@ public class RestApiService {
 	}
 
 	@POST
-	@Path("actualizar")
+	@Path("actualizarRegistro")
 	@Produces("application/json")
-	public Registro Actualizar(Registro registro) {
+	public Registro actualizarRegistro(Registro registro) {
 		try {
 			registro.setFecha(new Date());
 			gestionRegistroService.actualizarRegistro(registro);
@@ -202,6 +204,21 @@ public class RestApiService {
 			e.printStackTrace();
 			return new Registro();
 		}
+	}
+
+	@GET
+	@Path("buscarRegistro/{id_registro}")
+	@Produces("application/json")
+	public Registro buscarRegistro(@PathParam("id_registro") Long idRegistro) {
+		try {
+			Registro r = new Registro();
+			r = gestionRegistroService.buscarRegistroEntityId(idRegistro);
+			return r;
+		} catch (Exception e) {
+			return new Registro();
+
+		}
+
 	}
 
 	@GET

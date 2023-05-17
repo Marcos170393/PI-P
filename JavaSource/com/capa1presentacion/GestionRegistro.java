@@ -88,6 +88,10 @@ public class GestionRegistro implements Serializable {
 
 	private boolean obligatoria;
 
+	private String nombreDepartamento;
+
+	private List<Registro> listaRegistrosDepartamento = new ArrayList<>();
+
 	@EJB
 	ImportarDatos importarDatos;
 
@@ -103,7 +107,7 @@ public class GestionRegistro implements Serializable {
 
 		try {
 			boolean incompleto = false;
-			for (CasillaEntity casillasOb : form.getCasillasObligatorias()) {
+			for (CasillaEntity casillasOb : casillasRegistroObligatorias) {
 				for (CasillaEntity casillas : casillasRegistro) {
 					if (casillasOb.getIdCasilla() == casillas.getIdCasilla()) {
 						if (casillas.getValorRegistroCA() == null) {
@@ -173,6 +177,7 @@ public class GestionRegistro implements Serializable {
 					if (registro.getCasilla().getIdCasilla() == casillasOb.getIdCasilla()) {
 						if (registro.getValor() == null) {
 							incompleto = true;
+							obligatoria = true;
 							FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 									"Tienes casillas obligatorias sin valor", "");
 							FacesContext.getCurrentInstance().addMessage(null, facesMsg);
@@ -247,12 +252,44 @@ public class GestionRegistro implements Serializable {
 		}
 	}
 
+	public void buscarRegistrosDepartamento() throws Exception {
+		List<Registro> listaRegistros = registroPersistencia.seleccionarRegistros();
+		boolean coincide = false;
+		listaRegistrosDepartamento.clear();
+		for (Registro registros : listaRegistros) {
+			if (registros.getFormulario().getDepartamento().getNombre().equals(nombreDepartamento)) {
+				coincide = true;
+			}
+			if (coincide) {
+				listaRegistrosDepartamento.add(registros);
+			} else {
+				listaRegistrosDepartamento.clear();
+			}
+		}
+
+	}
+
+	// Cargamos el listado de registros por departamento
+	public List<Registro> cargarListadoRegistrosDepto() {
+		return listaRegistrosDepartamento;
+	}
+
 	// Cargamos el listado de formularios por tipo de dato
 	public List<Registro> cargarListado() {
 		return listaRegistrosTipoDato;
 	}
 
 	public List<CasillaEntity> cargarDatos() {
+
+		for (CasillaEntity casilla : casillasRegistro) { // Si la casilla es obligatoria, en el listado la ponemos como
+															// true
+			for (CasillaEntity casillaOb : casillasRegistroObligatorias) {
+				if (casilla.getIdCasilla() == casillaOb.getIdCasilla()) {
+					casilla.setObligatoria(true);
+				}
+			}
+		}
+
 		return casillasRegistro;
 	}
 
@@ -267,6 +304,12 @@ public class GestionRegistro implements Serializable {
 		List<Registro> listado = registroPersistencia.seleccionarRegistrosIdFormulario(idFormulario);
 		listaRegistrosSeleccionFormulario.clear();
 		for (Registro registro : listado) {
+			for (CasillaEntity casillasOb : casillasRegistroObligatoriasModificar) {
+				if (registro.getCasilla().getIdCasilla() == casillasOb.getIdCasilla()) {
+					registro.setEsObligatoria(true); 
+				}
+			}
+
 			listaRegistrosSeleccionFormulario.add(registro);
 		}
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -291,7 +334,7 @@ public class GestionRegistro implements Serializable {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = context.getExternalContext();
 		externalContext.redirect("listadoRegistrosFormularioSeleccionado.xhtml");
-		
+
 		return null;
 	}
 
@@ -311,16 +354,16 @@ public class GestionRegistro implements Serializable {
 	}
 
 	public void importarExcel() {
-	    try {
-	        String nombre = getFileName(archivoSubido);
-	        System.out.println(nombre);
-	        String rutaArchivo = "C:\\data\\" + getFileName(archivoSubido);
-	        archivoSubido.write(rutaArchivo);
-	        System.out.println("El archivo se ha cargado correctamente en la ruta: " + rutaArchivo);
-	        importarDatos.importarDatos();
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
+		try {
+			String nombre = getFileName(archivoSubido);
+			System.out.println(nombre);
+			String rutaArchivo = "C:\\data\\" + getFileName(archivoSubido);
+			archivoSubido.write(rutaArchivo);
+			System.out.println("El archivo se ha cargado correctamente en la ruta: " + rutaArchivo);
+			importarDatos.importarDatos();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public List<Registro> listarRegistrosTodos() throws Exception {
@@ -350,7 +393,7 @@ public class GestionRegistro implements Serializable {
 		for (ListIterator<Registro> iter = listaRegistrosSeleccionFormulario
 				.listIterator(listaRegistrosSeleccionFormulario.size()); iter.hasPrevious();) {
 			Registro registro = iter.previous();
-			
+
 			if (CurrentUser.getUsuario().getRol() == Rol.AFICIONADO
 					&& CurrentUser.getUsuario().getIdUsuario() != registro.getUsuario().getIdUsuario()) {
 				iter.remove();
@@ -358,14 +401,12 @@ public class GestionRegistro implements Serializable {
 		}
 		return listaRegistrosSeleccionFormulario;
 	}
-	
+
 	public void eliminarRegistro(Long idRegistro) {
 		registroPersistencia.eliminarRegistro(idRegistro);
 		FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro eliminado con éxito", "");
 		FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 	}
-	
-	
 
 	public List<Registro> getListaRegistros() {
 		return listaRegistrosTipoDato;
@@ -430,6 +471,14 @@ public class GestionRegistro implements Serializable {
 
 	public boolean isObligatoria() {
 		return obligatoria;
+	}
+
+	public String getNombreDepartamento() {
+		return nombreDepartamento;
+	}
+
+	public void setNombreDepartamento(String nombreDepartamento) {
+		this.nombreDepartamento = nombreDepartamento;
 	}
 
 }
