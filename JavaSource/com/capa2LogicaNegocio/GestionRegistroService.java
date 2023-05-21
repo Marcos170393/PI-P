@@ -88,7 +88,7 @@ public class GestionRegistroService implements Serializable {
 			Registro r = new Registro();
 			return r;
 		}
-		
+
 	}
 
 	public List<Registro> seleccionarRegistros() throws Exception {
@@ -113,10 +113,14 @@ public class GestionRegistroService implements Serializable {
 		}
 		return listaRegistros;
 	}
-	
+
 	public void eliminarRegistro(Long idRegistro) {
 		registroBean.eliminarRegistro(idRegistro);
 	}
-	
+
+	public Integer obtenerUkRegistro() {
+		int uk = registroBean.obtenerUk();
+		return uk;
+	}
 
 }

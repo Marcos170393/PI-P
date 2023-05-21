@@ -227,7 +227,7 @@ public class GestionRegistro implements Serializable {
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = context.getExternalContext();
-		externalContext.redirect("crearRegistroProbando.xhtml");
+		externalContext.redirect("crearRegistro.xhtml");
 		return null;
 
 	}
