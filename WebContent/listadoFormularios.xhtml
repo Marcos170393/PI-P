@@ -38,7 +38,8 @@ h1 {
 		<h:form>
 			<p:dataTable id="tablaFormularios"
 				value="#{gestionFormulario.mostrarFormularios()}" var="form"
-				rowKey="#{form.idFormulario}">
+				rowKey="#{form.idFormulario}" widgetVar="filtrarFormuTable">
+				
 
 				<p:column headerText="Nombre">
 					<h:outputText value="#{form.nombre}" />
@@ -58,7 +59,7 @@ h1 {
 					<h:outputText value="#{form.resumen}" />
 				</p:column>
 
-				<p:column headerText="Departamento">
+				<p:column headerText="Departamento" >
 					<h:outputText value="#{form.departamento.nombre}" />
 				</p:column>
 

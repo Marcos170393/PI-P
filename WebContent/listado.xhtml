@@ -5,8 +5,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui">
-<h:head>
-<style>
+	<h:head>
+		<style>
 h1 {
 	font-size: medium;
 	font-weight: bold;
@@ -21,84 +21,105 @@ h1 {
 	color: #ffffff;
 }
 </style>
-<h:title><h1 style="text-align: center;">Alta de usuario</h1></h:title>
-</h:head>
-          
-<ui:define name="content">
-	 
+		<h:title>
+			<h1 style="text-align: center;">Alta de usuario</h1>
+		</h:title>
+	</h:head>
 
-	<p:breadCrumb>
-		<p:menuitem value="Página principal"
-			url="home.xhtml" />
-		<p:menuitem value="Listado de usuarios"
-			url="#" />
-	</p:breadCrumb>
-		<p:messages id="messages" severity="info" showSummary="true" showDetail="false" closable="true">
-	       	<p:autoUpdate />
-	  	</p:messages>
+
+	<ui:define name="content">
+
+
+		<p:breadCrumb>
+			<p:menuitem value="Página principal" url="home.xhtml" />
+			<p:menuitem value="Listado de usuarios" url="#" />
+		</p:breadCrumb>
+		<p:messages id="messages" severity="info" showSummary="true"
+			showDetail="false" closable="true">
+			<p:autoUpdate />
+		</p:messages>
 		<h:form>
-		<p:dataTable id="tablaUsuarios" value="#{gestionUsuario.mostrarUsuarios()}" var="user" rowKey="user.idUsuario" >
-	
-		<!--	<p:column headerText="ID">
+			<p:dataTable id="tablaUsuarios"
+				value="#{gestionUsuario.mostrarUsuarios()}" var="user"
+				rowKey="user.idUsuario" emptyMessage="No hay registros"
+				widgetVar="filtrarUsersTable">
+
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputText value="Buscar" />
+						<p:inputText id="globalFilter"
+							onkeyup="PF('filtrarUsersTable').filter()" style="width:150px;"
+							placeholder="Buscar Usuarios" />
+					</p:outputPanel>
+				</f:facet>
+
+				<!--	<p:column headerText="ID">
 				<h:outputText value="#{user.idUsuario}" />
 			</p:column> -->
-			
-			<p:column headerText="Nombre">
-				<h:outputText value="#{user.nombre}" />
-			</p:column>
-			
-			<p:column headerText="Apellido">
-				<h:outputText value="#{user.apellido}" />
-			</p:column>
-			
-			<p:column headerText="Nombre de Usuario">
-				<h:outputText value="#{user.nombreUsuario}" />
-			</p:column>
-			
-			<p:column headerText="Mail">
-				<h:outputText value="#{user.mail}" />
-			</p:column>
-			
-			<p:column headerText="Habilitado">
-				<h:outputText value="#{user.habilitado}" />
-			</p:column>
 
-			<p:column headerText="Rol">
-				<h:outputText value="#{user.rol}" />
-			</p:column>
-			
-			<p:column headerText="Domicilio">
-				<h:outputText value="#{user.domicilio}" />
-			</p:column>
-			
-			<p:column headerText="Cedula">
-				<h:outputText value="#{user.cedula}" />
-			</p:column>
-			
-			<p:column headerText="Telefono">
-				<h:outputText value="#{user.telefono}" />
-			</p:column>
-			
-			<p:column headerText="Ciudad">
-				<h:outputText value="#{user.ciudad.nombre}" />
-			</p:column>
-			
-		<!--	<p:column headerText=""> </!>
+				<p:column headerText="Nombre">
+					<h:outputText value="#{user.nombre}" />
+				</p:column>
+
+				<p:column headerText="Apellido" filterBy="#{user.apellido}">
+					<h:outputText value="#{user.apellido}" />
+				</p:column>
+
+				<p:column headerText="Nombre de Usuario"
+					filterBy="#{user.nombreUsuario}">
+					<h:outputText value="#{user.nombreUsuario}" />
+				</p:column>
+
+				<p:column headerText="Mail" filterBy="#{user.mail}">
+					<h:outputText value="#{user.mail}" />
+				</p:column>
+
+				<p:column headerText="Habilitado">
+					<h:outputText value="#{user.habilitado}" />
+				</p:column>
+
+				<p:column headerText="Rol">
+					<h:outputText value="#{user.rol}" />
+				</p:column>
+
+				<p:column headerText="Domicilio">
+					<h:outputText value="#{user.domicilio}" />
+				</p:column>
+
+				<p:column headerText="Cedula">
+					<h:outputText value="#{user.cedula}" />
+				</p:column>
+
+				<p:column headerText="Telefono">
+					<h:outputText value="#{user.telefono}" />
+				</p:column>
+
+				<p:column headerText="Ciudad">
+					<h:outputText value="#{user.ciudad.nombre}" />
+				</p:column>
+
+				<!--	<p:column headerText=""> </!>
 				<h:outputText value="Pendiente" rendered="#{!user.habilitado}" />
 			</p:column> -->
-			
-			<p:column headerText="Actualizar/Eliminar">
-				<p:commandButton rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}" value="Eliminar" selectionMode="single" update="tablaUsuarios" action="#{gestionUsuario.eliminarUsuario(user.idUsuario)}">
-					<f:param name="idUsuario" value="#{user.idUsuario}"/>
-				</p:commandButton>
-				<p:spacer width="10"/>
-				<p:commandButton rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}" value="Actualizar" selectionMode="single"  action="#{gestionUsuario.actualizarVistaUsuario(user.idUsuario)}">
-					<f:param name="idUsuario" value="#{user.idUsuario}"/>
-				</p:commandButton>
-			</p:column>
 
-		</p:dataTable>
-	</h:form>
+				<p:column headerText="Actualizar/Eliminar">
+					<p:commandButton
+						rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}"
+						value="Eliminar" selectionMode="single" update="tablaUsuarios"
+						action="#{gestionUsuario.eliminarUsuario(user.idUsuario)}">
+						<f:param name="idUsuario" value="#{user.idUsuario}" />
+					</p:commandButton>
+					<p:spacer width="10" />
+					<p:commandButton
+						rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}"
+						value="Actualizar" selectionMode="single"
+						action="#{gestionUsuario.actualizarVistaUsuario(user.idUsuario)}">
+						<f:param name="idUsuario" value="#{user.idUsuario}" />
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
 	</ui:define>
-	
+
 </ui:composition>

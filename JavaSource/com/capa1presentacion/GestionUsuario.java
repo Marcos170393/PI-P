@@ -55,6 +55,16 @@ public class GestionUsuario implements Serializable {
 
 	@Enumerated
 	private Rol afic = Rol.AFICIONADO;
+	
+	private List<Usuario> filtroUsuarios;
+
+	public List<Usuario> getFiltroUsuarios() {
+	    return filtroUsuarios;
+	}
+
+	public void setFiltroUsuarios(List<Usuario> filtroUsuarios) {
+	    this.filtroUsuarios = filtroUsuarios;
+	}
 
 	public GestionUsuario() {
 		super();
@@ -435,5 +445,6 @@ public class GestionUsuario implements Serializable {
 	public void setAfic(Rol afic) {
 		this.afic = afic;
 	}
+
 
 }

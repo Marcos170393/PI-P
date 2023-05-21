@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -236,4 +237,17 @@ public class RestApiService {
 
 	}
 
+	@DELETE
+	@Path("/eliminarRegistro/{id_registro}")
+	@Produces("application/json")
+	public void eliminarRegistro(@PathParam("id_registro") Long idRegistro) {
+
+		try {			
+			gestionRegistroService.eliminarRegistro(idRegistro);
+			System.out.println("Registro eliminado correctamente");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 }
