@@ -242,11 +242,24 @@ public class RestApiService {
 	@Produces("application/json")
 	public void eliminarRegistro(@PathParam("id_registro") Long idRegistro) {
 
-		try {			
+		try {
 			gestionRegistroService.eliminarRegistro(idRegistro);
 			System.out.println("Registro eliminado correctamente");
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+
+	}
+
+	@GET
+	@Path("/obtenerUK")
+	@Produces("application/json")
+	public Integer obtenerUKRegistro() {
+		try {
+			Integer ukRegistro = gestionRegistroService.obtenerUkRegistro();
+			return ukRegistro;
+		} catch (Exception e) {
+			return 0;
 		}
 
 	}

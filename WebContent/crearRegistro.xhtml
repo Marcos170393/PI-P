@@ -29,57 +29,17 @@ h1 {
 	<ui:define name="content">
 		<p:breadCrumb>
 			<p:menuitem value="Pagina principal" url="home.xhtml" />
+			<p:menuitem value="Seleccionar formulario" url="seleccionarFormularioRegistro.xhtml" />
 			<p:menuitem value="Registro de Calidad del Aire" url="#" />
 		</p:breadCrumb>
 		<p:messages id="messages" severity="info" showSummary="true"
 			showDetail="false" closable="true">
 			<p:autoUpdate />
 		</p:messages>
-		
-		<div class="Registro">
-
-			<div class="create-form">
-				<h:form id="crearRegistro">
-					<div class="form-title">
-						<h2>Registro de calidad del aire</h2>
-					</div>
-					
-			<div>
-				<p:outputLabel value="Seleccione casilla para ingresar valor" />
-			</div>
-			
-			<div class="input-group">
-				<p:selectOneMenu id="casilla"
-					value="#{gestionRegistro.nombreCasilla}">
-					<f:selectItem disabled="true" itemValue="" itemLabel="" />
-					<f:selectItems value="#{gestionRegistro.cargarDatos()}" var="c"
-						itemLabel="#{c.nombre}" itemValue="#{c.nombre}" />
-				</p:selectOneMenu>
-			</div>
-
-			<div>
-				<p:outputLabel value="Valor " />
-			</div>
-
-			<div class="input-group">
-						<p:inputText class="input-form" id="nombre"
-							value="#{gestionRegistro.valorRegistro}" />
-						<h:message for="nombre" style="width:100%" />
-					</div>
-					
-			<div class="input-group">
-				<p:commandButton value="Crear registro"
-					action="#{gestionRegistro.salvarCambios()}" selectionMode="single" update="nombre">
-				</p:commandButton>
-			</div>
-
-			<div>
-			<h2 style="text-align: center;"> Casillas disponibles</h2>
-			</div>
-			
+		<h:form>
 			<p:dataTable id="tablaCasillasRegistro"
 				value="#{gestionRegistro.cargarDatos()}" var="casilla"
-				rowKey="#{casilla.idCasilla}">
+				rowKey="#{casilla.idCasilla}" selectionMode="single">
 
 				<p:column headerText="Nombre">
 					<h:outputText value="#{casilla.nombre}" />
@@ -102,22 +62,25 @@ h1 {
 				</p:column>
 
 				<p:column headerText="Obligatoria">
-					<h:outputText id="obligatorio" value="#{gestionRegistro.obligatoria}" />
+					<h:outputText id="obligatorio" value="#{casilla.obligatoria}" />
 				</p:column>
-
+				
+				<p:column headerText="Valor">
+					<h:inputText id="registroValor" value="#{casilla.valorRegistroCA}" style="margin: 0 auto; display: block;"/>
+				</p:column>
+					
 				<p:message for="tablaCasillasRegistro" showDetail="true"
 					showIcon="false" closable="true" />
 				<p:autoUpdate />
+			
 			</p:dataTable>
-
-			<div class="form-button" style="margin: 30px">
-				<p:commandButton value="Confirmar Cambios"
-					action="#{gestionRegistro.confirmarCambios()}" />
+			
+			<div style="text-align:center; margin-top: 40px;">
+    			<p:commandButton value="Crear Registro de CA" action="#{gestionRegistro.agregarRegistroCA()}" style="margin-right: 20px;" />
+    			<p:commandButton value="Descartar Cambios" action="#{gestionRegistro.descartarCambios()}" />
 			</div>
-
+					
 		</h:form>
-		</div>
-		</div>
 	</ui:define>
 
 </ui:composition>
