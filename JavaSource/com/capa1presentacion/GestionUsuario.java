@@ -46,7 +46,12 @@ public class GestionUsuario implements Serializable {
 	private boolean verDatosExtra = false;
 
 	private String ciudadUsuario;
-
+		
+	private boolean isFilterActive = false;
+	
+	//variable para indicar si se quieren mostrar los filtros o no
+	private boolean checkfilter = false;
+	
 	@Enumerated
 	private Rol admin = Rol.ADMINISTRADOR;
 
@@ -405,6 +410,14 @@ public class GestionUsuario implements Serializable {
 		usuarioSeleccionado = new Usuario();
 		return "";
 	}
+	
+	public void mostrarFiltrosInput() throws Exception {
+		this.isFilterActive = this.checkfilter;
+		if(this.isFilterActive == false) {
+			this.filtroUsuarios = null;
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/PIP/listado.xhtml");
+		}
+	}
 
 	public GestionUsuarioService getPersistenciaBean() {
 		return persistenciaBean;
@@ -446,5 +459,23 @@ public class GestionUsuario implements Serializable {
 		this.afic = afic;
 	}
 
+	public boolean isFilterActive() {
+		return isFilterActive;
+	}
+
+	public boolean isCheckfilter() {
+		return checkfilter;
+	}
+
+	public void setFilterActive(boolean isFilterActive) {
+		this.isFilterActive = isFilterActive;
+	}
+
+	public void setCheckfilter(boolean checkfilter) {
+		this.checkfilter = checkfilter;
+	}
+	
+	
+	
 
 }
