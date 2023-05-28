@@ -32,14 +32,14 @@ h1 {
 			<p:menuitem value="Listado de casillas" url="#" />
 		</p:breadCrumb>
 		<p:messages id="messages" severity="info" showSummary="true"
-			showDetail="false" closable="true">
+			showDetail="false" closable="true" >
 			<p:autoUpdate />
 		</p:messages>
 		
 		<h:form id="agregarCasillas">
 			<p:dataTable id="tablaCasillas"
 				value="#{gestionCasilla.mostrarCasillas()}" var="casilla"
-				rowKey="#{casilla.idCasilla}">
+				rowKey="#{casilla.idCasilla}" selectionMode="single">
 
 				<p:column headerText="Nombre">
 					<h:outputText value="#{casilla.nombre}" />

@@ -36,18 +36,53 @@ h1 {
 			<p:autoUpdate />
 		</p:messages>
 		<h:form>
-			
+
 			<p:dataTable id="tablaCasillas"
 				value="#{gestionCasilla.mostrarCasillas()}" var="casilla"
-				rowKey="#{casilla.idCasilla}">
+				resizableColumns="true" tableStyle="min-width:100%;width: auto;"
+				rowKey="#{casilla.idCasilla}" emptyMessage="No hay registros"
+				filteredValue="#{gestionCasilla.filtroCasillas}"
+				selectionMode="single">
 
-				<p:column headerText="Nombre">
+				<f:facet name="header" class="text-left">
+					<p:outputPanel style="text-align:left">
+						<h:outputText value="Filtrar" style="margin-right:10px" />
+						<p:selectBooleanCheckbox value="#{gestionCasilla.checkFilter}">
+							<p:ajax update="tablaCasillas"
+								listener="#{gestionCasilla.mostrarFiltrosInput()}" />
+						</p:selectBooleanCheckbox>
+					</p:outputPanel>
+				</f:facet>
+
+				<!-- 				Columnas con filtro -->
+
+				<p:column class="widht-columns" headerText="Nombre"
+					filterBy="#{casilla.nombre}"
+					rendered="#{gestionCasilla.filterActive}">
 					<h:outputText value="#{casilla.nombre}" />
 				</p:column>
 
-				<p:column headerText="Descripcion">
+				<p:column class="widht-columns" headerText="Descripcion"
+					filterBy="#{casilla.descripcion}"
+					rendered="#{gestionCasilla.filterActive}">
 					<h:outputText value="#{casilla.descripcion}" />
 				</p:column>
+
+				<!-- 				Columnas con filtro -->
+
+
+				<!-- 				Columnas sin filtro -->
+
+				<p:column headerText="Nombre"
+					rendered="#{!gestionCasilla.filterActive}">
+					<h:outputText value="#{casilla.nombre}" />
+				</p:column>
+
+				<p:column headerText="Descripcion"
+					rendered="#{!gestionCasilla.filterActive}">
+					<h:outputText value="#{casilla.descripcion}" />
+				</p:column>
+				<!-- 				Columnas sin filtro -->
 
 				<p:column headerText="Disponible">
 					<h:outputText value="#{casilla.disponible}" />
@@ -65,11 +100,29 @@ h1 {
 					<h:outputText value="#{casilla.usuario.nombreUsuario}" />
 				</p:column>
 
-				<p:column headerText="Actualizar/Eliminar">
+
+				<p:column headerText="Actualizar/Eliminar"
+					style="text-align: center">
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+						header="Confirmar"
+						message="Estas seguro de que deseas eliminar la casilla?"
+						widgetVar="confirmationDialog">
+
+						<p:commandButton value="Aceptar" update="tablaCasillas"
+							action="#{gestionCasilla.eliminarCasilla(casilla.idCasilla)}"
+							onclick="PF('confirmationDialog').hide();">
+						</p:commandButton>
+
+						<p:commandButton value="Cancelar"
+							onclick="PF('confirmationDialog').hide();" />
+					</p:confirmDialog>
+
 					<p:commandButton
 						rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}"
 						value="Eliminar" selectionMode="single" update="tablaCasillas"
-						action="#{gestionCasilla.eliminarCasilla(casilla.idCasilla)}">
+						type="button" onclick="PF('confirmationDialog').show()">
+						<!-- Se presiona en eliminar y se abre el cuadro de dialogo -->
+
 						<f:param name="idCasilla" value="#{casilla.nombre}" />
 					</p:commandButton>
 					<p:spacer width="10" />

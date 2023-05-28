@@ -6,6 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 
 import javax.persistence.*;
 import javax.validation.Constraint;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.LazyCollection;
@@ -69,7 +73,8 @@ public class CasillaEntity implements Serializable {
 
 	// Utilizamos esta variable solamente porque cuando se cargan las casillas para
 	// crear el registro, si el dato no es te dipo casilla no lo toma, esta variable
-	// no se guarda en la base de datos, por eso el @Transient, al igual que el valorRegistroCA
+	// no se guarda en la base de datos, por eso el @Transient, al igual que el
+	// valorRegistroCA
 	@Transient
 	private boolean obligatoria;
 

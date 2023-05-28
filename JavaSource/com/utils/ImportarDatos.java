@@ -18,10 +18,12 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import com.capa1presentacion.Casilla;
 import com.capa1presentacion.CurrentUser;
+import com.capa1presentacion.Departamento;
 import com.capa1presentacion.Formulario;
 import com.capa1presentacion.Registro;
 import com.capa1presentacion.Usuario;
 import com.capa2LogicaNegocio.GestionCasillaService;
+import com.capa2LogicaNegocio.GestionDepartamentoService;
 import com.capa2LogicaNegocio.GestionFormularioService;
 import com.capa2LogicaNegocio.GestionRegistroService;
 import com.capa2LogicaNegocio.GestionUsuarioService;
@@ -31,7 +33,9 @@ import com.capa3Persistencia.exception.PersistenciaException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Date;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -60,55 +64,67 @@ public class ImportarDatos implements Serializable {
 	@EJB
 	GestionUsuarioService gestionUsuarioService;
 	
-	Registro registroSeleccionado;
-	
-	@PostConstruct
-	public void init() {
-		registroSeleccionado = new Registro();
-	}
-	
 	@EJB
 	GestionFormularioService gestionFormularioService;
 	
+	@EJB
+	GestionDepartamentoService gestionDepartamentoService;
+	
 	public boolean importarDatos() throws Exception {
-		 File directoryPath = new File("C:\\data");
-		    if (!directoryPath.exists()) {
-		        directoryPath.mkdirs(); // Crea el directorio si no existe
-		    }
-		    File filesList[] = directoryPath.listFiles();
-		    File archivoFinal = filesList[0];
-
+		File directoryPath = new File("C:\\data"); //Ruta donde se encuentra guardado el archivo
+		File filesList[] = directoryPath.listFiles(); //Obtiene la lista de archivos en ese directorio y se almacena en el arreglo filesList[]
+		File archivoFinal = filesList[0]; //Se selecciona el archivo (el primero) y se guarda en la variabla archivoFinal
+		
 		FileInputStream fis = new FileInputStream(archivoFinal);
 		HSSFWorkbook wb = new HSSFWorkbook(fis);
-		HSSFSheet sheet = wb.getSheetAt(0);
-
+		HSSFSheet sheet = wb.getSheetAt(0); //Se obtiene la hoja de cálculo en la posición 0 del libro de Excel utilizando el método getSheetAt(0)
+		
+		List<Formulario> listaFormularios = gestionFormularioService.seleccionarFormularios();
+		List<Casilla> listaCasillas = gestionCasillaService.seleccionarCasillas();
+		List<Usuario> listaUsuarios = gestionUsuarioService.buscarUsuariosDisponibles();
+	    System.out.println(listaFormularios);
+        System.out.println(listaUsuarios);
+        System.out.println(listaCasillas);
 		try {
 			
-			for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) {
+			for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) { //Se recorre el archivo
+				Registro registro = new Registro();
 				
+					
+				registro.setUk_registro(Integer.parseInt(sheet.getRow(i).getCell(0).getStringCellValue())); //Se recorre la celda 0
+			
+				String nombreFormularioExcel = sheet.getRow(i).getCell(1).getStringCellValue().toLowerCase(); //Celda 1
+				for (Formulario f : listaFormularios) {
+				    if (f.getNombre().toLowerCase().equals(nombreFormularioExcel)) {
+				        registro.setFormulario(f);
+				    }
+				}
+	        
+				//2 = departamento, no se setea ya que el formulario lo trae
+	            
+	            String fechaHoraStr = sheet.getRow(i).getCell(3).getStringCellValue();
+	            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+	            Date fechaHora = sdf.parse(fechaHoraStr);
+	            registro.setFecha(fechaHora);
 				
-				Integer ukRegistro = Integer.parseInt(sheet.getRow(i).getCell(0).getStringCellValue());
-				registroSeleccionado.setUk_registro(ukRegistro);
-				
-				Formulario f = gestionFormularioService.buscarFormularioEntityName(sheet.getRow(i).getCell(1).getStringCellValue());
-				registroSeleccionado.setFormulario(f);
-		
-				System.out.println(registroSeleccionado);
+				String nombreCasillaExcel = sheet.getRow(i).getCell(4).getStringCellValue().toLowerCase();
 
-				Date fecha = Date.valueOf(sheet.getRow(i).getCell(3).getStringCellValue());
-				registroSeleccionado.setFecha(fecha);
+				for (Casilla c : listaCasillas) {
+				    if (c.getNombre().toLowerCase().equals(nombreCasillaExcel)) {
+				        registro.setCasilla(c);
+				    }
+				}
+				
+				registro.setValor(Long.parseLong(sheet.getRow(i).getCell(6).getStringCellValue()));
+				
+				String nombreUsuarioExcel = sheet.getRow(i).getCell(7).getStringCellValue().toLowerCase();
 
-				Casilla c = gestionCasillaService.buscarCasillaEntityName(sheet.getRow(i).getCell(4).getStringCellValue());
-				
-				registroSeleccionado.setCasilla(c);
-				
-				Long valor = Long.valueOf(sheet.getRow(i).getCell(6).getStringCellValue());
-				registroSeleccionado.setValor(valor);
-
-				Usuario u = gestionUsuarioService.buscarUsuarioEntityName(sheet.getRow(i).getCell(7).getStringCellValue());
-				registroSeleccionado.setUsuario(u);
-				
-				registroDao.agregarRegistro(registroSeleccionado); 
+				for (Usuario u : listaUsuarios) {
+				    if (u.getNombreUsuario().toLowerCase().equals(nombreUsuarioExcel)) {
+				        registro.setUsuario(u);
+				    }
+				}			
+				registroDao.agregarRegistro(registro); 
 			}
 
 			archivoFinal.delete();

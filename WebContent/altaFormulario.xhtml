@@ -116,7 +116,11 @@ h1 {
 
 					<p:dataTable id="tablaCasillasForm"
 						value="#{gestionFormulario.mostrarCasillasFormulario()}"
-						var="casilla" rowKey="#{casilla.idCasilla}">
+						var="casilla" rowKey="#{casilla.idCasilla}" selectionMode="single">
+						
+						<p:message for="tablaCasillasForm" showDetail="true" showIcon="false"
+							closable="true" />
+						<p:autoUpdate />
 
 						<p:column headerText="Nombre">
 							<h:outputText value="#{casilla.nombre}" />
@@ -140,9 +144,6 @@ h1 {
 								action="#{gestionFormulario.eliminarCasillaFormularioCrear(casilla.idCasilla)}">
 							</p:commandButton>
 						</p:column>
-						<p:message for="tablaCasillasForm" showDetail="true"
-							showIcon="false" closable="true" />
-						<p:autoUpdate />
 					</p:dataTable>
 
 					<div style="margin-bottom: 10px">
@@ -151,7 +152,7 @@ h1 {
 					</div>
 
 					<div class="form-button" style="margin: 30px">
-						<p:commandButton value="Confirmar"
+						<p:commandButton value="Crear Formulario"
 							action="#{gestionFormulario.salvarCambios()}" />
 					</div>
 

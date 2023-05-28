@@ -60,7 +60,7 @@
 				<p:menuitem value="Listado por Tipo de Dato"
 				outcome="/listarRegistroTipoDato.xhtml"
 				rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" />
-				<p:menuitem value="Listado por Fecha" />
+				<p:menuitem value="Listado por Fecha" outcome="/listarRegistroFecha.xhtml"/>
 				<p:menuitem value="Listado por Departamento"
 				outcome="/listarRegistroDepartamento.xhtml"
 				rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" />

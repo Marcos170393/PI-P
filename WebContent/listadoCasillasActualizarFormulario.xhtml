@@ -38,7 +38,7 @@ h1 {
 		<h:form>
 			<p:dataTable id="tablaCasillas"
 				value="#{gestionCasilla.mostrarCasillas()}" var="casilla"
-				rowKey="#{casilla.idCasilla}">
+				rowKey="#{casilla.idCasilla}" selectionMode="single">
 
 				<p:column headerText="Nombre">
 					<h:outputText value="#{casilla.nombre}" />

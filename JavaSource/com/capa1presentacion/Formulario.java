@@ -21,7 +21,7 @@ public class Formulario {
 
 	private Date fechaHora;
 
-	@NotNull(message="Debes seleccionar un tipo de medicion")
+	@NotNull(message="El metodo de medicion no puede ser nulo")
 	private TipoMedicion metodoMedicion;
 
 	@NotNull(message="Debes ingresar un resumen")

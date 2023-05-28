@@ -415,7 +415,7 @@ public class GestionUsuario implements Serializable {
 		this.isFilterActive = this.checkfilter;
 		if(this.isFilterActive == false) {
 			this.filtroUsuarios = null;
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/PIP/listado.xhtml");
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/PI_P/listado.xhtml");
 		}
 	}
 

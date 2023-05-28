@@ -1,5 +1,6 @@
 package com.capa1presentacion;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,20 @@ public class GestionCasilla implements Serializable {
 	private String parametroUsuario;
 
 	private String tipoDatoUsuario;
+	
+	private boolean checkFilter = false;
+
+	private boolean filterActive = false;
+	
+	private List<Casilla> filtroCasillas;
+
+	public List<Casilla> getFiltroCasillas() {
+		return filtroCasillas;
+	}
+
+	public void setFiltroCasillas(List<Casilla> filtroCasillas) {
+		this.filtroCasillas = filtroCasillas;
+	}
 
 	@PostConstruct
 	public void init() {
@@ -77,15 +92,15 @@ public class GestionCasilla implements Serializable {
 			// vaciamos usuarioSeleccionado como para ingresar uno nuevo
 			casillaSeleccionada = new Casilla();
 
-			// mensaje de actualizacion correcta		
+			// mensaje de actualizacion correcta
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-				    "Se ha agregado una nueva casilla con exito", "");
-				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-				// Guardar el mensaje en el flash scope
-				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-				// Redirigir a listadoCasillas.xhtml usando ExternalContext
-				FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
-				return null; // Retornar null para indicar que no hay que procesar la respuesta
+					"Se ha agregado una nueva casilla con exito", "");
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			// Guardar el mensaje en el flash scope
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+			// Redirigir a listadoCasillas.xhtml usando ExternalContext
+			FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
+			return null; // Retornar null para indicar que no hay que procesar la respuesta
 
 		} catch (PersistenciaException e) {
 
@@ -108,7 +123,7 @@ public class GestionCasilla implements Serializable {
 
 		try {
 			List<Casilla> listaCasillas = casillaPersistencia.seleccionarCasillas();
-			
+
 			return listaCasillas;
 		} catch (PersistenciaException e) {
 
@@ -148,65 +163,69 @@ public class GestionCasilla implements Serializable {
 	// ACTUALIZACION DE CASILLAS\\
 	public String actualizarCasilla() throws Exception {
 
-			
-				Casilla casillaNueva;
-				try {
+		Casilla casillaNueva;
+		try {
 
-					List<Parametro> parametros = parametroPersistencia.seleccionarParametros();
-					for (Parametro p : parametros) {
-						if (p.getNombre().equals(casillaSeleccionada.getParametro().getNombre())) {
-							casillaSeleccionada.setParametro(p);
-							break;
-						}
-					}
-					
-					List<TipoDato> tipoDatos = tipoDatoPersistencia.seleccionarTipoDato();
-					for (TipoDato t : tipoDatos) {
-						if(t.getNombre().equals(casillaSeleccionada.getTipoDato().getNombre())) {
-							casillaSeleccionada.setTipoDato(t);
-						}
-					}
-					
-					casillaSeleccionada.setUsuario(CurrentUser.getUsuario());
-					casillaPersistencia.actualizarCasilla(casillaSeleccionada);
-					// actualizamos id
-					Long nuevoId = casillaSeleccionada.getIdCasilla();
-					// vaciamos usuarioSeleccionado como para ingresar uno nuevo
-					casillaSeleccionada = new Casilla();
-			      	FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-						    "Casilla actualizada con exito", "");
-						FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-						FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-						FacesContext.getCurrentInstance().getExternalContext().redirect("listadoCasillas.xhtml");
-	      
-						return null; // Retornar null para indicar que no hay que procesar la respuesta
-	            
-				
-
-			} catch (PersistenciaException e) {
-
-				Throwable rootException = ExceptionsTools.getCause(e);
-				String msg1 = e.getMessage();
-				String msg2 = ExceptionsTools.formatedMsg(rootException);
-				// mensaje de actualizacion correcta
-				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg1, null);
-				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-
-				e.printStackTrace();
+			List<Parametro> parametros = parametroPersistencia.seleccionarParametros();
+			for (Parametro p : parametros) {
+				if (p.getNombre().equals(casillaSeleccionada.getParametro().getNombre())) {
+					casillaSeleccionada.setParametro(p);
+					break;
+				}
 			}
 
-			return "";
+			List<TipoDato> tipoDatos = tipoDatoPersistencia.seleccionarTipoDato();
+			for (TipoDato t : tipoDatos) {
+				if (t.getNombre().equals(casillaSeleccionada.getTipoDato().getNombre())) {
+					casillaSeleccionada.setTipoDato(t);
+				}
+			}
+
+			casillaSeleccionada.setUsuario(CurrentUser.getUsuario());
+			casillaPersistencia.actualizarCasilla(casillaSeleccionada);
+			// actualizamos id
+			Long nuevoId = casillaSeleccionada.getIdCasilla();
+			// vaciamos usuarioSeleccionado como para ingresar uno nuevo
+			casillaSeleccionada = new Casilla();
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Casilla actualizada con exito", "");
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("listadoCasillas.xhtml");
+
+			return null; // Retornar null para indicar que no hay que procesar la respuesta
+
+		} catch (PersistenciaException e) {
+
+			Throwable rootException = ExceptionsTools.getCause(e);
+			String msg1 = e.getMessage();
+			String msg2 = ExceptionsTools.formatedMsg(rootException);
+			// mensaje de actualizacion correcta
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg1, null);
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+
+			e.printStackTrace();
 		}
 
-	public String actualizarVistaCasilla(Long id) throws Exception {
-		casillaSeleccionada = casillaPersistencia.buscarCasillaEntityId(id);
+		return "";
+	}
+
+	public void mostrarFiltrosInput() throws IOException {
+		this.filterActive = this.checkFilter;
+		if(filterActive == false) {
+			filtroCasillas = null;
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/PI_P/listadoCasillas.xhtml");
+		}
 		
-		FacesContext context = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = context.getExternalContext();
-        externalContext.redirect("actualizarCasilla.xhtml");
-		return null;
 	}
 	
+	public String actualizarVistaCasilla(Long id) throws Exception {
+		casillaSeleccionada = casillaPersistencia.buscarCasillaEntityId(id);
+
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+		externalContext.redirect("actualizarCasilla.xhtml");
+		return null;
+	}
 
 	public List<Parametro> listaParametros() throws Exception {
 		List<Parametro> listaParametros = parametroPersistencia.seleccionarParametros();
@@ -218,7 +237,6 @@ public class GestionCasilla implements Serializable {
 		return listaTipoDato;
 	}
 
-	
 	public Casilla getCasillaSeleccionada() {
 		return casillaSeleccionada;
 	}
@@ -241,6 +259,22 @@ public class GestionCasilla implements Serializable {
 
 	public void setTipoDatoUsuario(String tipoDatoUsuario) {
 		this.tipoDatoUsuario = tipoDatoUsuario;
+	}
+
+	public boolean isCheckFilter() {
+		return checkFilter;
+	}
+
+	public void setCheckFilter(boolean checkFilter) {
+		this.checkFilter = checkFilter;
+	}
+
+	public boolean isFilterActive() {
+		return filterActive;
+	}
+
+	public void setFilterActive(boolean filterActive) {
+		this.filterActive = filterActive;
 	}
 
 }

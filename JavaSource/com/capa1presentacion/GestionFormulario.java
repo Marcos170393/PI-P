@@ -1,5 +1,6 @@
 package com.capa1presentacion;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -47,6 +48,36 @@ public class GestionFormulario implements Serializable {
 
 	private String departamentoFormulario;
 
+	private List<Formulario> filtroFormularios;
+
+	public List<Formulario> getFiltroFormularios() {
+		return filtroFormularios;
+	}
+
+	public void setFiltroFormularios(List<Formulario> filtroFormularios) {
+		this.filtroFormularios = filtroFormularios;
+	}
+
+	private boolean checkFilter = false;
+
+	private boolean filterActive = false;
+
+	public boolean isCheckFilter() {
+		return checkFilter;
+	}
+
+	public void setCheckFilter(boolean checkFilter) {
+		this.checkFilter = checkFilter;
+	}
+
+	public boolean isFilterActive() {
+		return filterActive;
+	}
+
+	public void setFilterActive(boolean filterActive) {
+		this.filterActive = filterActive;
+	}
+
 	@Enumerated
 	private TipoMedicion manual = TipoMedicion.MANUAL;
 
@@ -71,6 +102,7 @@ public class GestionFormulario implements Serializable {
 	// GUARDAR NUEVA CASILLA \\
 	public String salvarCambios() throws Exception {
 
+		boolean listaCasillasVacia = false;
 		Formulario formularioNuevo;
 		try {
 
@@ -85,23 +117,34 @@ public class GestionFormulario implements Serializable {
 			formularioSeleccionado.setCasillas(casillasFormulario);
 			formularioSeleccionado.setCasillasObligatorias(casillasObligatoriasFormulario);
 
-			formularioNuevo = (Formulario) formularioPersistencia.agregarFormulario(formularioSeleccionado);
-			// actualizamos id
-			Long nuevoId = formularioNuevo.getIdFormulario();
-			// vaciamos formularioSeleccionado como para ingresar uno nuevo
-			formularioSeleccionado = new Formulario();
-			casillasFormulario = new ArrayList<>();
-			casillasObligatoriasFormulario = new ArrayList<>();
-			// mensaje de actualizacion correct
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Se ha agregado un nuevo formulario con éxito", "");
-			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			if (casillasFormulario.isEmpty()) {
+				listaCasillasVacia = true;
 
-			// Guardar el mensaje en el flash scope
-			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"El formulario debe contener al menos una casilla", null);
+				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+			}
+			if (!listaCasillasVacia) {
 
-			// Redirigir a home.xhtml usando ExternalContext
-			FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
+				formularioNuevo = (Formulario) formularioPersistencia.agregarFormulario(formularioSeleccionado);
+				// actualizamos id
+				Long nuevoId = formularioNuevo.getIdFormulario();
+				// vaciamos formularioSeleccionado como para ingresar uno nuevo
+				formularioSeleccionado = new Formulario();
+				casillasFormulario = new ArrayList<>();
+				casillasObligatoriasFormulario = new ArrayList<>();
+				// mensaje de actualizacion correct
+				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Se ha agregado un nuevo formulario con éxito", "");
+				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+
+				// Guardar el mensaje en el flash scope
+				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+
+				// Redirigir a home.xhtml usando ExternalContext
+				FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
+			}
 			return null;
 
 		} catch (PersistenciaException e) {
@@ -122,34 +165,42 @@ public class GestionFormulario implements Serializable {
 
 	// MODIFICACION DE FORMULARIO \\
 	public String actualizarFormulario() throws Exception {
-
+		boolean listaCasillasVacia = false;
 		try {
 
 			List<Departamento> dptos = departamentoPersistencia.buscarDepartamentos();
 			for (Departamento departamento : dptos) {
-				if (departamento.getNombre().equals(departamentoFormulario)) {
+				if (departamento.getNombre().equals(formularioSeleccionado.getDepartamento().getNombre())) {
 					formularioSeleccionado.setDepartamento(departamento);
 				}
 			}
 
 			formularioSeleccionado.setUsuario(CurrentUser.getUsuario());
 
-			formularioPersistencia.actualizarFormulario(formularioSeleccionado);
-			// actualizamos id
-			Long nuevoId = formularioSeleccionado.getIdFormulario();
-			// vaciamos usuarioSeleccionado como para ingresar uno nuevo
-			formularioSeleccionado = new Formulario();
-			casillasFormulario = new ArrayList<>();
-			casillasObligatoriasFormulario = new ArrayList<>();
+			if (casillasFormulario.isEmpty()) {
+				listaCasillasVacia = true;
+				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"El formulario debe contener al menos una casilla", null);
+				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+			}
+			if (!listaCasillasVacia) {
+				formularioPersistencia.actualizarFormulario(formularioSeleccionado);
+				// actualizamos id
+				Long nuevoId = formularioSeleccionado.getIdFormulario();
+				// vaciamos usuarioSeleccionado como para ingresar uno nuevo
+				formularioSeleccionado = new Formulario();
+				casillasFormulario = new ArrayList<>();
+				casillasObligatoriasFormulario = new ArrayList<>();
 
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Formulario actualizado con éxito",
-					null);
-			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			// Guardar el mensaje en el flash scope
-			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-			// Redirigir a listadoCasillas.xhtml usando ExternalContext
-			FacesContext.getCurrentInstance().getExternalContext().redirect("listadoFormularios.xhtml");
-
+				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Formulario actualizado con éxito",
+						null);
+				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+				// Guardar el mensaje en el flash scope
+				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+				// Redirigir a listadoCasillas.xhtml usando ExternalContext
+				FacesContext.getCurrentInstance().getExternalContext().redirect("listadoFormularios.xhtml");
+			}
 			return null; // Retornar null para indicar que no hay que procesar la respuesta
 
 		} catch (PersistenciaException e) {
@@ -319,6 +370,15 @@ public class GestionFormulario implements Serializable {
 		return listaDptos;
 	}
 
+	public void mostrarFiltrosInput() throws IOException {
+		this.filterActive = this.checkFilter;
+		if (filterActive == false) {
+			filtroFormularios = null;
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/PI_P/listadoFormularios.xhtml");
+		}
+
+	}
+
 	public String actualizarVistaActualizarFormulario(String id) throws Exception {
 		formularioSeleccionado = formularioPersistencia.buscarFormularioEntityId(Long.parseLong(id));
 		casillasFormulario = formularioSeleccionado.getCasillas(); // Le cargamos la lista de casillas que tiene el
@@ -331,10 +391,12 @@ public class GestionFormulario implements Serializable {
 
 	}
 
-	public String confirmarCambiosCrearForm() {
+	public String confirmarCambiosCrearForm() throws IOException {
 		FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cambios guardados", "");
 		FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-		return "altaFormulario";
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+		FacesContext.getCurrentInstance().getExternalContext().redirect("altaFormulario.xhtml");
+		return null;
 	}
 
 	public String confirmarCambiosActualizarForm() throws Exception {

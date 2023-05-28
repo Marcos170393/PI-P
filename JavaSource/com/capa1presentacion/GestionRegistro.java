@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -91,6 +92,28 @@ public class GestionRegistro implements Serializable {
 	private String nombreDepartamento;
 
 	private List<Registro> listaRegistrosDepartamento = new ArrayList<>();
+
+	private static List<Registro> listaRegistrosFecha = new ArrayList<>();
+
+	private Date fechaInicial;
+
+	private Date fechaFinal;
+
+	public Date getFechaFinal() {
+		return fechaFinal;
+	}
+
+	public void setFechaFinal(Date fechaFinal) {
+		this.fechaFinal = fechaFinal;
+	}
+
+	public Date getFechaInicial() {
+		return fechaInicial;
+	}
+
+	public void setFechaInicial(Date fechaInicial) {
+		this.fechaInicial = fechaInicial;
+	}
 
 	@EJB
 	ImportarDatos importarDatos;
@@ -274,6 +297,26 @@ public class GestionRegistro implements Serializable {
 		return listaRegistrosDepartamento;
 	}
 
+	public void buscarRegistrosFecha() throws Exception {
+		List<Registro> listado = registroPersistencia.seleccionarRegistros();
+		listaRegistrosFecha.clear();
+		for (Registro reg : listado) {
+			if (reg.getFecha().after(fechaInicial) 
+					&& (reg.getFecha().before(fechaFinal) || reg.getFecha().equals(fechaFinal))) { 
+				listaRegistrosFecha.add(reg); //Si la fecha del registro es mayor a la fecha inicial y menor a le fecha final o igual
+			}else if(fechaInicial == null && fechaFinal == null || fechaInicial == null) {
+				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"La fecha se encuentra vacia", "");
+				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+				listaRegistrosFecha.clear();
+			}
+		}
+	}
+	
+	public List<Registro> cargarListadoFecha() {
+		return listaRegistrosFecha;
+	}
+
 	// Cargamos el listado de formularios por tipo de dato
 	public List<Registro> cargarListado() {
 		return listaRegistrosTipoDato;
@@ -306,7 +349,7 @@ public class GestionRegistro implements Serializable {
 		for (Registro registro : listado) {
 			for (CasillaEntity casillasOb : casillasRegistroObligatoriasModificar) {
 				if (registro.getCasilla().getIdCasilla() == casillasOb.getIdCasilla()) {
-					registro.setEsObligatoria(true); 
+					registro.setEsObligatoria(true);
 				}
 			}
 
@@ -345,7 +388,7 @@ public class GestionRegistro implements Serializable {
 
 	private Part archivoSubido;
 
-	public Part getArchivoSubido() {
+	public Part getArchivoSubido() { // Aca se guarda el excel cuando lo cargamos
 		return archivoSubido;
 	}
 
@@ -355,11 +398,13 @@ public class GestionRegistro implements Serializable {
 
 	public void importarExcel() {
 		try {
-			String nombre = getFileName(archivoSubido);
+			String nombre = getFileName(archivoSubido); // Obtiene el nombre del archivo enviado en la parte Part y lo
+														// devuelve como una cadena.
 			System.out.println(nombre);
-			String rutaArchivo = "C:\\data\\" + getFileName(archivoSubido);
-			archivoSubido.write(rutaArchivo);
-			System.out.println("El archivo se ha cargado correctamente en la ruta: " + rutaArchivo);
+			archivoSubido.write("C:\\data\\" + getFileName(archivoSubido)); // El write() guarda el archivo en la
+																			// ubicación "C:\data\" utilizando el nombre
+																			// del archivo original.
+			String nombreNuevo = getFileName(archivoSubido);
 			importarDatos.importarDatos();
 		} catch (Exception e) {
 			e.printStackTrace();

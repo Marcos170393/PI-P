@@ -86,7 +86,7 @@ h1 {
 
 					<div class="input-group">
 						<p:selectOneMenu id="departamento"
-							value="#{gestionFormulario.departamentoFormulario}">
+							value="#{gestionFormulario.formularioSeleccionado.departamento.nombre}">
 							<f:selectItem disabled="true" itemValue="" itemLabel="" />
 							<f:selectItems value="#{gestionFormulario.listaDepartamentos()}"
 								var="d" itemLabel="#{d.nombre}" itemValue="#{d.nombre}" />
@@ -116,7 +116,7 @@ h1 {
 
 					<p:dataTable id="tablaCasillasForm"
 						value="#{gestionFormulario.mostrarCasillasFormulario()}"
-						var="casilla" rowKey="#{casilla.idCasilla}">
+						var="casilla" rowKey="#{casilla.idCasilla}" selectionMode="single">
 
 						<p:column headerText="Nombre">
 							<h:outputText value="#{casilla.nombre}" />
