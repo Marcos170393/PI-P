@@ -244,6 +244,7 @@ public class GestionFormulario implements Serializable {
 			formularioPersistencia.eliminarFormulario(Long.parseLong(idFormulario));
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Formulario eliminado con éxito", "");
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("listadoFormularios.xhtml");
 		} catch (PersistenciaException e) {
 
 			Throwable rootException = ExceptionsTools.getCause(e);
@@ -374,7 +375,7 @@ public class GestionFormulario implements Serializable {
 		this.filterActive = this.checkFilter;
 		if (filterActive == false) {
 			filtroFormularios = null;
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/PI_P/listadoFormularios.xhtml");
+			FacesContext.getCurrentInstance().getExternalContext().redirect("listadoFormularios.xhtml");
 		}
 
 	}

@@ -22,12 +22,12 @@
 	<classpathentry kind="lib" path="C:/wildfly-20.0.1.Final/wildfly-20.0.1.Final/bin/client/jboss-client.jar"/>
 	<classpathentry kind="lib" path="C:/wildfly-20.0.1.Final/wildfly-20.0.1.Final/modules/system/layers/base/javax/xml/bind/api/main/jboss-jaxb-api_2.3_spec-2.0.0.Final.jar"/>
 	<classpathentry kind="lib" path="C:/wildfly-20.0.1.Final/wildfly-20.0.1.Final/modules/system/layers/base/javax/servlet/api/main/jboss-servlet-api_4.0_spec-2.0.0.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/marti/Downloads/POI 3.6/POI 3.6/commons-collections4-4.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/marti/Downloads/POI 3.6/POI 3.6/poi-3.16.jar"/>
-	<classpathentry kind="lib" path="C:/Users/marti/Downloads/POI 3.6/POI 3.6/poi-ooxml-3.16.jar"/>
-	<classpathentry kind="lib" path="C:/Users/marti/Downloads/POI 3.6/POI 3.6/poi-ooxml-schemas-3.16.jar"/>
-	<classpathentry kind="lib" path="C:/Users/marti/Downloads/POI 3.6/POI 3.6/xmlbeans-2.6.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/marti/Downloads/lib/lib/commons-fileupload-1.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/marti/Downloads/jar_files (2)/jackson-annotations-2.15.0.jar"/>
+	<classpathentry kind="lib" path="C:/GIT/PI-P/WebContent/WEB-INF/lib/commons-collections4-4.1.jar"/>
+	<classpathentry kind="lib" path="C:/GIT/PI-P/WebContent/WEB-INF/lib/poi-3.16.jar"/>
+	<classpathentry kind="lib" path="C:/GIT/PI-P/WebContent/WEB-INF/lib/poi-ooxml-3.16.jar"/>
+	<classpathentry kind="lib" path="C:/GIT/PI-P/WebContent/WEB-INF/lib/poi-ooxml-schemas-3.16.jar"/>
+	<classpathentry kind="lib" path="C:/GIT/PI-P/WebContent/WEB-INF/lib/xmlbeans-2.6.0.jar"/>
+	<classpathentry kind="lib" path="C:/GIT/PI-P/WebContent/WEB-INF/lib/commons-fileupload-1.5.jar"/>
+	<classpathentry kind="lib" path="C:/GIT/PI-P/WebContent/WEB-INF/lib/jackson-annotations-2.15.0.jar"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>

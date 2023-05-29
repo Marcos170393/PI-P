@@ -213,7 +213,7 @@ public class GestionCasilla implements Serializable {
 		this.filterActive = this.checkFilter;
 		if(filterActive == false) {
 			filtroCasillas = null;
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/PI_P/listadoCasillas.xhtml");
+			FacesContext.getCurrentInstance().getExternalContext().redirect("listadoCasillas.xhtml");
 		}
 		
 	}
