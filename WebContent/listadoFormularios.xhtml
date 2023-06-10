@@ -55,22 +55,30 @@ h1 {
 				</f:facet>
 
 <!-- 				Columnas con filtro -->
-				<p:column headerText="Nombre" filterBy="#{form.nombre}" rendered="#{gestionFormulario.filterActive}">
+				<p:column class="widht-columns" headerText="Nombre" filterBy="#{form.nombre}" rendered="#{gestionFormulario.filterActive}">
 					<h:outputText value="#{form.nombre}" />
 				</p:column>
-<!-- 				Columnas con filtro -->
-
-	<!-- 				Columnas con filtro -->
-				<p:column headerText="Nombre" rendered="#{!gestionFormulario.filterActive}">
-					<h:outputText value="#{form.nombre}" />
-				</p:column>
-	<!-- 				Columnas con filtro -->
-	
-				<p:column headerText="Fecha de creacion">
+				
+				<p:column headerText="Fecha de creacion" filterBy="#{form.fechaHora}" rendered="#{gestionFormulario.filterActive}">
 					<h:outputText value="#{form.fechaHora}">
 						<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
 					</h:outputText>
 				</p:column>
+				
+<!-- 				Columnas con filtro -->
+
+	<!-- 				Columnas sin filtro -->
+				<p:column headerText="Nombre" rendered="#{!gestionFormulario.filterActive}">
+					<h:outputText value="#{form.nombre}" />
+				</p:column>
+				
+				<p:column headerText="Fecha de creacion" rendered="#{!gestionFormulario.filterActive}">
+					<h:outputText value="#{form.fechaHora}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+					</h:outputText>
+				</p:column>
+	<!-- 				Columnas sin filtro -->
+	
 
 				<p:column headerText="Metodo de medicion">
 					<h:outputText value="#{form.metodoMedicion}" />

@@ -86,7 +86,9 @@ h1 {
 
 					<div class="input-group">
 						<p:selectOneMenu id="departamento"
-							value="#{gestionFormulario.formularioSeleccionado.departamento.nombre}">
+							value="#{gestionFormulario.formularioSeleccionado.departamento.nombre}"
+							required="true"
+							requiredMessage="Debes seleccionar un departamento">
 							<f:selectItem disabled="true" itemValue="" itemLabel="" />
 							<f:selectItems value="#{gestionFormulario.listaDepartamentos()}"
 								var="d" itemLabel="#{d.nombre}" itemValue="#{d.nombre}" />
@@ -134,9 +136,13 @@ h1 {
 							<h:outputText value="#{casilla.tipoDato.nombre}" />
 						</p:column>
 
+						<p:column headerText="Obligatoria">
+							<h:outputText value="#{casilla.obligatoria}" />
+						</p:column>
+
 						<p:column headerText="">
-							<p:commandButton id="eliminar" value="Eliminar" selectionMode="single"
-								update="tablaCasillasForm"
+							<p:commandButton id="eliminar" value="Eliminar"
+								selectionMode="single" update="tablaCasillasForm"
 								action="#{gestionFormulario.eliminarCasillaFormularioActualizar(casilla.idCasilla)}">
 							</p:commandButton>
 						</p:column>

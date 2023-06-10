@@ -66,10 +66,11 @@ h1 {
 				</p:column>
 				
 				<p:column headerText="Valor">
-					<h:inputText id="registroValor" value="#{casilla.valorRegistroCA}" style="margin: 0 auto; display: block;"/>
-					<p:message for="registroValor" showDetail="true"
-					showIcon="false" closable="true" />
-				<p:autoUpdate />
+    			<div style="width: 100%; margin: 0 auto; text-align: center;">
+        		<p:inputNumber id="registroValor" value="#{casilla.valorRegistroCA}"/>
+    			</div>
+   				<p:message for="registroValor" showDetail="true" showIcon="false" closable="true" />
+    			<p:autoUpdate />
 				</p:column>
 					
 				<p:message for="tablaCasillasRegistro" showDetail="true"

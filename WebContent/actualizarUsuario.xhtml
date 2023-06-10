@@ -102,7 +102,7 @@ h1 {
 					<p:selectOneMenu id="rol"
 						value="#{gestionUsuario.usuarioSeleccionado.rol}">
 						<p:ajax listener="#{gestionUsuario.verDatosExtra()}"
-							process="@this" update="actualizarUsuario" />
+							process="@form" update="actualizarUsuario" />
 						<f:selectItem disabled="true" itemValue="" itemLabel="" />
 						<f:selectItem itemValue="#{gestionUsuario.admin}"
 							itemLabel="Administrador" />
@@ -127,16 +127,23 @@ h1 {
 					</p:selectOneMenu>
 				</div>
 
-					<div>
-						<p:outputLabel value="Cedula" rendered="#{gestionUsuario.verDatosExtras}"/>	
+						<div>
+						<p:outputLabel value="Cedula"
+							rendered="#{gestionUsuario.verDatosExtras}" />
 					</div>
-				
 					<div class="input-group">
-						<p:inputText id="cedula" value="#{gestionUsuario.usuarioSeleccionado.cedula}" rendered="#{gestionUsuario.verDatosExtras}"/>
-						<p:message for="cedula" showDetail="true" showIcon="false" closable="true">
-						<p:autoUpdate/>
-						</p:message>
+						<p:inputMask id="cedula"
+							rendered="#{gestionUsuario.verDatosExtras}"
+							value="#{gestionUsuario.usuarioSeleccionado.cedula}" required="true"
+							requiredMessage="Debe ingresar un documento" mask="9999999-9">
+							<f:validator validatorId="cedulaValidatorFrontend" />
+						</p:inputMask>
+						<p:message for="cedula" showDetail="true" showIcon="false"
+							closable="true">
+							<p:autoUpdate />
+							</p:message>
 					</div>
+
 				
 				<div>
 					<p:outputLabel value="Domicilio"
@@ -177,7 +184,7 @@ h1 {
 				<div class="input-group">
 					<p:selectOneMenu id="ciudad"
 						value="#{gestionUsuario.ciudadUsuario}"
-						rendered="#{gestionUsuario.verDatosExtras}" filter="true">
+						rendered="#{gestionUsuario.verDatosExtras}" filter="true" required="true" requiredMessage="Debes seleccionar una ciudad">>
 						<f:selectItem disabled="true" itemValue="" itemLabel="" />
 						<f:selectItems value="#{gestionUsuario.mostrarCiudades()}" var="e"
 							itemLabel="#{e.nombre}" itemValue="#{e.nombre}" />

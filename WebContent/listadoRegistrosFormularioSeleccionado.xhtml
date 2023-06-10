@@ -37,7 +37,7 @@ h1 {
 		</p:messages>
 		<h:form>
 
-			<p:dataTable id="tablaRegistros"
+			<p:dataTable id="tablaRegistrosForm"
 				value="#{gestionRegistro.cargarListadoRegistrosFormulario()}"
 				var="registro" rowkey="#{registro.idRegistro}">
 
@@ -73,19 +73,30 @@ h1 {
 					<h:outputText value="#{registro.usuario.nombreUsuario}" />
 				</p:column>
 
+				<p:column headerText="Eliminar"
+					rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}">
+					<p:commandButton value="Eliminar" selectionMode="single"
+						update="tablaRegistrosForm"
+						action="#{gestionRegistro.eliminarRegistro(registro.idRegistro)}" />
+				</p:column>
+
 			</p:dataTable>
 
 
-			<h:commandLink id="export" styleClass="ui-button" style="margin-top: 1rem" value="Exportar">
-				<h:graphicImage styleClass="" library="images" name="xls.png" width="30px" height="30px"></h:graphicImage>
-				<p:dataExporter type="xls" postProcessor="#{exportarExcel.postProcessXLS}" target="tablaRegistros" fileName="registroCA" />
+			<h:commandLink id="export" styleClass="ui-button"
+				style="margin-top: 1rem" value="Exportar registros">
+				<h:graphicImage styleClass="" library="images" name="xls.png"
+					width="30px" height="30px"></h:graphicImage>
+				<p:dataExporter type="xls"
+					postProcessor="#{exportarExcel.postProcessXLS}"
+					target="tablaRegistrosForm" fileName="registroCA" />
 				<p:message for="export" showDetail="true" showIcon="false"
 					closable="true" />
 				<p:autoUpdate />
 			</h:commandLink>
 
 		</h:form>
-			
+
 	</ui:define>
 
 </ui:composition>

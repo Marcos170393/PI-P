@@ -1,8 +1,10 @@
 package com.capa1presentacion;
 
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class Usuario {
@@ -22,9 +24,13 @@ public class Usuario {
 	@Size(min = 8, max = 25, message = "Min. 8 caracteres / Max. 25 caracteres")
 	private String contrasenia;
 
-	@NotEmpty(message = "Debes ingresar un correo electronico")
-	@Email(message = "El correo debe contener @ y .com")
-	@Size(min = 10, max = 40, message = "Min 10 caracteres / Max. 40 caracteres")
+	@NotNull(message = "Debes ingresar un correo electrónico")
+	@Pattern(regexp = "[^@]+@\\w+\\.com", message = "El correo debe contener: @ y .com")
+	// se utiliza [^@]+ antes del símbolo "@" para indicar que se pueden ingresar
+	// cualquier carácter excepto el símbolo "@". Luego, se especifica @\\w+\\.com
+	// para asegurarse de que después del símbolo "@" se ingrese el dominio y el
+	// .com. (gmail.com)
+	@Size(min = 20, max = 50, message = "Min 10 caracteres / Max. 40 caracteres")
 	private String mail;
 
 	@NotNull()
@@ -32,11 +38,11 @@ public class Usuario {
 
 	@NotNull(message = "Debes ingresar un nombre de usuario")
 	@Size(min = 8, max = 25, message = "Min. 8 caracteres / Max. 25 caracteres")
+	@Pattern(regexp = "[a-zA-Z]+", message = "Solo se permiten letras")
 	private String nombreUsuario;
 
-	@NotNull(message = "Debes ingresar la cedula")
-	@Size(min = 8, max = 8, message = "La cedula debe ser de 8 caracteres sin punto y guion")
-	private String cedula;
+	@NotNull(message = "Debes ingresar la cédula")
+	private String cedula; // d{8} significa que solo se permiten 8 digitos numericos
 
 	@NotNull(message = "Debes ingresar el domicilio")
 	@Size(min = 5, max = 40, message = "Min. 5 caracteres / Max. 40 caracteres")
@@ -50,6 +56,8 @@ public class Usuario {
 
 	@NotNull(message = "Debes seleccionar un rol")
 	private Rol rol;
+
+	private boolean disponible;
 
 	public Usuario() {
 		super();
@@ -177,6 +185,14 @@ public class Usuario {
 
 	public void setTelefono(Long telefono) {
 		this.telefono = telefono;
+	}
+
+	public boolean isDisponible() {
+		return disponible;
+	}
+
+	public void setDisponible(boolean disponible) {
+		this.disponible = disponible;
 	}
 
 	@Override

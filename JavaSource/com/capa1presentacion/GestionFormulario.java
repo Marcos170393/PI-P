@@ -136,7 +136,7 @@ public class GestionFormulario implements Serializable {
 				casillasObligatoriasFormulario = new ArrayList<>();
 				// mensaje de actualizacion correct
 				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Se ha agregado un nuevo formulario con éxito", "");
+						"Se ha agregado un nuevo formulario con ï¿½xito", "");
 				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 
 				// Guardar el mensaje en el flash scope
@@ -193,7 +193,7 @@ public class GestionFormulario implements Serializable {
 				casillasFormulario = new ArrayList<>();
 				casillasObligatoriasFormulario = new ArrayList<>();
 
-				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Formulario actualizado con éxito",
+				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Formulario actualizado con ï¿½xito",
 						null);
 				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 				// Guardar el mensaje en el flash scope
@@ -241,10 +241,23 @@ public class GestionFormulario implements Serializable {
 	public void eliminarFormulario(String idFormulario) throws Exception {
 
 		try {
-			formularioPersistencia.eliminarFormulario(Long.parseLong(idFormulario));
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Formulario eliminado con éxito", "");
-			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			FacesContext.getCurrentInstance().getExternalContext().redirect("listadoFormularios.xhtml");
+			if (filtroFormularios == null) { //Si no estamos filtrando
+				formularioPersistencia.eliminarFormulario(Long.parseLong(idFormulario)); //Lo eliminamos de forma logica
+				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Formulario eliminado con ï¿½xito",
+						"");
+				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+
+			} else { //Si estamos filtrando (El filtroFormularios contiene formularios)
+				for (Formulario f : filtroFormularios) {
+					if (f.getIdFormulario() == Long.parseLong(idFormulario)) {
+						filtroFormularios.remove(f); //Lo sacamos del dataTable
+						formularioPersistencia.eliminarFormulario(Long.parseLong(idFormulario)); //Lo eliminamos de forma logica
+						FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Formulario eliminado con ï¿½xito", "");
+						FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+						break;
+					}
+				}
+			}
 		} catch (PersistenciaException e) {
 
 			Throwable rootException = ExceptionsTools.getCause(e);
@@ -293,6 +306,14 @@ public class GestionFormulario implements Serializable {
 		try {
 			// Cargamos la lista estatica de casillas del formulario
 			List<CasillaEntity> list = casillasFormulario;
+
+			for (CasillaEntity c : casillasFormulario) {
+				for (CasillaEntity cOb : casillasObligatoriasFormulario) {
+					if (c.getIdCasilla() == cOb.getIdCasilla()) {
+						c.setObligatoria(true);
+					}
+				}
+			}
 			return list;
 
 		} catch (Exception e) {
