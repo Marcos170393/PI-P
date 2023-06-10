@@ -53,6 +53,7 @@ public class UsuariosBean  {
 		try {
 			UsuarioEntity user = em.find(UsuarioEntity.class, idUser);
 			user.setDisponible(false);
+			user.setHabilitado(false);
 			em.flush();
 		} catch (Exception e) {
 			throw new Exception("No se pudo eliminar el UsuarioEntity");

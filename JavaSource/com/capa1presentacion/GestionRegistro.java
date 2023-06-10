@@ -298,21 +298,22 @@ public class GestionRegistro implements Serializable {
 	}
 
 	public void buscarRegistrosFecha() throws Exception {
-		List<Registro> listado = registroPersistencia.seleccionarRegistros();
-		listaRegistrosFecha.clear();
-		for (Registro reg : listado) {
-			if (reg.getFecha().after(fechaInicial) 
-					&& (reg.getFecha().before(fechaFinal) || reg.getFecha().equals(fechaFinal))) { 
-				listaRegistrosFecha.add(reg); //Si la fecha del registro es mayor a la fecha inicial y menor a le fecha final o igual
-			}else if(fechaInicial == null && fechaFinal == null || fechaInicial == null) {
-				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"La fecha se encuentra vacia", "");
-				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-				listaRegistrosFecha.clear();
-			}
-		}
+	    List<Registro> listado = registroPersistencia.seleccionarRegistros();
+
+	    listaRegistrosFecha.clear();
+	    for (Registro reg : listado) {
+	        if ((reg.getFecha().equals(fechaInicial) || reg.getFecha().after(fechaInicial))
+	                && (fechaFinal == null || reg.getFecha().equals(fechaFinal) || reg.getFecha().before(fechaFinal))) {
+	            listaRegistrosFecha.add(reg);
+	        } else {
+	            FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error, inténtelo nuevamente", "");
+	            FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+	            listaRegistrosFecha.clear();
+	            break;
+	        }
+	    }
 	}
-	
+
 	public List<Registro> cargarListadoFecha() {
 		return listaRegistrosFecha;
 	}
@@ -448,7 +449,15 @@ public class GestionRegistro implements Serializable {
 	}
 
 	public void eliminarRegistro(Long idRegistro) {
+
+		for (Registro r : listaRegistrosSeleccionFormulario) {
+			if (r.getIdRegistro() == idRegistro) {
+				listaRegistrosSeleccionFormulario.remove(r); // Sacamos el registro del listado
+				break;
+			}
+		}
 		registroPersistencia.eliminarRegistro(idRegistro);
+
 		FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro eliminado con éxito", "");
 		FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 	}

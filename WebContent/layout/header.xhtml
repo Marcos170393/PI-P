@@ -15,21 +15,21 @@
 			style="width:80px;margin-left:10px;margin-top:10px;" />
 		<span
 			style="color: white; font-size: 180%; font-family: Arial; margin: 20px">
-			Sistema de Gestion de Calidad de Aire</span>
+			Sistema de Gestión de Calidad de Aire</span>
 	</div>
 
 
 	<h:form>
 		<p:menubar>
 
-			<p:submenu label="Gestion de Usuario">
+			<p:submenu label="Gestión de Usuario">
 				<p:menuitem value="Alta de Usuario" outcome="/altaUsuario.xhtml"
 					rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR')}" />
 				<p:menuitem value="Listado de Usuarios" outcome="/listado.xhtml" />
 			</p:submenu>
 
 
-			<p:submenu label="Gestion de Casillas"
+			<p:submenu label="Gestión de Casillas"
 				rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}">
 				<p:menuitem value="Alta de Casilla" outcome="/altaCasilla.xhtml" />
 				<p:menuitem value="Listado de Casillas"
@@ -37,7 +37,7 @@
 				</p:menuitem>
 			</p:submenu>
 
-			<p:submenu label="Gestion de Formularios">
+			<p:submenu label="Gestión de Formularios">
 				<p:menuitem value="Alta de Formulario"
 					outcome="/altaFormulario.xhtml"
 					rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" />
@@ -45,7 +45,7 @@
 					outcome="/listadoFormularios.xhtml" />
 			</p:submenu>
 
-			<p:submenu label="Gestion de Registros de CA">
+			<p:submenu label="Gestión de Registros">
 				<p:menuitem value="Alta de Registro"
 					outcome="/seleccionarFormularioRegistro.xhtml" />
 				<p:menuitem value="Modificar Registro"
@@ -56,14 +56,14 @@
 					outcome="/listarRegistroSeleccionarFormulario.xhtml" />
 			</p:submenu>
 
-			<p:submenu label="Análisis y gestión de reportes">
+			<p:submenu label="Análisis y gestión de reportes"
+				rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}">
 				<p:menuitem value="Listado por Tipo de Dato"
-				outcome="/listarRegistroTipoDato.xhtml"
-				rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" />
-				<p:menuitem value="Listado por Fecha" outcome="/listarRegistroFecha.xhtml"/>
+					outcome="/listarRegistroTipoDato.xhtml" />
+				<p:menuitem value="Listado por Fecha"
+					outcome="/listarRegistroFecha.xhtml" />
 				<p:menuitem value="Listado por Departamento"
-				outcome="/listarRegistroDepartamento.xhtml"
-				rendered="#{currentUser.getUsuario().rol.toString().equals('ADMINISTRADOR') || currentUser.getUsuario().rol.toString().equals('INVESTIGADOR')}" />
+					outcome="/listarRegistroDepartamento.xhtml" />
 
 			</p:submenu>
 

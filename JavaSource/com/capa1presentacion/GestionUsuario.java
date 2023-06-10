@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import com.capa2LogicaNegocio.GestionCiudadService;
 import com.capa2LogicaNegocio.GestionUsuarioService;
 import com.capa3Persistencia.exception.PersistenciaException;
+import com.filter.CedulaValidatorFrontend;
 import com.utils.ExceptionsTools;
 import com.utils.Util;
 
@@ -60,6 +61,9 @@ public class GestionUsuario implements Serializable {
 
 	@Enumerated
 	private Rol afic = Rol.AFICIONADO;
+	
+	CedulaValidatorFrontend verificacion = new CedulaValidatorFrontend();
+	
 	
 	private List<Usuario> filtroUsuarios;
 
@@ -149,6 +153,7 @@ public class GestionUsuario implements Serializable {
 						break;
 					}
 				}
+				verificacion.setMno(usuarioSeleccionado.getCedula());
 				persistenciaBean.actualizarUsuario(usuarioSeleccionado);
 			} else {
 				persistenciaBean.actualizarUsuarioAficionado(usuarioSeleccionado);
@@ -192,6 +197,7 @@ public class GestionUsuario implements Serializable {
 					break;
 				}
 			}
+			verificacion.setMno(usuarioSeleccionado.getCedula());
 			usuarioNuevo = (Usuario) persistenciaBean.agregarUsuario(usuarioSeleccionado);
 			// actualizamos id
 			Long nuevoId = usuarioNuevo.getIdUsuario();
@@ -233,6 +239,7 @@ public class GestionUsuario implements Serializable {
 					break;
 				}
 			}
+			verificacion.setMno(usuarioSeleccionado.getCedula());
 			usuarioNuevo = (Usuario) persistenciaBean.agregarUsuario(usuarioSeleccionado);
 			// actualizamos id
 			Long nuevoId = usuarioNuevo.getIdUsuario();
@@ -312,7 +319,7 @@ public class GestionUsuario implements Serializable {
 	        }
 	    } catch (Exception e) {
 	        FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-	                "Nombre de usuario o contraseña incorrectos", "");
+	                "Nombre de usuario o contraseña incorrectos, vuelva a intentarlo", "");
 	        FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 	        return "";
 	    }
@@ -360,9 +367,13 @@ public class GestionUsuario implements Serializable {
 	}
 
 	// METODO PARA MOSTRAR FORMULARIO DE ACTUALIZACION
-	public String actualizarVistaUsuario(String id) throws Exception {
-		usuarioSeleccionado = persistenciaBean.buscarUsuarioEntity(Long.parseLong(id));
-		
+	public String actualizarVistaUsuario(Long id) throws Exception {
+		usuarioSeleccionado = persistenciaBean.buscarUsuarioEntity(id);
+		if(usuarioSeleccionado.getRol().equals(Rol.ADMINISTRADOR) || usuarioSeleccionado.getRol().equals(Rol.INVESTIGADOR)) {
+			this.verDatosExtra = true;
+		}else {
+			this.verDatosExtra = false;
+		}
 		FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         externalContext.redirect("actualizarUsuario.xhtml");

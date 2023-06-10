@@ -125,18 +125,18 @@ public class CargarDatos extends HttpServlet {
 			c18 = gestionCiudadService.agregarCiudad(c18);
 			out.println("Se han creado las ciudades con exito");
 
-			Usuario u = new Usuario("Admin", "Administrador", "administrador", "admin@gmail", true, "administrador", "12345678",
+			Usuario u = new Usuario("Admin", "Administrador", "administrador", "administrador@gmail.com", true, "administrador", "12345678",
 					"Durazno 123", c, Long.valueOf(92723073), Rol.ADMINISTRADOR);
 
 			u = gestionUsuarioService.agregarUsuario(u);
 			out.println("Se ha creado el usuario con exito " + u);
 
-			Usuario u2 = new Usuario("Invest", "Investigador", "investigador", "investigador@gmail", true,
+			Usuario u2 = new Usuario("Invest", "Investigador", "investigador", "investigador@gmail.com", true,
 					"investigador", "12345867", "Canelones 132", c1, Long.valueOf(91885647), Rol.INVESTIGADOR);
 			u2 = gestionUsuarioService.agregarUsuario(u2);
 			out.println("Usuario agregado" + u2);
 
-			Usuario u3 = new Usuario("Afic", "Aficionado", "aficionado", "aficionado@gmail.com", true,
+			Usuario u3 = new Usuario("Afic", "Aficionado", "aficionado", "aficionadoUser@gmail.com", true,
 					"aficionado", Rol.AFICIONADO);
 			u3 = gestionUsuarioService.agregarUsuario(u3);
 			/*

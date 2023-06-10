@@ -72,7 +72,7 @@ public class CasillaEntity implements Serializable {
 	private Long valorRegistroCA;
 
 	// Utilizamos esta variable solamente porque cuando se cargan las casillas para
-	// crear el registro, si el dato no es te dipo casilla no lo toma, esta variable
+	// crear el registro, si el dato no es de tipo casilla no lo toma, esta variable
 	// no se guarda en la base de datos, por eso el @Transient, al igual que el
 	// valorRegistroCA
 	@Transient

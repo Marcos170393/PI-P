@@ -94,6 +94,18 @@ h1 {
 						</p:message>
 					</div>
 
+					<div>
+						<p:outputLabel value="Mail" />
+					</div>
+					<div class="input-group">
+						<p:inputText class="input-form" id="mail"
+							value="#{gestionUsuario.usuarioSeleccionado.mail}" />
+						<p:message for="mail" showDetail="true" showIcon="false"
+							closable="true">
+							<p:autoUpdate />
+						</p:message>
+					</div>
+
 					<div class="input-group">
 						<p:outputLabel value="Nombre de usuario" />
 						<div>
@@ -106,17 +118,6 @@ h1 {
 						</div>
 					</div>
 
-					<div>
-						<p:outputLabel value="Mail" />
-					</div>
-					<div class="input-group">
-						<p:inputText class="input-form" id="mail"
-							value="#{gestionUsuario.usuarioSeleccionado.mail}" />
-						<p:message for="mail" showDetail="true" showIcon="false"
-							closable="true">
-							<p:autoUpdate />
-						</p:message>
-					</div>
 					<div>
 						<p:outputLabel value="Contrasenia" />
 
@@ -142,19 +143,22 @@ h1 {
 						</p:selectOneMenu>
 					</div>
 
+
 					<div>
 						<p:outputLabel value="Cedula"
 							rendered="#{gestionUsuario.verDatosExtras}" />
 					</div>
-
 					<div class="input-group">
-						<p:inputText id="cedula"
-							value="#{gestionUsuario.usuarioSeleccionado.cedula}"
-							rendered="#{gestionUsuario.verDatosExtras}" />
+						<p:inputMask id="cedula"
+							rendered="#{gestionUsuario.verDatosExtras}"
+							value="#{gestionUsuario.usuarioSeleccionado.cedula}" required="true"
+							requiredMessage="Debe ingresar un documento" mask="9999999-9">
+							<f:validator validatorId="cedulaValidatorFrontend" />
+						</p:inputMask>
 						<p:message for="cedula" showDetail="true" showIcon="false"
 							closable="true">
 							<p:autoUpdate />
-						</p:message>
+							</p:message>
 					</div>
 
 					<div>
@@ -196,11 +200,10 @@ h1 {
 					<div class="input-group">
 						<p:selectOneMenu id="ciudad"
 							value="#{gestionUsuario.ciudadUsuario}"
-							rendered="#{gestionUsuario.verDatosExtras}" filter="true">
+							rendered="#{gestionUsuario.verDatosExtras}" filter="true" required="true" requiredMessage="Debes seleccionar una ciudad">
 							<f:selectItem disabled="true" itemValue="" itemLabel="" />
 							<f:selectItems value="#{gestionUsuario.mostrarCiudades()}"
 								var="e" itemLabel="#{e.nombre}" itemValue="#{e.nombre}" />
-
 						</p:selectOneMenu>
 						<p:message for="ciudad" showDetail="true" showIcon="false"
 							closable="true">
@@ -209,7 +212,7 @@ h1 {
 					</div>
 
 					<div class="form-button">
-						<p:commandButton value="Guardar Usuario"
+						<p:commandButton value="Crear Usuario"
 							action="#{gestionUsuario.salvarCambios()}" />
 					</div>
 				</h:form>

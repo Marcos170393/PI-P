@@ -9,34 +9,37 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<link rel="stylesheet" href="style.css"/>
-<style>
-body{
-	width:100%;
-	height:100%;
+	<link rel="stylesheet" href="style.css" />
+	<style>
+body {
+	width: 100%;
+	height: 100%;
 	font-family: segoe ui, Arial, sans-serif;
 }
 
-.main-container{
+.main-container {
 	display: flex;
 	padding-top: 100px;
 }
-.form-container{
-	border-right: 1px solid gray ;
+
+.form-container {
+	border-right: 1px solid gray;
 	flex: 2 1 auto;
 }
-.well-container{
+
+.well-container {
 	background-image: url("assets/utec-5.jpg");
-	background-repeat:no-repeat;
-	background-size:100%;
+	background-repeat: no-repeat;
+	background-size: 100%;
 	flex: 2 auto;
 	margin: 50px 10px;
-	text-align:center;
+	text-align: center;
 	border-radius: 10px;
-	-webkit-box-reflect: below 20px linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.1)); 
+	-webkit-box-reflect: below 20px
+		linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.1));
 }
 
-.well-title{
+.well-title {
 	font-size: 3.1em;
 	font-weight: 700;
 	animation-name: enter-img;
@@ -51,233 +54,330 @@ body{
 	margin: 10px auto;
 	text-align: center;
 	font-weight: 300;
-	
 }
 
-.login{
-	color:white;
-	width:50%;
+.login {
+	color: white;
+	width: 50%;
 	margin: auto;
-	padding:50px;
+	padding: 50px;
 	text-align: center;
 	background-color: gray;
 	border-radius: 10px;
-	-webkit-box-reflect: below 0px linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.2)); 
-		animation-name: enter;
+	-webkit-box-reflect: below 0px
+		linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.2));
+	animation-name: enter;
 	animation-duration: 2s;
 	animation-fill-mode: forward;
-	}
-	
-.well-img{
+}
+
+.well-img {
 	animation-name: enter-img;
 	animation-duration: 5s;
 	animation-fill-mode: forward;
 }
 
-@keyframes enter{
-	0% {transform:translateY(-100px); opacity: 0;}
-	100% {transform:translateY(0px); opacity: 1;};
-}
-@keyframes enter-img{
-	0% { opacity: 0;}
-	100% { opacity: 1;};
+@
+keyframes enter { 0% {
+	transform: translateY(-100px);
+	opacity: 0;
 }
 
+100
+
+
+%
+{
+transform
+
+
+:
+
+
+translateY
+(
+
+
+0px
+
+
+)
+;
+
+
+opacity
+
+
+:
+
+
+1
+;
+
+
+}
+;
+}
+@
+keyframes enter-img { 0% {
+	opacity: 0;
+}
+100
+
+
+%
+{
+opacity
+
+
+:
+
+
+1
+;
+
+
+}
+;
+}
 </style>
 </h:head>
 <h:body>
-	
-	<p:messages id="messages" globalOnly="true" showSummary="true" showDetail="false" closable="true">
-        	<p:autoUpdate />
-   	</p:messages>
-   	
-   	<div class="main-container">
+
+	<p:messages id="messages" globalOnly="true" showSummary="true"
+		showDetail="false" closable="true">
+		<p:autoUpdate />
+	</p:messages>
+
+	<div class="main-container">
 		<div class="form-container">
-		
-			
-			<h:form id="idLogin" >
-			
+
+
+			<h:form id="idLogin">
+
 				<div class="login">
 					<div class="login-title-div">
 						<h1 class="title-login">Login</h1>
 					</div>
 					<div>
 						<p:outputLabel value="Nombre de usuario" />
-		
+
 					</div>
-					<div style="margin-top:10px">
+					<div style="margin-top: 10px">
 						<p:inputText id="nombreUsuario"
-							value="#{gestionUsuario.usuarioSeleccionado.nombreUsuario}" required="true"/>
-						<p:message for="nombreUsuario"  showDetail="true"  showIcon="false" closable="true">
-							<p:autoUpdate/>
-				   		</p:message>
+							value="#{gestionUsuario.usuarioSeleccionado.nombreUsuario}"
+							required="true" />
+						<p:message for="nombreUsuario" showDetail="true" showIcon="false"
+							closable="true">
+							<p:autoUpdate />
+						</p:message>
 					</div>
-		
-					<div style="margin-top:20px">
+
+					<div style="margin-top: 20px">
 						<p:outputLabel value="Contraseña" />
-		
+
 					</div>
-					<div style="margin-top:10px">
+					<div style="margin-top: 10px">
 						<!-- <p:inputText id="contrasenia" type="password"
 							value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" /> -->
-							<p:password  id="contrasenia" value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" required="true" feedback="true|false" />
-							<p:message for="contrasenia"  showDetail="true" showIcon="false" closable="true">
-								<p:autoUpdate/>
-						   	</p:message>
+						<p:password id="contrasenia"
+							value="#{gestionUsuario.usuarioSeleccionado.contrasenia}"
+							required="true" feedback="true|false" />
+						<p:message for="contrasenia" showDetail="true" showIcon="false"
+							closable="true">
+							<p:autoUpdate />
+						</p:message>
 					</div>
-				
+
 					<p:commandButton style="margin:40px 0px;" value="Login"
 						action="#{gestionUsuario.validarUsuario}" />
-					<hr/>	
+					<hr />
 					<div>
-						<p:commandButton value="Registrarse" type="button" onclick="PF('dlg').show()" />
+						<p:commandButton value="Registrarse" type="button"
+							onclick="PF('dlg').show()" />
 					</div>
 				</div>
 			</h:form>
 		</div>
-		
+
 		<div class="well-container">
-		<h:graphicImage class="well-img" value = "/assets/logo.png" style="width:140px;margin-left:10px;margin-top:10px;"/> 
+			<h:graphicImage class="well-img" value="/assets/logo.png"
+				style="width:140px;margin-left:10px;margin-top:10px;" />
 			<h1 class="well-title">Sistema de gestión de calidad de aire</h1>
 		</div>
 	</div>
-		<p:dialog showEffect="fade" hideEffect="fade" header="Create    Account" height="600"  widgetVar="dlg" resizable="false">
-		<div style="width: 500px;height: 450px;padding: 10px;text-align:center;">
-			<h:form id="crearUsuario" >
-					<div class="form-title">
-						<h2>Registrarse</h2>				
-					</div>
-		
-						<div>
-						<p:outputLabel value="Rol" />
-					</div>
-					<div class="input-group">
-						<p:selectOneMenu id="rol"
-							value="#{gestionUsuario.usuarioSeleccionado.rol}">
-								<p:ajax listener="#{gestionUsuario.verDatosExtra()}"
+	<p:dialog showEffect="fade" hideEffect="fade"
+		header="Create    Account" height="600" widgetVar="dlg"
+		resizable="false">
+		<div
+			style="width: 500px; height: 450px; padding: 10px; text-align: center;">
+			<h:form id="crearUsuario">
+				<div class="form-title">
+					<h2>Registrarse</h2>
+				</div>
+
+				<div>
+					<p:outputLabel value="Rol" />
+				</div>
+				<div class="input-group">
+					<p:selectOneMenu id="rol"
+						value="#{gestionUsuario.usuarioSeleccionado.rol}">
+						<p:ajax listener="#{gestionUsuario.verDatosExtra()}"
 							process="@this" update="crearUsuario" />
-							<f:selectItem disabled="true" itemValue="" itemLabel="" />
-							<f:selectItem itemValue="#{gestionUsuario.admin}" itemLabel="Administrador" />
-							<f:selectItem itemValue="#{gestionUsuario.inv}" itemLabel="Investigador" />
-							<f:selectItem itemValue="#{gestionUsuario.afic}" itemLabel="Aficionado" />
-						</p:selectOneMenu>
-						<p:message for="rol"  showDetail="true" showIcon="false" closable="true">
-						<p:autoUpdate/>
-					   	</p:message>
-					</div>	
-						
-					<div>
-						<p:outputLabel value="Nombre" />
-					</div>
-					<div class="input-group">
-						<p:inputText class="input-form" id="nombre" value="#{gestionUsuario.usuarioSeleccionado.nombre}" />
-						
-						<p:message for="nombre"  showDetail="true" showIcon="false" closable="true">
-				        	<p:autoUpdate />
-					   	</p:message>
-					</div>
-		
-					<div>
-						<p:outputLabel value="Apellido" />
-					</div>
-					<div class="input-group">
-						<p:inputText class="input-form" id="apellido" value="#{gestionUsuario.usuarioSeleccionado.apellido}"  />
-						<p:message for="apellido" showDetail="true" showIcon="false" closable="true">
-				        	<p:autoUpdate/>
-					   	</p:message>
-					</div>
-		
-					<div class="input-group">
-						<p:outputLabel value="Nombre de usuario" />
-						<div>
-							<p:inputText class="input-form" id="nombreUsuario"	value="#{gestionUsuario.usuarioSeleccionado.nombreUsuario}" />
-								<p:message for="nombreUsuario" showDetail="true" showIcon="false" closable="true">
-								<p:autoUpdate/>
-					   	</p:message>
-						</div>
-					</div>
-		
-					<div>
-						<p:outputLabel value="Mail" />
-					</div>
-					<div class="input-group">
-						<p:inputText class="input-form" id="mail" type="email" value="#{gestionUsuario.usuarioSeleccionado.mail}"/>
-						<p:message for="mail" showDetail="true" showIcon="false" closable="true">
-						<p:autoUpdate/>
-						</p:message>
-				        	
-					</div>
-					<div>
-						<p:outputLabel value="Contrasenia" />
-		
-					</div>
-					<div class="input-group">
-						<p:password  id="contrasenia"
-							value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" />
-						<p:message for="contrasenia" showDetail="true" showIcon="false" closable="true">
-						<p:autoUpdate/>
-					   	</p:message>
-					</div>
-				
-					<div>
-						<p:outputLabel value="Cedula" rendered="#{gestionUsuario.verDatosExtras}"/>	
-					</div>
-				
-					<div class="input-group">
-						<p:inputText id="cedula" value="#{gestionUsuario.usuarioSeleccionado.cedula}" rendered="#{gestionUsuario.verDatosExtras}"/>
-						<p:message for="cedula" showDetail="true" showIcon="false" closable="true">
-						<p:autoUpdate/>
-						</p:message>
-					</div>
-				
-					<div>
-						<p:outputLabel value="Domicilio" rendered="#{gestionUsuario.verDatosExtras}"/>	
-					</div>
-				
-					<div class="input-group">
-						<p:inputText id="domicilio" value="#{gestionUsuario.usuarioSeleccionado.domicilio}" rendered="#{gestionUsuario.verDatosExtras}"/>
-						<p:message for="domicilio" showDetail="true" showIcon="false" closable="true">
-						<p:autoUpdate/>
-						</p:message>
-					</div>
-					
-				
-						<div>
-						<p:outputLabel value="Telefono" rendered="#{gestionUsuario.verDatosExtras}"/>	
-					</div>
-				
-					<div class="input-group">
-						<p:inputText id="telefono" value="#{gestionUsuario.usuarioSeleccionado.telefono}" rendered="#{gestionUsuario.verDatosExtras}"/>
-						<p:message for="telefono" showDetail="true" showIcon="false" closable="true">
-						<p:autoUpdate/>
-						</p:message>
-					</div>
-				
-					<div>
-						<p:outputLabel value="Ciudad" rendered="#{gestionUsuario.verDatosExtras}"/>	
-					</div>
-				
-					<div class="input-group">
-						<p:selectOneMenu id="ciudad"
-							value="#{gestionUsuario.ciudadUsuario}" rendered="#{gestionUsuario.verDatosExtras}" filter="true">
 						<f:selectItem disabled="true" itemValue="" itemLabel="" />
-						<f:selectItems
-							value="#{gestionUsuario.mostrarCiudades()}"
-							var="e" itemLabel="#{e.nombre}"
-							itemValue="#{e.nombre}" />
-							
-						</p:selectOneMenu>
-						<p:message for="ciudad" showDetail="true" showIcon="false" closable="true">
-						<p:autoUpdate/>
-					   	</p:message>
-					</div>	
-				
-				<div class="form-button" style="margin:50px">
-					<p:commandButton value="Confirmar"  action="#{gestionUsuario.registro }" />
+						<f:selectItem itemValue="#{gestionUsuario.admin}"
+							itemLabel="Administrador" />
+						<f:selectItem itemValue="#{gestionUsuario.inv}"
+							itemLabel="Investigador" />
+						<f:selectItem itemValue="#{gestionUsuario.afic}"
+							itemLabel="Aficionado" />
+					</p:selectOneMenu>
+					<p:message for="rol" showDetail="true" showIcon="false"
+						closable="true">
+						<p:autoUpdate />
+					</p:message>
+				</div>
+
+				<div>
+					<p:outputLabel value="Nombre" />
+				</div>
+				<div class="input-group">
+					<p:inputText class="input-form" id="nombre"
+						value="#{gestionUsuario.usuarioSeleccionado.nombre}" />
+
+					<p:message for="nombre" showDetail="true" showIcon="false"
+						closable="true">
+						<p:autoUpdate />
+					</p:message>
+				</div>
+
+				<div>
+					<p:outputLabel value="Apellido" />
+				</div>
+				<div class="input-group">
+					<p:inputText class="input-form" id="apellido"
+						value="#{gestionUsuario.usuarioSeleccionado.apellido}" />
+					<p:message for="apellido" showDetail="true" showIcon="false"
+						closable="true">
+						<p:autoUpdate />
+					</p:message>
+				</div>
+
+				<div class="input-group">
+					<p:outputLabel value="Nombre de usuario" />
+					<div>
+						<p:inputText class="input-form" id="nombreUsuario"
+							value="#{gestionUsuario.usuarioSeleccionado.nombreUsuario}" />
+						<p:message for="nombreUsuario" showDetail="true" showIcon="false"
+							closable="true">
+							<p:autoUpdate />
+						</p:message>
+					</div>
+				</div>
+
+				<div>
+					<p:outputLabel value="Mail" />
+				</div>
+				<div class="input-group">
+					<p:inputText class="input-form" id="mail" type="email"
+						value="#{gestionUsuario.usuarioSeleccionado.mail}" />
+					<p:message for="mail" showDetail="true" showIcon="false"
+						closable="true">
+						<p:autoUpdate />
+					</p:message>
+
+				</div>
+				<div>
+					<p:outputLabel value="Contrasenia" />
+
+				</div>
+				<div class="input-group">
+					<p:password id="contrasenia"
+						value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" />
+					<p:message for="contrasenia" showDetail="true" showIcon="false"
+						closable="true">
+						<p:autoUpdate />
+					</p:message>
+				</div>
+
+				<div>
+					<p:outputLabel value="Cedula"
+						rendered="#{gestionUsuario.verDatosExtras}" />
+				</div>
+				<div class="input-group">
+					<p:inputMask id="cedula"
+						rendered="#{gestionUsuario.verDatosExtras}"
+						value="#{gestionUsuario.usuarioSeleccionado.cedula}"
+						required="true" requiredMessage="Debe ingresar un documento"
+						mask="9999999-9">
+						<f:validator validatorId="cedulaValidatorFrontend" />
+					</p:inputMask>
+					<p:message for="cedula" showDetail="true" showIcon="false"
+						closable="true">
+						<p:autoUpdate />
+					</p:message>
+				</div>
+
+
+				<div>
+					<p:outputLabel value="Domicilio"
+						rendered="#{gestionUsuario.verDatosExtras}" />
+				</div>
+
+				<div class="input-group">
+					<p:inputText id="domicilio"
+						value="#{gestionUsuario.usuarioSeleccionado.domicilio}"
+						rendered="#{gestionUsuario.verDatosExtras}" />
+					<p:message for="domicilio" showDetail="true" showIcon="false"
+						closable="true">
+						<p:autoUpdate />
+					</p:message>
+				</div>
+
+
+				<div>
+					<p:outputLabel value="Telefono"
+						rendered="#{gestionUsuario.verDatosExtras}" />
+				</div>
+
+				<div class="input-group">
+					<p:inputText id="telefono"
+						value="#{gestionUsuario.usuarioSeleccionado.telefono}"
+						rendered="#{gestionUsuario.verDatosExtras}" />
+					<p:message for="telefono" showDetail="true" showIcon="false"
+						closable="true">
+						<p:autoUpdate />
+					</p:message>
+				</div>
+
+				<div>
+					<p:outputLabel value="Ciudad"
+						rendered="#{gestionUsuario.verDatosExtras}" />
+				</div>
+
+				<div class="input-group">
+					<p:selectOneMenu id="ciudad"
+						value="#{gestionUsuario.ciudadUsuario}"
+						rendered="#{gestionUsuario.verDatosExtras}" filter="true"
+						required="true" requiredMessage="Debes seleccionar una ciudad">>
+						<f:selectItem disabled="true" itemValue="" itemLabel="" />
+						<f:selectItems value="#{gestionUsuario.mostrarCiudades()}" var="e"
+							itemLabel="#{e.nombre}" itemValue="#{e.nombre}" />
+
+					</p:selectOneMenu>
+					<p:message for="ciudad" showDetail="true" showIcon="false"
+						closable="true">
+						<p:autoUpdate />
+					</p:message>
+				</div>
+
+				<div class="form-button" style="margin: 50px">
+					<p:commandButton value="Confirmar"
+						action="#{gestionUsuario.registro }" />
 				</div>
 			</h:form>
 		</div>
 	</p:dialog>
-	
+
 </h:body>
 </html>

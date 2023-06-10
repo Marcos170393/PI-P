@@ -15,8 +15,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.capa2LogicaNegocio.GestionCasillaService;
+import com.capa2LogicaNegocio.GestionFormularioService;
 import com.capa2LogicaNegocio.GestionParametroService;
 import com.capa2LogicaNegocio.GestionTipoDatoService;
+import com.capa3Persistencia.entities.CasillaEntity;
 import com.capa3Persistencia.exception.PersistenciaException;
 import com.utils.ExceptionsTools;
 
@@ -38,16 +40,21 @@ public class GestionCasilla implements Serializable {
 	@Inject
 	GestionTipoDatoService tipoDatoPersistencia;
 
+	@Inject
+	GestionFormularioService formularioPersistencia;
+
 	private Casilla casillaSeleccionada;
 
 	private String parametroUsuario;
 
 	private String tipoDatoUsuario;
-	
+
+	private String unidadMedidaValue;
+
 	private boolean checkFilter = false;
 
 	private boolean filterActive = false;
-	
+
 	private List<Casilla> filtroCasillas;
 
 	public List<Casilla> getFiltroCasillas() {
@@ -141,9 +148,29 @@ public class GestionCasilla implements Serializable {
 	public void eliminarCasilla(String idCasilla) throws Exception {
 
 		try {
-			casillaPersistencia.elminarCasillaEntity(Long.parseLong(idCasilla));
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Casilla eliminada con éxito", "");
-			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			boolean casillaFormulario = false;
+			List<Formulario> formularios = formularioPersistencia.seleccionarFormularios(); // Traemos formularios de la
+																							// BD
+			for (Formulario f : formularios) {
+				List<CasillaEntity> casillasForm = f.getCasillas();// Traemos todas las casillas asignadas a formularios
+				for (CasillaEntity c : casillasForm) {
+					System.out.println(c);
+					if (Long.parseLong(idCasilla) == c.getIdCasilla()) { // Si la casilla que queremos eliminar esta
+																			// asignada a un formulario
+						FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"La casilla esta asignada a un formulario, no se puede eliminar", "");
+						FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+						casillaFormulario = true;
+						break;
+					}
+				}
+			}
+
+			if (!casillaFormulario) {
+				casillaPersistencia.elminarCasillaEntity(Long.parseLong(idCasilla));
+				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Casilla eliminada con éxito", "");
+				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			}
 		} catch (PersistenciaException e) {
 
 			Throwable rootException = ExceptionsTools.getCause(e);
@@ -211,13 +238,21 @@ public class GestionCasilla implements Serializable {
 
 	public void mostrarFiltrosInput() throws IOException {
 		this.filterActive = this.checkFilter;
-		if(filterActive == false) {
+		if (filterActive == false) {
 			filtroCasillas = null;
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/PI_P/listadoCasillas.xhtml");
 		}
-		
+
 	}
-	
+
+	public void renderUnidadMedida() {
+			if(tipoDatoUsuario.toString().equals("g/m3")) {
+				unidadMedidaValue = "ENTERO";
+			}else {
+				unidadMedidaValue = "DECIMAL";
+			}
+	}
+
 	public String actualizarVistaCasilla(Long id) throws Exception {
 		casillaSeleccionada = casillaPersistencia.buscarCasillaEntityId(id);
 
@@ -275,6 +310,14 @@ public class GestionCasilla implements Serializable {
 
 	public void setFilterActive(boolean filterActive) {
 		this.filterActive = filterActive;
+	}
+
+	public String getUnidadMedidaValue() {
+		return unidadMedidaValue;
+	}
+
+	public void setUnidadMedidaValue(String unidadMedidaValue) {
+		this.unidadMedidaValue = unidadMedidaValue;
 	}
 
 }
