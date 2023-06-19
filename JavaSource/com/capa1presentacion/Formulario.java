@@ -9,7 +9,9 @@ import javax.validation.constraints.Size;
 
 import com.capa3Persistencia.entities.CasillaEntity;
 import com.capa3Persistencia.entities.RegistroEntity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Formulario {
 
 	

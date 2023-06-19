@@ -1,0 +1,270 @@
+1;Artigas
+1;Baltasar Brum
+1;Bella Unión
+1;Bernabe Rivera
+1;Calpica Itacumbé
+1;Colonia Palma
+1;Cuaró
+1;Javier de Viana
+1;Paso Campamento
+2;Aeropuerto
+2;Aguas Corrientes
+2;Araminda
+2;Argentino
+2;Atlántida
+2;Barra de carrasco
+2;Barros Blancos
+2;Bello Horizonte
+2;Biarritz
+2;Bolívar
+2;Campo Militar
+2;Canelón Grande Represa
+2;Canelones
+2;Castellanos
+2;Colonia Nicolich
+2;Colonia Treinta y Tres Orientales
+2;Costa Azul
+2;Cuchilla Alta
+2;El Bosque
+2;El Dorado
+2;El Fortín de Santa Rosa
+2;El Pinar
+2;Empalme Olmos
+2;Estación Migues
+2;Estación Pedrera
+2;Estación Tapia
+2;Guazuvirá
+2;Guazuvirá Nuevo
+2;Jaureguiberry
+2;Joanicó
+2;Joaquín Suárez
+2;La Escobilla
+2;La Floresta
+2;La Tuna
+2;Lagomar
+2;Las Piedras
+2;Las Vegas
+2;Lomas de Solymar
+2;Los Cerrillos
+2;Los Titanes
+2;Marindia
+2;Médanos de Solymar
+2;Migues
+2;Montes
+2;Neptunia
+2;Pando
+2;Paraje San Juan
+2;Parque Carrasco
+2;Parque del Plata
+2;Paso de Carrasco
+2;Paso de Pache
+2;Paso del Bote
+2;Piedras de Afilar
+2;Pinamar
+2;Pine Park
+2;Progreso
+2;Salinas
+2;San Bautista
+2;San Jacinto
+2;San José de Carrasco
+2;San Luis
+2;San Ramón
+2;Santa Lucía
+2;Santa Lucía del Este
+2;Santa Rosa
+2;Sauce
+2;Shangrila
+2;Soca
+2;Solymar
+2;Tala
+2;Toledo
+2;Villa Argentina
+2;Villa del Mar
+3;Aceguá
+3;Bañado de Medina
+3;Cerro de las Cuentas
+3;Fraile Muerto
+3;Isidoro Noblía
+3;Melo
+3;Plácido Rosas
+3;Río Branco
+3;Tupambaé
+4;Agraciada
+4;Artilleros
+4;Barker
+4;Campana
+4;Carmelo
+4;Colonia
+4;Colonia Valdense
+4;Conchillas
+4;Cufré
+4;Florencio Sánchez
+4;Juan Lacaze
+4;La Estanzuela
+4;Los Pinos
+4;Miguelete
+4;Minuano
+4;Nueva Helvecia
+4;Nueva Palmira
+4;Ombées de Lavalle
+4;Playa Fomento
+4;Riachuelo
+4;Rosario
+4;Tarariras
+5;Blanquillo
+5;Carlos Reyles
+5;Centenario
+5;Durazno
+5;Feliciano
+5;Santa Bernardina
+5;Sarandí del Yí
+6;Andresito
+6;Ismael Cortinas
+6;Trinidad
+7;25 de Agosto
+7;25 de Mayo
+7;Capilla del Sauce
+7;Cardal
+7;Casupá
+7;Cerro Colorado
+7;Florida
+7;Goñi
+7;Independencia
+7;La Cruz
+7;Mendoza Chico
+7;Mendoza Grande
+7;Monte Coral
+7;Pintado
+7;Polanco del Yí
+7;Puntas de Maciel
+7;Reboledo
+7;Sarandí Grande
+8;Colón
+8;Estación Solís
+8;Illescas
+8;José Batlle y Ordóñez
+8;José Pedro Varela
+8;Mariscala
+8;Minas
+8;Nico Pérez
+8;Pirarajá
+8;Polanco Norte
+8;Solís de Mataojo
+8;Zapicán
+9;Aiguá
+9;Garzón
+9;José Ignacio
+9;La Barra
+9;Las Flores
+9;Maldonado
+9;Manantiales
+9;Pan de Azécar
+9;Pinares - Las Delicias
+9;Piriápolis
+9;Playa Verde
+9;Punta Ballena
+9;Punta del Este
+9;San Carlos
+9;San Rafael - El Placer
+9;Sauce de Portezuelo
+9;Solís
+10;Montevideo
+11;Beisso
+11;Chapicuy
+11;Eucaliptus
+11;Gallinal
+11;Guichón
+11;Lorenzo Geyres
+11;Merinos
+11;P.Pandule
+11;Paysandú
+11;Piedras Coloradas
+11;Piñera
+11;Quebracho
+12;Bellaco
+12;Fray Bentos
+12;Menafra
+12;Nuevo Berlín
+12;Paso de los Mellizos
+12;Sarandí de Navarro
+12;Young
+13;Lapuente
+13;Masoller
+13;Minas de Corrales
+13;Rivera
+13;Tranqueras
+13;Vichadero
+14;18 de Julio
+14;19 de Abril
+14;Aguas Dulces
+14;Arachania
+14;Barra del Chuy
+14;Castillos
+14;Cebollatí
+14;Chuy
+14;La Aguada - Costa Azul
+14;La Coronilla
+14;Lascano
+14;Punta del Diablo
+14;Rocha
+14;San Luis al Medio
+14;Velázquez
+15;Belén
+15;Biassini
+15;Cerro de Vera
+15;Colonia Itapebí
+15;Constitución
+15;Palomas
+15;Puntas de Valentín
+15;Salto
+15;Sarandí del Arapey
+15;Saucedo
+15;Termas del Arapey
+16;Capurro
+16;Delta del Tigre
+16;Ecilda Paullier
+16;Ituzaingó
+16;Juan Soler
+16;Kiyú - Ordeig
+16;Libertad
+16;Mal Abrigo
+16;Playa Pascual
+16;Puntas de Valdés
+16;Rafael Perazza
+16;Rincón de la Bolsa
+16;San José de Mayo
+16;Villa María
+16;Villa Rodriguez
+17;Cañada Nieto
+17;Cardona
+17;Cuchilla del Perdido
+17;Dolores
+17;Egaña
+17;José Enrique Rodó
+17;Mercedes
+17;Palmar
+17;Palmitas
+17;Palo Solo
+17;Risso
+17;Santa Catalina
+17;Villa Darwin
+17;Villa de Soriano
+18;Achar
+18;Ansina
+18;Cardoso
+18;Chamberlain
+18;Cuchilla de Peralta
+18;Curtina
+18;Laureles
+18;Paso Bonilla
+18;Paso de los Toros
+18;Paso del Cerro
+18;Piedra Sola
+18;San Gregorio de Polanco
+18;Tacuarembó
+18;Tambores
+18;Valle Edén
+19;Isla Patrulla
+19;María Albina
+19;Santa Clara de Olimar
+19;Treinta y Tres

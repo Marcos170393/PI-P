@@ -73,4 +73,14 @@ public class GestionDepartamentoService implements Serializable {
 		DepartamentoEntity depto = departamentoBean.buscarDepartamento(id);
 		return fromDepartamentoEntity(depto);
 	}
+	
+	
+	public Departamento buscarDepartamentoEntity(String nombre) throws Exception {
+		DepartamentoEntity depto = departamentoBean.buscarDepartamento(nombre);
+		return fromDepartamentoEntity(depto);
+	}
+	
+	public void agregarCiudad(Long idDpto,Long idCiudad) throws Exception {
+		departamentoBean.agregarCiudad(idDpto, idCiudad);
+	}
 }

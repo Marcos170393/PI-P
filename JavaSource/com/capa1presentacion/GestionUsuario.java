@@ -5,7 +5,9 @@ import javax.faces.event.ActionEvent;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Objects;
 
 import javax.annotation.PostConstruct;
@@ -19,7 +21,9 @@ import javax.persistence.Enumerated;
 import javax.servlet.http.HttpSession;
 
 import com.capa2LogicaNegocio.GestionCiudadService;
+import com.capa2LogicaNegocio.GestionDepartamentoService;
 import com.capa2LogicaNegocio.GestionUsuarioService;
+import com.capa3Persistencia.entities.CiudadEntity;
 import com.capa3Persistencia.exception.PersistenciaException;
 import com.filter.CedulaValidatorFrontend;
 import com.utils.ExceptionsTools;
@@ -42,11 +46,16 @@ public class GestionUsuario implements Serializable {
 	@Inject
 	GestionCiudadService ciudadPersistencia;
 
+	@Inject
+	GestionDepartamentoService departamentoPersistencia;
+
 	private Usuario usuarioSeleccionado;
 
 	private boolean verDatosExtra = false;
 
 	private String ciudadUsuario;
+	
+	private String departamentoUsuario;
 		
 	private boolean isFilterActive = false;
 	
@@ -67,6 +76,8 @@ public class GestionUsuario implements Serializable {
 	
 	private List<Usuario> filtroUsuarios;
 
+	private List<Ciudad> ciudades = new ArrayList<Ciudad>();
+	
 	public List<Usuario> getFiltroUsuarios() {
 	    return filtroUsuarios;
 	}
@@ -112,9 +123,8 @@ public class GestionUsuario implements Serializable {
 			persistenciaBean.actualizarPerfil(usuarioSeleccionado);
 			// actualizamos id
 			Long nuevoId = usuarioSeleccionado.getIdUsuario();
-			// vaciamos usuarioSeleccionado como para ingresar uno nuevo
-			usuarioSeleccionado = null;
-			usuarioSeleccionado = new Usuario();
+			
+			limpiarVariables();
 
 			CurrentUser.setUsuario(persistenciaBean.buscarUsuarioEntity(nuevoId));
 			// mensaje de actualizacion correcta
@@ -159,8 +169,7 @@ public class GestionUsuario implements Serializable {
 				persistenciaBean.actualizarUsuarioAficionado(usuarioSeleccionado);
 			}
 
-			usuarioSeleccionado = null;
-			usuarioSeleccionado = new Usuario();
+			limpiarVariables();
 	     	FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 				    "Usuario actualizado con exito", "");
 				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
@@ -201,8 +210,8 @@ public class GestionUsuario implements Serializable {
 			usuarioNuevo = (Usuario) persistenciaBean.agregarUsuario(usuarioSeleccionado);
 			// actualizamos id
 			Long nuevoId = usuarioNuevo.getIdUsuario();
-			// vaciamos usuarioSeleccionado como para ingresar uno nuevo
-			usuarioSeleccionado = new Usuario();
+			
+			limpiarVariables();
 
 			// mensaje de actualizacion correcta
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -243,9 +252,10 @@ public class GestionUsuario implements Serializable {
 			usuarioNuevo = (Usuario) persistenciaBean.agregarUsuario(usuarioSeleccionado);
 			// actualizamos id
 			Long nuevoId = usuarioNuevo.getIdUsuario();
-			// vaciamos usuarioSeleccionado como para ingresar uno nuevo
-			usuarioSeleccionado = new Usuario();
-
+			
+			//  Se limpian variables para proximas instancias
+			limpiarVariables();
+			
 			// mensaje de actualizacion correcta
 	     	FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 				    "Se ha agregado un nuevo usuario con exito", "");
@@ -365,6 +375,18 @@ public class GestionUsuario implements Serializable {
 		}
 
 	}
+	
+	public List<Departamento> mostrarDepartamentos() throws Exception{
+		List<Departamento> departamentos;
+		
+		try {
+			departamentos = departamentoPersistencia.buscarDepartamentos();
+			return departamentos;
+		} catch (Exception e) {
+			e.getCause();
+			return new ArrayList<Departamento>();
+		}
+	}
 
 	// METODO PARA MOSTRAR FORMULARIO DE ACTUALIZACION
 	public String actualizarVistaUsuario(Long id) throws Exception {
@@ -407,7 +429,7 @@ public class GestionUsuario implements Serializable {
 	public void cerrarSesion() throws IOException {
 		HttpSession hs = Util.getSession();
 		hs.invalidate();
-		FacesContext.getCurrentInstance().getExternalContext().redirect("/PI_P/index.xhtml");
+		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 	}
 
 	public String modPerfil() {
@@ -426,10 +448,35 @@ public class GestionUsuario implements Serializable {
 		this.isFilterActive = this.checkfilter;
 		if(this.isFilterActive == false) {
 			this.filtroUsuarios = null;
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/PI_P/listado.xhtml");
+			FacesContext.getCurrentInstance().getExternalContext().redirect("listado.xhtml");
 		}
 	}
 
+	
+	public void buscarCiudadesDepartamento() {
+		try {
+			System.out.println("buscando ciudades");
+			Departamento depto = departamentoPersistencia.buscarDepartamentoEntity(departamentoUsuario);
+			List<CiudadEntity> deptoCiudades = depto.getCiudades();
+
+			for(CiudadEntity ciudad : deptoCiudades) {
+				ciudades.add(ciudadPersistencia.fromCiudadEntity(ciudad));
+			}
+			System.out.println("cantidad de ciudades encontradas"+ciudades.size());
+		} catch (Exception e) {
+			System.out.println(e.getCause());
+			
+		}
+	}
+	
+	public void limpiarVariables() {
+		usuarioSeleccionado = new Usuario();
+		departamentoUsuario = null;
+		ciudadUsuario = null;
+		ciudades = new ArrayList<Ciudad>();
+		verDatosExtra = false;
+		System.out.println("Se limpiaron las variables");
+	}
 	public GestionUsuarioService getPersistenciaBean() {
 		return persistenciaBean;
 	}
@@ -484,6 +531,22 @@ public class GestionUsuario implements Serializable {
 
 	public void setCheckfilter(boolean checkfilter) {
 		this.checkfilter = checkfilter;
+	}
+
+	public String getDepartamentoUsuario() {
+		return departamentoUsuario;
+	}
+
+	public void setDepartamentoUsuario(String departamentoUsuario) {
+		this.departamentoUsuario = departamentoUsuario;
+	}
+
+	public List<Ciudad> getCiudades() {
+		return ciudades;
+	}
+
+	public void setCiudades(List<Ciudad> ciudades) {
+		this.ciudades = ciudades;
 	}
 	
 	

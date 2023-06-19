@@ -88,6 +88,9 @@ public class GestionCiudadService implements Serializable{
 		ciudadUpdate.setIdCiudad(ciudad.getIdCiudad());
 		ciudadUpdate.setNombre(ciudad.getNombre());
 		ciudadBean.actualizar(ciudadUpdate);
-
-}
+	}
+	
+	public Ciudad buscarCiudadEntity(String nombre) throws Exception {
+		return fromCiudadEntity(ciudadBean.buscarCiudadName(nombre));
+	}
 }

@@ -33,7 +33,7 @@ public class ExportarExcel implements Serializable {
 			style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
 			for (Row row : sheet) { // Se recorren las filas
 				for (Cell cell : row) { // Se recorren las celdas
-					switch (cell.getCellType()) { // Se obtiene el valor de las celdas
+					switch (cell.getCellTypeEnum()) { // Se obtiene el valor de las celdas
 					case STRING:
 						cell.setCellValue(cell.getStringCellValue().toUpperCase()); //Los convierte a cadena String mayuscula
 						cell.setCellStyle(style);

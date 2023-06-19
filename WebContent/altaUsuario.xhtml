@@ -193,24 +193,48 @@ h1 {
 					</div>
 
 					<div>
-						<p:outputLabel value="Ciudad"
+						<p:outputLabel value="Departamento"
 							rendered="#{gestionUsuario.verDatosExtras}" />
 					</div>
 
 					<div class="input-group">
-						<p:selectOneMenu id="ciudad"
+						<p:selectOneMenu id="departamento"
+							value="#{gestionUsuario.departamentoUsuario}"
+							rendered="#{gestionUsuario.verDatosExtras}" filter="true"
+							required="true" requiredMessage="Debes seleccionar un departamento">
+							<p:ajax listener="#{gestionUsuario.buscarCiudadesDepartamento()}"
+								process="@this" update="ciudad" />
+							<f:selectItems value="#{gestionUsuario.mostrarDepartamentos()}"
+							 var="e"
+								itemLabel="#{e.nombre}" itemValue="#{e.nombre}" />
+	
+						</p:selectOneMenu>
+						<p:message for="departamento" showDetail="true" showIcon="false"
+							closable="true">
+							<p:autoUpdate />
+						</p:message>
+					</div>
+					<div>
+						<p:outputLabel value="Ciudad"
+							rendered="#{gestionUsuario.ciudades.size() > 0}" />
+					</div>
+					<div class="input-group">
+					<h:panelGroup id="ciudad">
+						<p:selectOneMenu
 							value="#{gestionUsuario.ciudadUsuario}"
-							rendered="#{gestionUsuario.verDatosExtras}" filter="true" required="true" requiredMessage="Debes seleccionar una ciudad">
+							rendered="#{gestionUsuario.ciudades.size() > 0}" filter="true"
+							required="true" requiredMessage="Debes seleccionar una ciudad">>
 							<f:selectItem disabled="true" itemValue="" itemLabel="" />
-							<f:selectItems value="#{gestionUsuario.mostrarCiudades()}"
-								var="e" itemLabel="#{e.nombre}" itemValue="#{e.nombre}" />
+							<f:selectItems value="#{gestionUsuario.ciudades}" var="e"
+								itemLabel="#{e.nombre}" itemValue="#{e.nombre}" />
+	
 						</p:selectOneMenu>
 						<p:message for="ciudad" showDetail="true" showIcon="false"
 							closable="true">
 							<p:autoUpdate />
 						</p:message>
+					</h:panelGroup>
 					</div>
-
 					<div class="form-button">
 						<p:commandButton value="Crear Usuario"
 							action="#{gestionUsuario.salvarCambios()}" />

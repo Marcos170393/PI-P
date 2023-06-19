@@ -3,6 +3,9 @@ package com.capa1presentacion;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Casilla {
 
 	private long idCasilla;

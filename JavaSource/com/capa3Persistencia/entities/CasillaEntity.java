@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.wildfly.common.annotation.Nullable;
 
 import com.capa1presentacion.Usuario;
 
@@ -76,6 +77,7 @@ public class CasillaEntity implements Serializable {
 	// no se guarda en la base de datos, por eso el @Transient, al igual que el
 	// valorRegistroCA
 	@Transient
+	@Nullable
 	private boolean obligatoria;
 
 	public CasillaEntity() {
