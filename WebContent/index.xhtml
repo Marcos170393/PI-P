@@ -377,13 +377,13 @@ opacity
 				
 				<div>
 					<p:outputLabel value="Ciudad"
-						rendered="#{gestionUsuario.ciudades.size() > 0}" />
+						rendered="#{gestionUsuario.verDatosExtras and gestionUsuario.ciudades.size() > 0}" />
 				</div>
 				<div class="input-group" >
 				<h:panelGroup id="ciudad">
 					<p:selectOneMenu 
 						value="#{gestionUsuario.ciudadUsuario}"
-						rendered="#{gestionUsuario.ciudades.size() > 0}" filter="true"
+						rendered="#{gestionUsuario.verDatosExtras and gestionUsuario.ciudades.size() > 0}" filter="true"
 						required="true" requiredMessage="Debes seleccionar una ciudad">>
 						<f:selectItem disabled="true" itemValue="" itemLabel="" />
 						<f:selectItems value="#{gestionUsuario.ciudades}" var="e"
