@@ -167,9 +167,26 @@ public class GestionCasilla implements Serializable {
 			}
 
 			if (!casillaFormulario) {
-				casillaPersistencia.elminarCasillaEntity(Long.parseLong(idCasilla));
-				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Casilla eliminada con éxito", "");
-				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+				if (filtroCasillas == null) { // Si no estamos filtrando
+					casillaPersistencia.elminarCasillaEntity(Long.parseLong(idCasilla)); // Lo eliminamos de forma
+																							// logica
+					FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Casilla eliminada con éxito",
+							"");
+					FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+
+				} else { // Si estamos filtrando (El filtroCasillas contiene casillas)
+					for (Casilla c : filtroCasillas) {
+						if (c.getIdCasilla() == Long.parseLong(idCasilla)) {
+							filtroCasillas.remove(c); // Lo sacamos del dataTable
+							casillaPersistencia.elminarCasillaEntity(Long.parseLong(idCasilla)); // Lo eliminamos de
+																									// forma logica
+							FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+									"Casilla eliminada con éxito", "");
+							FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+							break;
+						}
+					}
+				}
 			}
 		} catch (PersistenciaException e) {
 
@@ -246,11 +263,11 @@ public class GestionCasilla implements Serializable {
 	}
 
 	public void renderUnidadMedida() {
-			if(tipoDatoUsuario.toString().equals("g/m3")) {
-				unidadMedidaValue = "ENTERO";
-			}else {
-				unidadMedidaValue = "DECIMAL";
-			}
+		if (tipoDatoUsuario.toString().equals("g/m3")) {
+			unidadMedidaValue = "ENTERO";
+		} else {
+			unidadMedidaValue = "DECIMAL";
+		}
 	}
 
 	public String actualizarVistaCasilla(Long id) throws Exception {

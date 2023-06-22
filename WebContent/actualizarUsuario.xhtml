@@ -32,14 +32,13 @@ h1 {
 
 		<p:breadCrumb>
 			<p:menuitem value="Página principal" url="home.xhtml" />
-			<p:menuitem value="Listado de usuarios"
-				url="listado.xhtml" />
+			<p:menuitem value="Listado de usuarios" url="listado.xhtml" />
 			<p:menuitem value="Actualizar usuarios" url="#" />
 		</p:breadCrumb>
 
 
-		<h:form id="actualizarUsuario" >
-		
+		<h:form id="actualizarUsuario">
+
 
 			<div class="create-form">
 				<div class="form-title">
@@ -127,24 +126,25 @@ h1 {
 					</p:selectOneMenu>
 				</div>
 
-						<div>
-						<p:outputLabel value="Cedula"
-							rendered="#{gestionUsuario.verDatosExtras}" />
-					</div>
-					<div class="input-group">
-						<p:inputMask id="cedula"
-							rendered="#{gestionUsuario.verDatosExtras}"
-							value="#{gestionUsuario.usuarioSeleccionado.cedula}" required="true"
-							requiredMessage="Debe ingresar un documento" mask="9999999-9">
-							<f:validator validatorId="cedulaValidatorFrontend" />
-						</p:inputMask>
-						<p:message for="cedula" showDetail="true" showIcon="false"
-							closable="true">
-							<p:autoUpdate />
-							</p:message>
-					</div>
+				<div>
+					<p:outputLabel value="Cedula"
+						rendered="#{gestionUsuario.verDatosExtras}" />
+				</div>
+				<div class="input-group">
+					<p:inputMask id="cedula"
+						rendered="#{gestionUsuario.verDatosExtras}"
+						value="#{gestionUsuario.usuarioSeleccionado.cedula}"
+						required="true" requiredMessage="Debe ingresar un documento"
+						mask="9999999-9">
+						<f:validator validatorId="cedulaValidatorFrontend" />
+					</p:inputMask>
+					<p:message for="cedula" showDetail="true" showIcon="false"
+						closable="true">
+						<p:autoUpdate />
+					</p:message>
+				</div>
 
-				
+
 				<div>
 					<p:outputLabel value="Domicilio"
 						rendered="#{gestionUsuario.verDatosExtras}" />
@@ -178,13 +178,14 @@ h1 {
 				<div>
 					<p:outputLabel value="Ciudad"
 						rendered="#{gestionUsuario.verDatosExtras}" />
-						
+
 				</div>
 
 				<div class="input-group">
 					<p:selectOneMenu id="ciudad"
 						value="#{gestionUsuario.ciudadUsuario}"
-						rendered="#{gestionUsuario.verDatosExtras}" filter="true" required="true" requiredMessage="Debes seleccionar una ciudad">>
+						rendered="#{gestionUsuario.verDatosExtras}" filter="true"
+						required="true" requiredMessage="Debes seleccionar una ciudad">>
 						<f:selectItem disabled="true" itemValue="" itemLabel="" />
 						<f:selectItems value="#{gestionUsuario.mostrarCiudades()}" var="e"
 							itemLabel="#{e.nombre}" itemValue="#{e.nombre}" />
@@ -196,12 +197,25 @@ h1 {
 					</p:message>
 				</div>
 
-				<div>
-					<div class="form-button">
-						<p:commandButton style="margin-top:50px;"
-							value="Actualizar Usuario"
-							action="#{gestionUsuario.actualizarUsuario}" />
-					</div>
+
+				<div class="form-button">
+					<p:commandButton style="margin-top:50px;"
+						value="Actualizar Usuario" selectionMode="single"
+						onclick="PF('confirmationDialog').show();" />
+
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+						header="Confirmar"
+						message="Estas seguro de que deseas actualizar el usuario?"
+						widgetVar="confirmationDialog">
+
+						<p:commandButton value="Aceptar"
+							action="#{gestionUsuario.actualizarUsuario}"
+							onclick="PF('confirmationDialog').hide();">
+						</p:commandButton>
+
+						<p:commandButton value="Cancelar"
+							onclick="PF('confirmationDialog').hide();" />
+					</p:confirmDialog>
 				</div>
 			</div>
 
