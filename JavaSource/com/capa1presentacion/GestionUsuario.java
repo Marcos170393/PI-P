@@ -47,12 +47,12 @@ public class GestionUsuario implements Serializable {
 	private boolean verDatosExtra = false;
 
 	private String ciudadUsuario;
-		
+
 	private boolean isFilterActive = false;
-	
-	//variable para indicar si se quieren mostrar los filtros o no
+
+	// variable para indicar si se quieren mostrar los filtros o no
 	private boolean checkfilter = false;
-	
+
 	@Enumerated
 	private Rol admin = Rol.ADMINISTRADOR;
 
@@ -61,18 +61,17 @@ public class GestionUsuario implements Serializable {
 
 	@Enumerated
 	private Rol afic = Rol.AFICIONADO;
-	
+
 	CedulaValidatorFrontend verificacion = new CedulaValidatorFrontend();
-	
-	
+
 	private List<Usuario> filtroUsuarios;
 
 	public List<Usuario> getFiltroUsuarios() {
-	    return filtroUsuarios;
+		return filtroUsuarios;
 	}
 
 	public void setFiltroUsuarios(List<Usuario> filtroUsuarios) {
-	    this.filtroUsuarios = filtroUsuarios;
+		this.filtroUsuarios = filtroUsuarios;
 	}
 
 	public GestionUsuario() {
@@ -161,15 +160,13 @@ public class GestionUsuario implements Serializable {
 
 			usuarioSeleccionado = null;
 			usuarioSeleccionado = new Usuario();
-	     	FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-				    "Usuario actualizado con exito", "");
-				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-				// Guardar el mensaje en el flash scope
-				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-				// Redirigir a listadoCasillas.xhtml usando ExternalContext
-				FacesContext.getCurrentInstance().getExternalContext().redirect("listado.xhtml");
-				return null; // Retornar null para indicar que no hay que procesar la respuesta
-        
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario actualizado con exito", "");
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			// Guardar el mensaje en el flash scope
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+			// Redirigir a listadoCasillas.xhtml usando ExternalContext
+			FacesContext.getCurrentInstance().getExternalContext().redirect("listado.xhtml");
+			return null; // Retornar null para indicar que no hay que procesar la respuesta
 
 		} catch (PersistenciaException e) {
 
@@ -247,19 +244,17 @@ public class GestionUsuario implements Serializable {
 			usuarioSeleccionado = new Usuario();
 
 			// mensaje de actualizacion correcta
-	     	FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-				    "Se ha agregado un nuevo usuario con exito", "");
-				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Se ha agregado un nuevo usuario con exito", "");
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 
-				// Guardar el mensaje en el flash scope
-				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+			// Guardar el mensaje en el flash scope
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
 
-				// Redirigir a listadoCasillas.xhtml usando ExternalContext
-				FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
-  
-				return null; // Retornar null para indicar que no hay que procesar la respuesta
-        
-		
+			// Redirigir a listadoCasillas.xhtml usando ExternalContext
+			FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
+
+			return null; // Retornar null para indicar que no hay que procesar la respuesta
 
 		} catch (PersistenciaException e) {
 
@@ -276,53 +271,54 @@ public class GestionUsuario implements Serializable {
 
 		return "";
 	}
+
 	public String validarUsuario() throws Exception {
-	    try {
-	        Usuario usuario = (Usuario) persistenciaBean
-	                .buscarUsuarioEntityName(usuarioSeleccionado.getNombreUsuario());
-	        // SI ESTA HABILITADO Y COINCIDE NOMBRE Y CONTRASEÑA
-	        System.out.println(persistenciaBean.Decrypt(usuario.getContrasenia()) + " " + usuario.getContrasenia()
-	                + "  " + usuarioSeleccionado.getContrasenia());
+		try {
+			Usuario usuario = (Usuario) persistenciaBean
+					.buscarUsuarioEntityName(usuarioSeleccionado.getNombreUsuario());
+			// SI ESTA HABILITADO Y COINCIDE NOMBRE Y CONTRASEÑA
+			System.out.println(persistenciaBean.Decrypt(usuario.getContrasenia()) + " " + usuario.getContrasenia()
+					+ "  " + usuarioSeleccionado.getContrasenia());
 
-	        if (persistenciaBean.Decrypt(usuario.getContrasenia()).equals(usuarioSeleccionado.getContrasenia())
-	                && usuario.getNombreUsuario().equals(usuarioSeleccionado.getNombreUsuario())
-	                && usuario.isHabilitado()) {
-	            usuarioSeleccionado = new Usuario();
-	            CurrentUser.setUsuario(usuario);
-	            HttpSession hs = Util.getSession();
-	            hs.setAttribute("gestionUsuario", usuario);
-	            
-	            // Redirigir a home.xhtml usando ExternalContext
-	            FacesContext context = FacesContext.getCurrentInstance();
-	            ExternalContext externalContext = context.getExternalContext();
-	            externalContext.redirect("home.xhtml");
+			if (persistenciaBean.Decrypt(usuario.getContrasenia()).equals(usuarioSeleccionado.getContrasenia())
+					&& usuario.getNombreUsuario().equals(usuarioSeleccionado.getNombreUsuario())
+					&& usuario.isHabilitado()) {
+				usuarioSeleccionado = new Usuario();
+				CurrentUser.setUsuario(usuario);
+				HttpSession hs = Util.getSession();
+				hs.setAttribute("gestionUsuario", usuario);
 
-	            return null; // Retornar null para indicar que no hay que procesar la respuesta
+				// Redirigir a home.xhtml usando ExternalContext
+				FacesContext context = FacesContext.getCurrentInstance();
+				ExternalContext externalContext = context.getExternalContext();
+				externalContext.redirect("home.xhtml");
 
-	        } else {
+				return null; // Retornar null para indicar que no hay que procesar la respuesta
 
-	            if (usuario.getNombreUsuario().equals("")) {
-	                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se encontro el usuario",
-	                        "");
-	                FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-	                return "";
-	            } else if (!usuario.isHabilitado()) {
-	                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario inhabilitado", "");
-	                FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-	                return "";
-	            } else {
-	                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contraseña incorrecta", "");
-	                FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-	                return "";
-	            }
+			} else {
 
-	        }
-	    } catch (Exception e) {
-	        FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-	                "Nombre de usuario o contraseña incorrectos, vuelva a intentarlo", "");
-	        FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-	        return "";
-	    }
+				if (usuario.getNombreUsuario().equals("")) {
+					FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se encontro el usuario",
+							"");
+					FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+					return "";
+				} else if (!usuario.isHabilitado()) {
+					FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario inhabilitado", "");
+					FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+					return "";
+				} else {
+					FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contraseña incorrecta", "");
+					FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+					return "";
+				}
+
+			}
+		} catch (Exception e) {
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Nombre de usuario o contraseña incorrectos, vuelva a intentarlo", "");
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			return "";
+		}
 	}
 
 	// MOSTRAR LISTADO DE USUARIOS \\
@@ -369,25 +365,42 @@ public class GestionUsuario implements Serializable {
 	// METODO PARA MOSTRAR FORMULARIO DE ACTUALIZACION
 	public String actualizarVistaUsuario(Long id) throws Exception {
 		usuarioSeleccionado = persistenciaBean.buscarUsuarioEntity(id);
-		if(usuarioSeleccionado.getRol().equals(Rol.ADMINISTRADOR) || usuarioSeleccionado.getRol().equals(Rol.INVESTIGADOR)) {
+		if (usuarioSeleccionado.getRol().equals(Rol.ADMINISTRADOR)
+				|| usuarioSeleccionado.getRol().equals(Rol.INVESTIGADOR)) {
 			this.verDatosExtra = true;
-		}else {
+		} else {
 			this.verDatosExtra = false;
 		}
 		FacesContext context = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = context.getExternalContext();
-        externalContext.redirect("actualizarUsuario.xhtml");
+		ExternalContext externalContext = context.getExternalContext();
+		externalContext.redirect("actualizarUsuario.xhtml");
 		return null;
-		
+
 	}
 
 	// BAJA DE USUAIOS
 	public void eliminarUsuario(String id) throws Exception {
 
 		try {
-			persistenciaBean.elminarUsuarioEntity(Long.parseLong(id));
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario eliminado con �xito", "");
-			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+
+			if (filtroUsuarios == null) { //Si no estoy filtrando
+				persistenciaBean.elminarUsuarioEntity(Long.parseLong(id)); //Elimino el usuario del listado
+				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario eliminado con �xito", "");
+				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+
+			} else {
+				for (Usuario user : filtroUsuarios) { //Si estoy filtrando (Se guardan los usuarios filtrados en filtroUsuarios)
+					if (Long.parseLong(id) == user.getIdUsuario()) {
+						filtroUsuarios.remove(user); //Lo eliminamos del filtro
+						persistenciaBean.elminarUsuarioEntity(Long.parseLong(id)); //Borrado logico
+						FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Usuario eliminado con �xito", "");
+						FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+						break;
+					}
+				}
+			}
+
 		} catch (PersistenciaException e) {
 
 			Throwable rootException = ExceptionsTools.getCause(e);
@@ -421,10 +434,10 @@ public class GestionUsuario implements Serializable {
 		usuarioSeleccionado = new Usuario();
 		return "";
 	}
-	
+
 	public void mostrarFiltrosInput() throws Exception {
 		this.isFilterActive = this.checkfilter;
-		if(this.isFilterActive == false) {
+		if (this.isFilterActive == false) {
 			this.filtroUsuarios = null;
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/PI_P/listado.xhtml");
 		}
@@ -485,8 +498,5 @@ public class GestionUsuario implements Serializable {
 	public void setCheckfilter(boolean checkfilter) {
 		this.checkfilter = checkfilter;
 	}
-	
-	
-	
 
 }

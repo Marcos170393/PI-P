@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition template="/layout/layout.xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -44,13 +45,13 @@ h1 {
 					<h:outputText value="#{form.nombre}" />
 				</p:column>
 
-				<p:column headerText="Fecha de creacion">
+				<p:column headerText="Fecha de creación">
 					<h:outputText value="#{form.fechaHora}" >
 					<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Metodo de medicion">
+				<p:column headerText="Método de medición">
 					<h:outputText value="#{form.metodoMedicion}" />
 				</p:column>
 

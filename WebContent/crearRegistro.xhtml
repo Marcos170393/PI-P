@@ -29,7 +29,8 @@ h1 {
 	<ui:define name="content">
 		<p:breadCrumb>
 			<p:menuitem value="Pagina principal" url="home.xhtml" />
-			<p:menuitem value="Seleccionar formulario" url="seleccionarFormularioRegistro.xhtml" />
+			<p:menuitem value="Seleccionar formulario"
+				url="seleccionarFormularioRegistro.xhtml" />
 			<p:menuitem value="Registro de Calidad del Aire" url="#" />
 		</p:breadCrumb>
 		<p:messages id="messages" severity="info" showSummary="true"
@@ -64,26 +65,28 @@ h1 {
 				<p:column headerText="Obligatoria">
 					<h:outputText id="obligatorio" value="#{casilla.obligatoria}" />
 				</p:column>
-				
+
 				<p:column headerText="Valor">
-    			<div style="width: 100%; margin: 0 auto; text-align: center;">
-        		<p:inputNumber id="registroValor" value="#{casilla.valorRegistroCA}"/>
-    			</div>
-   				<p:message for="registroValor" showDetail="true" showIcon="false" closable="true" />
-    			<p:autoUpdate />
+					<div style="width: 100%; margin: 0 auto; text-align: center;">
+						<p:inputNumber id="registroValor"
+							value="#{casilla.valorRegistroCA}" />
+					</div>
 				</p:column>
-					
+
 				<p:message for="tablaCasillasRegistro" showDetail="true"
 					showIcon="false" closable="true" />
 				<p:autoUpdate />
-			
+
 			</p:dataTable>
-			
-			<div style="text-align:center; margin-top: 40px;">
-    			<p:commandButton value="Crear Registro de CA" action="#{gestionRegistro.agregarRegistroCA()}" style="margin-right: 20px;" />
-    			<p:commandButton value="Descartar Cambios" action="#{gestionRegistro.descartarCambios()}" />
+
+			<div style="text-align: center; margin-top: 40px;">
+				<p:commandButton value="Crear Registros"
+					action="#{gestionRegistro.agregarRegistroCA()}"
+					style="margin-right: 20px;" />
+				<p:commandButton value="Descartar Cambios"
+					action="#{gestionRegistro.descartarCambios()}" />
 			</div>
-					
+
 		</h:form>
 	</ui:define>
 

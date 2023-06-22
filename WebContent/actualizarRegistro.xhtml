@@ -29,8 +29,9 @@ h1 {
 	<ui:define name="content">
 		<p:breadCrumb>
 			<p:menuitem value="Pagina principal" url="home.xhtml" />
-			<p:menuitem value="Listado de formularios" url="seleccionarFormularioModificarRegistro.xhtml" />
-			<p:menuitem value="Listado de registros por formulario" url="#" />
+			<p:menuitem value="Listado de formularios"
+				url="seleccionarFormularioModificarRegistro.xhtml" />
+			<p:menuitem value="Modificar registros" url="#" />
 		</p:breadCrumb>
 		<p:messages id="messages" severity="info" showSummary="true"
 			showDetail="false" closable="true">
@@ -39,8 +40,9 @@ h1 {
 		<h:form>
 
 			<p:dataTable id="tablaActualizarRegistros"
-				value="#{gestionRegistro.cargarListadoRegistrosFormulario()}" var="registro" rowkey="#{registro.idRegistro}">
-			
+				value="#{gestionRegistro.cargarListadoRegistrosFormulario()}"
+				var="registro" rowkey="#{registro.idRegistro}">
+
 				<p:column headerText="UK registro">
 					<h:outputText value="#{registro.uk_registro}" />
 				</p:column>
@@ -64,23 +66,40 @@ h1 {
 				<p:column headerText="Usuario">
 					<h:outputText value="#{registro.usuario.nombreUsuario}" />
 				</p:column>
-				
+
 				<p:column headerText="Obligatoria">
 					<h:outputText value="#{registro.esObligatoria}" />
 				</p:column>
-								
+
 				<p:column headerText="Medicion">
-					<h:inputText value="#{registro.valor}"  style="margin: 0 auto; display: block;" />
+					<div style="width: 100%; margin: 0 auto; text-align: center;">
+						<p:inputNumber value="#{registro.valor}" />
+					</div>
 				</p:column>
 
-			    <p:message for="tablaActualizarRegistros" showDetail="true"
-					showIcon="false" closable="true" />
-				<p:autoUpdate />
 			</p:dataTable>
-			
-			<div style="text-align:center; margin-top: 40px;">
-    			<p:commandButton value="Modificar Registros de CA" action="#{gestionRegistro.actualizarRegistro()}" style="margin-right: 20px;" />
-    			<p:commandButton value="Descartar Cambios" action="#{gestionRegistro.descartarCambios()}" />
+
+			<div style="text-align: center; margin-top: 40px;">
+				<p:commandButton value="Modificar Registros" selectionMode="single"
+					onclick="PF('confirmationDialog').show();"
+					style="margin-right: 20px;" />
+
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+					header="Confirmar"
+					message="Estas seguro de que deseas actualizar los registros"
+					widgetVar="confirmationDialog">
+
+					<p:commandButton value="Aceptar"
+						action="#{gestionRegistro.actualizarRegistro()}"
+						onclick="PF('confirmationDialog').hide();">
+					</p:commandButton>
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('confirmationDialog').hide();" />
+				</p:confirmDialog>
+
+				<p:commandButton value="Descartar Cambios"
+					action="#{gestionRegistro.descartarCambios()}" />
 			</div>
 		</h:form>
 	</ui:define>
