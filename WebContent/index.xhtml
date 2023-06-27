@@ -86,35 +86,91 @@ keyframes enter { 0% {
 100
 
 
+
+
+
+
+
+
 %
 {
 transform
 
 
+
+
+
+
+
+
 :
 
 
+
+
+
+
+
+
 translateY
+
+
+
+
+
+
 (
+
+
+
+
+
+
 
 
 0px
 
 
+
+
+
+
+
+
 )
+
+
+
+
+
+
 ;
-
-
 opacity
+
+
+
+
+
+
 
 
 :
 
 
+
+
+
+
+
+
 1
+
+
+
+
+
+
 ;
-
-
 }
 ;
 }
@@ -125,18 +181,40 @@ keyframes enter-img { 0% {
 100
 
 
+
+
+
+
+
+
 %
 {
 opacity
 
 
+
+
+
+
+
+
 :
 
 
+
+
+
+
+
+
 1
+
+
+
+
+
+
 ;
-
-
 }
 ;
 }
@@ -186,7 +264,14 @@ opacity
 						<p:message for="contrasenia" showDetail="true" showIcon="false"
 							closable="true">
 							<p:autoUpdate />
-						</p:message>
+						</p:message>						
+					</div>
+
+					<div style="margin-left: 49px; margin-top: 15px">
+					<p:selectOneRadio id="ldap" unselectable="true" value="#{gestionUsuario.ldap}">
+							<f:selectItem itemValue="LDAP" itemLabel="LDAP"
+								selectionMode="single" />
+						</p:selectOneRadio>
 					</div>
 
 					<p:commandButton style="margin:40px 0px;" value="Login"
