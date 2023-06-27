@@ -26,6 +26,7 @@ import com.capa2LogicaNegocio.GestionUsuarioService;
 import com.capa3Persistencia.entities.CiudadEntity;
 import com.capa3Persistencia.exception.PersistenciaException;
 import com.filter.CedulaValidatorFrontend;
+import com.utils.ConexionLDAP;
 import com.utils.ExceptionsTools;
 import com.utils.Util;
 
@@ -72,6 +73,8 @@ public class GestionUsuario implements Serializable {
 	private Rol afic = Rol.AFICIONADO;
 
 	CedulaValidatorFrontend verificacion = new CedulaValidatorFrontend();
+
+	private String ldap;
 
 	private List<Usuario> filtroUsuarios;
 
@@ -297,8 +300,14 @@ public class GestionUsuario implements Serializable {
 					&& usuario.isHabilitado()) {
 				usuarioSeleccionado = new Usuario();
 				CurrentUser.setUsuario(usuario);
-				HttpSession hs = Util.getSession();
-				hs.setAttribute("gestionUsuario", usuario);
+
+				if (ldap != null) {
+					ConexionLDAP.conexionLDAP(CurrentUser.getUsuario().getNombreUsuario(),
+							persistenciaBean.Decrypt(CurrentUser.getUsuario().getContrasenia()));
+				}
+
+				// HttpSession hs = Util.getSession();
+				// hs.setAttribute("gestionUsuario", usuario);
 
 				// Redirigir a home.xhtml usando ExternalContext
 				FacesContext context = FacesContext.getCurrentInstance();
@@ -411,16 +420,17 @@ public class GestionUsuario implements Serializable {
 
 		try {
 
-			if (filtroUsuarios == null) { //Si no estoy filtrando
-				persistenciaBean.elminarUsuarioEntity(Long.parseLong(id)); //Elimino el usuario del listado
+			if (filtroUsuarios == null) { // Si no estoy filtrando
+				persistenciaBean.elminarUsuarioEntity(Long.parseLong(id)); // Elimino el usuario del listado
 				FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario eliminado con �xito", "");
 				FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 
 			} else {
-				for (Usuario user : filtroUsuarios) { //Si estoy filtrando (Se guardan los usuarios filtrados en filtroUsuarios)
+				for (Usuario user : filtroUsuarios) { // Si estoy filtrando (Se guardan los usuarios filtrados en
+														// filtroUsuarios)
 					if (Long.parseLong(id) == user.getIdUsuario()) {
-						filtroUsuarios.remove(user); //Lo eliminamos del filtro
-						persistenciaBean.elminarUsuarioEntity(Long.parseLong(id)); //Borrado logico
+						filtroUsuarios.remove(user); // Lo eliminamos del filtro
+						persistenciaBean.elminarUsuarioEntity(Long.parseLong(id)); // Borrado logico
 						FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 								"Usuario eliminado con �xito", "");
 						FacesContext.getCurrentInstance().addMessage(null, facesMsg);
@@ -567,8 +577,13 @@ public class GestionUsuario implements Serializable {
 	public void setCiudades(List<Ciudad> ciudades) {
 		this.ciudades = ciudades;
 	}
-	
-	
-	
+
+	public String getLdap() {
+		return ldap;
+	}
+
+	public void setLdap(String ldap) {
+		this.ldap = ldap;
+	}
 
 }
