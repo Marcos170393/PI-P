@@ -2,6 +2,12 @@ package com.capa3Persistencia.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
+
 import java.util.List;
 
 
@@ -24,6 +30,11 @@ public class CiudadEntity implements Serializable {
 	@Column(unique = true, nullable = false, length = 45)
 	private String nombre;
 
+	@ManyToOne
+	@JoinTable(name = "DEPARTAMENTOS_CIUDADES", joinColumns = { @JoinColumn(name = "CIUDADES_ID_CIUDAD") }, inverseJoinColumns = {
+			@JoinColumn(name = "DEPARTAMENTOENTITY_ID_DEPARTAMENTO") })
+	@LazyToOne(LazyToOneOption.FALSE)
+	private DepartamentoEntity departamento;
 	
 	public CiudadEntity() {
 	}
@@ -53,6 +64,16 @@ public class CiudadEntity implements Serializable {
 	@Override
 	public String toString() {
 		return "Ciudad [idCiudad=" + idCiudad + ", nombre=" + nombre + "]";
+	}
+
+
+	public DepartamentoEntity getDepartamento() {
+		return departamento;
+	}
+
+
+	public void setDepartamento(DepartamentoEntity departamento) {
+		this.departamento = departamento;
 	}
 
 	

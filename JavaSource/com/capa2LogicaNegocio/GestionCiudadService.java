@@ -14,6 +14,7 @@ import javax.persistence.PersistenceException;
 import javax.xml.bind.DatatypeConverter;
 
 import com.capa1presentacion.Ciudad;
+import com.capa1presentacion.Departamento;
 import com.capa1presentacion.Usuario;
 import com.capa3Persistencia.entities.CiudadEntity;
 import com.capa3Persistencia.entities.CiudadesBean;
@@ -33,15 +34,19 @@ public class GestionCiudadService implements Serializable{
 	@EJB
 	CiudadesBean ciudadBean = new CiudadesBean();
 	
+	@EJB
+	GestionDepartamentoService depService = new GestionDepartamentoService();
 	
 	public Ciudad fromCiudadEntity(CiudadEntity e) {
 		Ciudad c = new Ciudad();
+		c.setDepartamento(depService.fromDepartamentoEntity(e.getDepartamento()));
 		c.setIdCiudad(e.getIdCiudad());
 		c.setNombre(e.getNombre());
 		return c;
 	}
 	public CiudadEntity toCiudadEntity(Ciudad e) {
 		CiudadEntity ciudad= new CiudadEntity();
+		ciudad.setDepartamento(depService.toDepartamentoEntity(e.getDepartamento()));
 		ciudad.setNombre(e.getNombre());
 		return ciudad;
 	}
@@ -49,6 +54,7 @@ public class GestionCiudadService implements Serializable{
 	public CiudadEntity forCiudadEntity(Ciudad e) {
 		CiudadEntity ciudad= new CiudadEntity();
 		ciudad.setIdCiudad(e.getIdCiudad());
+		ciudad.setDepartamento(depService.toDepartamentoEntity(e.getDepartamento()));
 		ciudad.setNombre(e.getNombre());
 		return ciudad;
 	}
@@ -93,4 +99,5 @@ public class GestionCiudadService implements Serializable{
 	public Ciudad buscarCiudadEntity(String nombre) throws Exception {
 		return fromCiudadEntity(ciudadBean.buscarCiudadName(nombre));
 	}
+	
 }

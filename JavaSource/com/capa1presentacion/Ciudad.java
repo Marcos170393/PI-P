@@ -6,11 +6,14 @@ public class Ciudad {
 
 	private String nombre;
 
+	private Departamento departamento;
+	
 	public Ciudad(String nombre) {
 		super();
 		this.nombre = nombre;
 	}
 
+	
 	public Ciudad() {
 		// TODO Auto-generated constructor stub
 	}
@@ -34,6 +37,16 @@ public class Ciudad {
 	@Override
 	public String toString() {
 		return "Ciudad [idCiudad=" + idCiudad + ", nombre=" + nombre + "]";
+	}
+
+
+	public Departamento getDepartamento() {
+		return departamento;
+	}
+
+
+	public void setDepartamento(Departamento departamento) {
+		this.departamento = departamento;
 	}
 
 }

@@ -366,7 +366,7 @@ opacity
 						<f:selectItem disabled="true" itemValue="" itemLabel="" />
 						<f:selectItems value="#{gestionUsuario.mostrarDepartamentos()}"
 						 var="e"
-							itemLabel="#{e.nombre}" itemValue="#{e.nombre}" />
+							itemLabel="#{e.nombre}" itemValue="#{e.idDepartamento}" />
 
 					</p:selectOneMenu>
 					<p:message for="departamento" showDetail="true" showIcon="false"
@@ -387,7 +387,7 @@ opacity
 						required="true" requiredMessage="Debes seleccionar una ciudad">>
 						<f:selectItem disabled="true" itemValue="" itemLabel="" />
 						<f:selectItems value="#{gestionUsuario.ciudades}" var="e"
-							itemLabel="#{e.nombre}" itemValue="#{e.nombre}" />
+							itemLabel="#{e.nombre}" itemValue="#{e.idCiudad}" />
 
 					</p:selectOneMenu>
 					<p:message for="ciudad" showDetail="true" showIcon="false"

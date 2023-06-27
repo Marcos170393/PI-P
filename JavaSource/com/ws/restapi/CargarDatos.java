@@ -236,8 +236,9 @@ public class CargarDatos extends HttpServlet {
 				        Departamento d = gestionDptoService.buscarDepartamentoEntity(depto); //Busca los dptos por ID
 				        String ciudad = datos[1]; //Ciudades
 				        Ciudad c = new Ciudad(ciudad);
+				        c.setDepartamento(d);
 				        c = gestionCiudadService.agregarCiudad(c);		//Crea ciudades
-				        gestionDptoService.agregarCiudad(d.getIdDepartamento(),c.getIdCiudad()); //Asigna las ciudades a los departamentos
+//				        gestionDptoService.agregarCiudad(d.getIdDepartamento(),c.getIdCiudad()); //Asigna las ciudades a los departamentos
 			      }
 			      ciudades.close();
 		    } catch (FileNotFoundException e) {

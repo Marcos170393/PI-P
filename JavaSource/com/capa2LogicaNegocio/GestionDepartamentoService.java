@@ -41,6 +41,7 @@ public class GestionDepartamentoService implements Serializable {
 
 	public DepartamentoEntity toDepartamentoEntity(Departamento depto) {
 		DepartamentoEntity d = new DepartamentoEntity();
+		d.setIdDepartamento(depto.getIdDepartamento());
 		d.setNombre(depto.getNombre());
 		d.setCiudades(depto.getCiudades());
 		return d;

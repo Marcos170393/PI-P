@@ -53,9 +53,9 @@ public class GestionUsuario implements Serializable {
 
 	private boolean verDatosExtra = false;
 
-	private String ciudadUsuario;
+	private long ciudadUsuario;
 	
-	private String departamentoUsuario;
+	private long departamentoUsuario;
 		
 	private boolean isFilterActive = false;
 
@@ -94,11 +94,11 @@ public class GestionUsuario implements Serializable {
 		usuarioSeleccionado = new Usuario();
 	}
 
-	public String getCiudadUsuario() {
+	public long getCiudadUsuario() {
 		return ciudadUsuario;
 	}
 
-	public void setCiudadUsuario(String ciudadUsuario) {
+	public void setCiudadUsuario(long ciudadUsuario) {
 		this.ciudadUsuario = ciudadUsuario;
 	}
 
@@ -157,7 +157,7 @@ public class GestionUsuario implements Serializable {
 					|| usuarioSeleccionado.getRol().equals(Rol.INVESTIGADOR)) {
 				List<Ciudad> ciudades = ciudadPersistencia.seleccionarCiudades();
 				for (Ciudad c : ciudades) {
-					if (c.getNombre().equals(ciudadUsuario)) {
+					if (c.getIdCiudad() == ciudadUsuario) {
 						usuarioSeleccionado.setCiudad(c);
 						break;
 					}
@@ -200,7 +200,7 @@ public class GestionUsuario implements Serializable {
 
 			List<Ciudad> ciudades = ciudadPersistencia.seleccionarCiudades();
 			for (Ciudad c : ciudades) {
-				if (c.getNombre().equals(ciudadUsuario)) {
+				if (c.getIdCiudad() == ciudadUsuario) {
 					usuarioSeleccionado.setCiudad(c);
 					break;
 				}
@@ -242,7 +242,7 @@ public class GestionUsuario implements Serializable {
 
 			List<Ciudad> ciudades = ciudadPersistencia.seleccionarCiudades();
 			for (Ciudad c : ciudades) {
-				if (c.getNombre().equals(ciudadUsuario)) {
+				if (c.getIdCiudad() == ciudadUsuario) {
 					usuarioSeleccionado.setCiudad(c);
 					break;
 				}
@@ -392,6 +392,10 @@ public class GestionUsuario implements Serializable {
 		if (usuarioSeleccionado.getRol().equals(Rol.ADMINISTRADOR)
 				|| usuarioSeleccionado.getRol().equals(Rol.INVESTIGADOR)) {
 			this.verDatosExtra = true;
+			
+			departamentoUsuario = usuarioSeleccionado.getCiudad().getDepartamento().getIdDepartamento();
+			ciudadUsuario = usuarioSeleccionado.getCiudad().getIdCiudad();
+			buscarCiudadesDepartamento();
 		} else {
 			this.verDatosExtra = false;
 		}
@@ -486,8 +490,8 @@ public class GestionUsuario implements Serializable {
 	
 	public void limpiarVariables() {
 		usuarioSeleccionado = new Usuario();
-		departamentoUsuario = null;
-		ciudadUsuario = null;
+		departamentoUsuario = 0;
+		ciudadUsuario = 0;
 		ciudades = new ArrayList<Ciudad>();
 		verDatosExtra = false;
 		System.out.println("Se limpiaron las variables");
@@ -548,11 +552,11 @@ public class GestionUsuario implements Serializable {
 		this.checkfilter = checkfilter;
 	}
 
-	public String getDepartamentoUsuario() {
+	public long getDepartamentoUsuario() {
 		return departamentoUsuario;
 	}
 
-	public void setDepartamentoUsuario(String departamentoUsuario) {
+	public void setDepartamentoUsuario(long departamentoUsuario) {
 		this.departamentoUsuario = departamentoUsuario;
 	}
 
