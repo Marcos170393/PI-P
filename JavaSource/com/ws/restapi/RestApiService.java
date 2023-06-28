@@ -23,6 +23,7 @@ import com.capa2LogicaNegocio.GestionCasillaService;
 import com.capa2LogicaNegocio.GestionFormularioService;
 import com.capa2LogicaNegocio.GestionRegistroService;
 import com.capa2LogicaNegocio.GestionUsuarioService;
+import com.utils.ConexionLDAP;
 
 @Path("usuarios")
 public class RestApiService {
@@ -263,4 +264,27 @@ public class RestApiService {
 		}
 
 	}
+	@GET
+	@Path("/loginLDAP{nombre_usuario}-{password}")
+	@Produces("application/json")
+	public Usuario loginLDAP(@PathParam("nombre_usuario") String nombre_usuario, @PathParam("password") String password) {
+		try {
+			Usuario usuario = (Usuario) gestionUsuarioService.buscarUsuarioEntityName(nombre_usuario);
+			if (usuario.getNombreUsuario().equals(nombre_usuario)
+					&& gestionUsuarioService.Decrypt(usuario.getContrasenia()).equals(password)) {
+		
+				ConexionLDAP.conexionLDAP(nombre_usuario, password);
+					
+				return usuario;
+
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
 }
